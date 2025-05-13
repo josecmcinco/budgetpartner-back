@@ -9,5 +9,4 @@ public class AppBugdgetPartnerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AppBugdgetPartnerApplication.class, args);
 	}
-
 }
