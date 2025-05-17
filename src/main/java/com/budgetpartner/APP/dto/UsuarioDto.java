@@ -1,29 +1,34 @@
 package com.budgetpartner.APP.dto;
 
-import com.budgetpartner.APP.domain.Miembro;
+import com.budgetpartner.APP.entity.Miembro;
 
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class UsuarioDto {
 
-    /*SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-    id-contraseña-creadoEn-actualizadoEn
-    SE MODIFICA EL TIMPO DE LAS SIGUIENTES VARIABLES
+    /*
+    SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
+    contraseña-creadoEn-actualizadoEn
+    SE MODIFICA EL TIMPO DE LAS SIGUIENTES VARIABLES:
     miembrosDelUsuario
      */
 
+    private final Long id;
     private String email;
     private String nombre;
     private String apellido;
-    private List<String> miembrosDelUsuario;
+    private List<Miembro> miembrosDelUsuario;
 
-    public UsuarioDto(String email, String nombre, String apellido, List<String> miembrosDelUsuario) {
+    public UsuarioDto(Long id, String email, String nombre, String apellido, List<Miembro> miembrosDelUsuario) {
+        this.id = id;
         this.email = email;
         this.nombre = nombre;
         this.apellido = apellido;
         this.miembrosDelUsuario = miembrosDelUsuario;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -50,11 +55,11 @@ public class UsuarioDto {
         this.apellido = apellido;
     }
 
-    public List<String> getMiembrosDelUsuario() {
+    public List<Miembro> getMiembrosDelUsuario() {
         return miembrosDelUsuario;
     }
 
-    public void setMiembrosDelUsuario(List<String> miembrosDelUsuario) {
+    public void setMiembrosDelUsuario(List<Miembro> miembrosDelUsuario) {
         this.miembrosDelUsuario = miembrosDelUsuario;
     }
 }

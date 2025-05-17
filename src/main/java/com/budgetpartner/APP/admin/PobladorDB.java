@@ -1,6 +1,6 @@
 package com.budgetpartner.APP.admin;
 
-import com.budgetpartner.APP.domain.*;
+import com.budgetpartner.APP.entity.*;
 import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

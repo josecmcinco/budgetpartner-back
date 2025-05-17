@@ -1,7 +1,7 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.domain.*;
+import com.budgetpartner.APP.entity.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

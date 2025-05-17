@@ -1,6 +1,6 @@
 package com.budgetpartner.APP.repository;
 
-import com.budgetpartner.APP.domain.*;
+import com.budgetpartner.APP.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
