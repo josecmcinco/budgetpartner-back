@@ -19,10 +19,10 @@ public class Rol {
     private String permisos;
 
     @Column
-    private LocalDateTime creado_en;
+    private LocalDateTime creadoEn;
 
     @Column
-    private LocalDateTime actualizado_en;
+    private LocalDateTime actualizadoEn;
 
     //Constructor vacío para Hibernate
     public Rol(){}
@@ -33,17 +33,17 @@ public class Rol {
         this.permisos = permisos;
 
         //Generar automñaticamente
-        this.creado_en = LocalDateTime.now();
-        this.actualizado_en = LocalDateTime.now();
+        this.creadoEn = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     //Extraer Rol de la DB
-    public Rol(int id, String nombre, String permisos, LocalDateTime creado_en, LocalDateTime actualizado_en) {
+    public Rol(int id, String nombre, String permisos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.nombre = nombre;
         this.permisos = permisos;
-        this.creado_en = creado_en;
-        this.actualizado_en = actualizado_en;
+        this.creadoEn = creadoEn;
+        this.actualizadoEn = actualizadoEn;
     }
 
     //Getters y setters
@@ -61,21 +61,21 @@ public class Rol {
         return permisos;
     }
 
-    public LocalDateTime getCreado_en() {
-        return creado_en;
+    public LocalDateTime getCreadoEn() {
+        return creadoEn;
     }
 
-    public LocalDateTime getActualizado_en() {
-        return actualizado_en;
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setPermisos(String permisos) {
         this.permisos = permisos;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 }

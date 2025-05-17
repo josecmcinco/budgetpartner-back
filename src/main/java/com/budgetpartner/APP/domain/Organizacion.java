@@ -22,10 +22,10 @@ public class Organizacion {
      */
 
     @Column
-    private LocalDateTime creado_en;
+    private LocalDateTime creadoEn;
 
     @Column
-    private LocalDateTime actualizado_en;
+    private LocalDateTime actualizadoEn;
 
     //Constructor para Hibernate
     public Organizacion(){}
@@ -36,17 +36,17 @@ public class Organizacion {
         this.descripcion = descripcion;
 
         //Generado automáticamente
-        this.creado_en = LocalDateTime.now();
-        this.actualizado_en = LocalDateTime.now();
+        this.creadoEn = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     //Extracción de Organizacion de la DB
-    public Organizacion(Long id, String nombre, String descripcion, LocalDateTime creado_en, LocalDateTime actualizado_en) {
+    public Organizacion(Long id, String nombre, String descripcion, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.creado_en = creado_en;
-        this.actualizado_en = actualizado_en;
+        this.creadoEn = creadoEn;
+        this.actualizadoEn = actualizadoEn;
     }
 
     //Getters y setters
@@ -62,21 +62,21 @@ public class Organizacion {
         return descripcion;
     }
 
-    public LocalDateTime getCreado_en() {
-        return creado_en;
+    public LocalDateTime getCreadoEn() {
+        return creadoEn;
     }
 
-    public LocalDateTime getActualizado_en() {
-        return actualizado_en;
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 }

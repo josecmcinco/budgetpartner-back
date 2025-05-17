@@ -2,7 +2,6 @@ package com.budgetpartner.APP.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table
@@ -14,67 +13,67 @@ public class Miembro {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario_origen;
+    private Usuario usuarioOrigen;
 
     @ManyToOne
     @JoinColumn(name = "id_organizacion")
-    private Organizacion organizacion_origen;
+    private Organizacion organizacionOrigen;
 
     @ManyToOne
     @JoinColumn(name = "id_rol")
-    private Rol rol_miembro;
+    private Rol rolMiembro;
 
     @Column
     private String nick;
 
     @Column
-    private LocalDateTime fecha_ingreso;
+    private LocalDateTime fechaIngreso;
 
     @Column
     private boolean isActivo;
 
     @Column
-    private LocalDateTime creado_en;
+    private LocalDateTime creadoEn;
 
     @Column
-    private LocalDateTime actualizado_en;
+    private LocalDateTime actualizadoEn;
 
     //Constructor vacío para Hibernate
     public Miembro(){}
 
     //Creación de Miembro desde 0
     //POR DEFECTO NO TIENE USUARIO ADJUNTO
-    public Miembro(Organizacion organizacion_origen, Rol rol_miembro, String nick) {
-        this.organizacion_origen = organizacion_origen;
-        this.rol_miembro = rol_miembro;
+    public Miembro(Organizacion organizacionOrigen, Rol rolMiembro, String nick) {
+        this.organizacionOrigen = organizacionOrigen;
+        this.rolMiembro = rolMiembro;
         this.nick = nick;
-        this.fecha_ingreso = fecha_ingreso;
+        this.fechaIngreso = fechaIngreso;
 
         //Generado automáticamente
-        this.actualizado_en = LocalDateTime.now();
-        this.creado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
+        this.creadoEn = LocalDateTime.now();
         this.isActivo=false;
     }
 
     //Extracción de Miembro de la DB
-    public Miembro(Long id, Usuario usuario_origen, Organizacion organizacion_origen, Rol rol_miembro, String nick, LocalDateTime fecha_ingreso, boolean esta_activo, LocalDateTime creado_en, LocalDateTime actualizado_en) {
+    public Miembro(Long id, Usuario usuarioOrigen, Organizacion organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
-        this.usuario_origen = usuario_origen;
-        this.organizacion_origen = organizacion_origen;
-        this.rol_miembro = rol_miembro;
+        this.usuarioOrigen = usuarioOrigen;
+        this.organizacionOrigen = organizacionOrigen;
+        this.rolMiembro = rolMiembro;
         this.nick = nick;
-        this.fecha_ingreso = fecha_ingreso;
-        this.isActivo = esta_activo;
-        this.creado_en = creado_en;
-        this.actualizado_en = actualizado_en;
+        this.fechaIngreso = fechaIngreso;
+        this.isActivo = isActivo;
+        this.creadoEn = creadoEn;
+        this.actualizadoEn = actualizadoEn;
     }
 
     //Asociación de un miembro a un Usuario de la DB
     //TODO SOLO si es usuario está vacio
-    public void asociarUsuario(Usuario usuario_origen) {
-        this.usuario_origen = usuario_origen;
+    public void asociarUsuario(Usuario usuarioOrigen) {
+        this.usuarioOrigen = usuarioOrigen;
         this.isActivo = true;
-        this.fecha_ingreso = LocalDateTime.now();
+        this.fechaIngreso = LocalDateTime.now();
     }
 
     //TODO eliminar usuario del miembro si no tiene miembro
@@ -84,45 +83,45 @@ public class Miembro {
         return id;
     }
 
-    public Usuario getUsuario_origen() {
-        return usuario_origen;
+    public Usuario getUsuarioOrigen() {
+        return usuarioOrigen;
     }
 
-    public Organizacion getOrganizacion_origen() {
-        return organizacion_origen;
+    public Organizacion getOrganizacionOrigen() {
+        return organizacionOrigen;
     }
 
-    public Rol getRol_miembro() {
-        return rol_miembro;
+    public Rol getRolMiembro() {
+        return rolMiembro;
     }
 
     public String getNick() {
         return nick;
     }
 
-    public LocalDateTime getFecha_ingreso() {
-        return fecha_ingreso;
+    public LocalDateTime getFechaIngreso() {
+        return fechaIngreso;
     }
 
     public boolean getisActivo() {
         return isActivo;
     }
 
-    public LocalDateTime getCreado_en() {
-        return creado_en;
+    public LocalDateTime getCreadoEn() {
+        return creadoEn;
     }
 
-    public LocalDateTime getActualizado_en() {
-        return actualizado_en;
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
     }
 
-    public void setRol_miembro(Rol rol_miembro) {
-        this.rol_miembro = rol_miembro;
-        this.actualizado_en = LocalDateTime.now();
+    public void setRolMiembro(Rol rolMiembro) {
+        this.rolMiembro = rolMiembro;
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setNick(String nick) {
         this.nick = nick;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 }

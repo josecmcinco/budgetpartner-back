@@ -36,10 +36,10 @@ public class Tarea {
     private String moneda;
 
     @Column
-    private LocalDateTime creado_en;
+    private LocalDateTime creadoEn;
 
     @Column
-    private LocalDateTime actualizado_en;
+    private LocalDateTime actualizadoEn;
 
 
     @ManyToMany
@@ -53,23 +53,23 @@ public class Tarea {
     public Tarea(){}
 
     //Creación de Tarea desde 0
-    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, String moneda, LocalDateTime creado_en, List<Miembro> miembros) {
+    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, String moneda, List<Miembro> miembros) {
         this.plan = plan;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.costeEstimado = costeEstimado;
         this.moneda = moneda;
-        this.creado_en = creado_en;
         this.miembros = miembros;
 
         //Generado automáticamente
-        this.actualizado_en = LocalDateTime.now();
-        this.creado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
+        this.creadoEn = LocalDateTime.now();
+        this.estado = EstadoTarea.PENDIENTE;
     }
 
     //Extracción de tarea de la DB
-    public Tarea(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda, LocalDateTime creado_en, LocalDateTime actualizado_en, List<Miembro> miembros) {
+    public Tarea(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda, LocalDateTime creadoEn, LocalDateTime actualizadoEn, List<Miembro> miembros) {
         this.id = id;
         this.plan = plan;
         this.titulo = titulo;
@@ -78,8 +78,8 @@ public class Tarea {
         this.estado = estado;
         this.costeEstimado = costeEstimado;
         this.moneda = moneda;
-        this.creado_en = creado_en;
-        this.actualizado_en = actualizado_en;
+        this.creadoEn = creadoEn;
+        this.actualizadoEn = actualizadoEn;
         this.miembros = miembros;
     }
 
@@ -115,12 +115,12 @@ public class Tarea {
         return moneda;
     }
 
-    public LocalDateTime getCreado_en() {
-        return creado_en;
+    public LocalDateTime getCreadoEn() {
+        return creadoEn;
     }
 
-    public LocalDateTime getActualizado_en() {
-        return actualizado_en;
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
     }
 
     public List<Miembro> getMiembros() {
@@ -129,37 +129,37 @@ public class Tarea {
 
     public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setMiembros(List<Miembro> miembros) {
         this.miembros = miembros;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setEstado(EstadoTarea estado) {
         this.estado = estado;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setCosteEstimado(double costeEstimado) {
         this.costeEstimado = costeEstimado;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 
     public void setMoneda(String moneda) {
         this.moneda = moneda;
-        this.actualizado_en = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
 }
