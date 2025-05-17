@@ -13,7 +13,7 @@ public class UsuarioDto {
     miembrosDelUsuario
      */
 
-    private final Long id;
+    private Long id;
     private String email;
     private String nombre;
     private String apellido;

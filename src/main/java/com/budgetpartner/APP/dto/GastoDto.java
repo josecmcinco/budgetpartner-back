@@ -30,6 +30,8 @@ public class GastoDto {
         this.descripcion = descripcion;
     }
 
+    public Long getId(){return this.id;}
+
     public Tarea getTarea() {
         return tarea;
     }

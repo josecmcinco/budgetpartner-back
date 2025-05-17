@@ -69,12 +69,21 @@ public class Miembro {
     }
 
     //Asociación de un miembro a un Usuario de la DB
-    //TODO SOLO si es usuario está vacio
+    //TODO SOLO si la variable usuario está vacía
     public void asociarUsuario(Usuario usuarioOrigen) {
         this.usuarioOrigen = usuarioOrigen;
         this.isActivo = true;
         this.fechaIngreso = LocalDateTime.now();
+        this.actualizadoEn = LocalDateTime.now();
     }
+
+    public void desasociarUsuario() {
+        this.usuarioOrigen = null;
+        this.isActivo = false;
+        this.fechaIngreso = null;
+        this.actualizadoEn = LocalDateTime.now();
+    }
+
 
     //TODO eliminar usuario del miembro si no tiene miembro
 
@@ -103,7 +112,7 @@ public class Miembro {
         return fechaIngreso;
     }
 
-    public boolean getisActivo() {
+    public boolean getIsActivo() {
         return isActivo;
     }
 
