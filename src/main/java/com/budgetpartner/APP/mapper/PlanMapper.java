@@ -1,15 +1,15 @@
 package com.budgetpartner.APP.mapper;
 
 import com.budgetpartner.APP.entity.Plan;
-import com.budgetpartner.APP.dto.PlanDto;
+import com.budgetpartner.APP.dto.response.PlanDtoResponse;
 
 public class PlanMapper {
 
-    // Convierte Plan → PlanDto
-    public static PlanDto toDto(Plan plan) {
+    // Convierte Plan en PlanDto
+    public static PlanDtoResponse toDto(Plan plan) {
         if (plan == null) return null;
 
-        return new PlanDto(
+        return new PlanDtoResponse(
                 plan.getId(),
                 plan.getOrganizacion(),
                 plan.getNombre(),
@@ -19,27 +19,25 @@ public class PlanMapper {
         );
     }
 
-    // Convierte PlanDto → Plan (sin fechas de creación/modificación)
-    public static Plan toEntity(PlanDto dto) {
+    // Convierte PlanDto en Plan
+    public static Plan toEntity(PlanDtoResponse dto) {
         if (dto == null) return null;
 
-        Plan plan = new Plan(
+        return new Plan(
                 dto.getOrganizacion(),
                 dto.getNombre(),
                 dto.getDescripcion(),
                 dto.getFechaInicio(),
                 dto.getFechaFin()
         );
-
-        return plan;
     }
 
-    // Actualiza Plan desde el DTO sin tocar campos como creadoEn o actualizadoEn
-    public static void updateEntityFromDto(PlanDto dto, Plan plan) {
+    // Actualiza entidad existente con los valores del DTO
+    public static void updateEntityFromDtoRes(PlanDtoResponse dto, Plan plan) {
         if (dto == null || plan == null) return;
 
-        //TODO ERROR POR CAMBIOS RAROS (VER COMENTADOS)
-        //if (dto.getOrganizacion() != null) plan.setOrganizacion(dto.getOrganizacion());
+        //NO SE PERMITE MODIFICAR DESDE EL DTO:
+        //Organizacion
         if (dto.getNombre() != null) plan.setNombre(dto.getNombre());
         if (dto.getDescripcion() != null) plan.setDescripcion(dto.getDescripcion());
         if (dto.getFechaInicio() != null) plan.setFechaInicio(dto.getFechaInicio());

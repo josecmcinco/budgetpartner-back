@@ -1,11 +1,11 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.response;
 
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.enums.EstadoTarea;
 
 import java.time.LocalDateTime;
 
-public class TareaDto {
+public class TareaDtoResponse {
 
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -20,7 +20,7 @@ public class TareaDto {
     private double costeEstimado;
     private String moneda;
 
-    public TareaDto(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
+    public TareaDtoResponse(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
         this.id = id;
         this.plan = plan;
         this.titulo = titulo;

@@ -1,10 +1,10 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.response;
 
 import com.budgetpartner.APP.entity.Miembro;
 
 import java.util.List;
 
-public class UsuarioDto {
+public class UsuarioDtoResponse {
 
     /*
     SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -19,7 +19,7 @@ public class UsuarioDto {
     private String apellido;
     private List<Miembro> miembrosDelUsuario;
 
-    public UsuarioDto(Long id, String email, String nombre, String apellido, List<Miembro> miembrosDelUsuario) {
+    public UsuarioDtoResponse(Long id, String email, String nombre, String apellido, List<Miembro> miembrosDelUsuario) {
         this.id = id;
         this.email = email;
         this.nombre = nombre;

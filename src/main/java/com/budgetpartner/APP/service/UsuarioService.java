@@ -1,37 +1,48 @@
 package com.budgetpartner.APP.service;
 
+import com.budgetpartner.APP.dto.request.UsuarioDtoRequest;
+import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
+import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Usuario;
-import com.budgetpartner.APP.dto.UsuarioDto;
+import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
+import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.*;
 
 import com.budgetpartner.APP.exceptions.AppExceptions.UsuarioNotFoundException;
 import com.budgetpartner.APP.exceptions.AppExceptions.InvalidRequestException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
+@Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private MiembroRepository miembroRepository;
 
-    public Usuario actualizarUsuario(UsuarioDto dto) {
-        //Comprovación de que no hay errores en la llamada
-        if (dto == null) {
-            throw new InvalidRequestException("UsuarioDto no puede ser null");}
+    //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
+    //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-        if (dto.getId() == null) {
-            throw new InvalidRequestException("El id no puede ser null para actualizar un usuario");}
+    public UsuarioDtoResponse postUsuario(UsuarioDtoRequest UsuarioDtoReq){
 
-        Usuario usuario = usuarioRepository.findById(dto.getId())
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + dto.getId()));
-
-        //Crear usuario actualizado usando la Entidad de la DB y el Dto
-        UsuarioMapper.updateEntityFromDto(dto, usuario);
-
-        //Actualización de la DB
+        Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
         usuarioRepository.save(usuario);
+        return UsuarioMapper.toDtoResponse(usuario);
+    }
 
-        return usuarioRepository.save(usuario);
+    public UsuarioDtoResponse actualizarUsuario(UsuarioDtoRequest dto, Long id) {
+
+        //Obtener ususario usando el id pasado en la llamada
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+
+        UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
+        usuarioRepository.save(usuario);
+        return UsuarioMapper.toDtoResponse(usuario);
     }
 }

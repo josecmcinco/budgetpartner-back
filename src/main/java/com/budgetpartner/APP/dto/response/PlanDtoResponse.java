@@ -1,11 +1,10 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.response;
 
 import com.budgetpartner.APP.entity.Organizacion;
-import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-public class PlanDto {
+public class PlanDtoResponse {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         creadoEn-actualizadoEn
@@ -18,7 +17,7 @@ public class PlanDto {
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 
-    public PlanDto(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    public PlanDtoResponse(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.id = id;
         this.organizacion = organizacion;
         this.nombre = nombre;

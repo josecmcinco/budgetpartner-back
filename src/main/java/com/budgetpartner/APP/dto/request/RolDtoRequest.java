@@ -1,12 +1,6 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.request;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-import java.time.LocalDateTime;
-
-public class RolDto {
+public class RolDtoRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         creadoEn-actualizadoEn
@@ -16,7 +10,7 @@ public class RolDto {
     private String nombre;
     private String permisos;
 
-    public RolDto(int id, String nombre, String permisos) {
+    public RolDtoRequest(int id, String nombre, String permisos) {
         this.id = id;
         this.nombre = nombre;
         this.permisos = permisos;

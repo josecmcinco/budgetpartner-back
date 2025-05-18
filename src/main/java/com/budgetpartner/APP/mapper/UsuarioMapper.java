@@ -1,22 +1,17 @@
 package com.budgetpartner.APP.mapper;
 
+import com.budgetpartner.APP.dto.request.UsuarioDtoRequest;
 import com.budgetpartner.APP.entity.Usuario;
-import com.budgetpartner.APP.dto.UsuarioDto;
+import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
 public class UsuarioMapper {
-    // Convierte Usuario → UsuarioDto
-    public static UsuarioDto toDto(Usuario usuario) {
-        if (usuario == null) return null;
 
-        /*TODO ELIMINAR SI ES NECESARIO
-        List<String> nombresMiembros = null;
-        if (usuario.getMiembrosDelUsuario() != null) {
-            nombresMiembros = usuario.getMiembrosDelUsuario().stream()
-                    .map(Miembro::getNombre) // o cualquier campo identificativo
-                    .collect(Collectors.toList());
-        }*/
+    // Convierte Usuario en UsuarioDtoResponse
+    public static UsuarioDtoResponse toDtoResponse(Usuario usuario) {
 
-        return new UsuarioDto(
+        return new UsuarioDtoResponse(
                 usuario.getId(),
                 usuario.getEmail(),
                 usuario.getNombre(),
@@ -25,23 +20,22 @@ public class UsuarioMapper {
         );
     }
 
-    // Convierte UsuarioDto → Usuario (OJO: no incluye contraseña ni fechas)
-    public static Usuario toEntity(UsuarioDto dto) {
+    // Convierte UsuarioDto en Usuario
+    public static Usuario toEntity(UsuarioDtoRequest dto) {
         if (dto == null) return null;
 
-        Usuario usuario = new Usuario(
+        return new Usuario(
             dto.getEmail(),
             dto.getNombre(),
             dto.getApellido(),
+            //TODO QUE HAGO CON LA CONTRASEÑA????
             null
         );
-        return usuario;
     }
 
     //Combinación de los campos actualizados de Dto con los restantes de Usuario
-    public static void updateEntityFromDto(UsuarioDto dto, Usuario usuario) {
-
-        //setActualizadoEn gestionado automáticamente
+    public static void updateEntityFromDtoRes(UsuarioDtoRequest dto, Usuario usuario) {
+        if (dto == null || usuario == null) return;
 
         if (dto.getEmail() != null) usuario.setEmail(dto.getEmail());
         if (dto.getNombre() != null) usuario.setNombre(dto.getNombre());

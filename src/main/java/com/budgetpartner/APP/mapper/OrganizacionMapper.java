@@ -1,35 +1,33 @@
 package com.budgetpartner.APP.mapper;
 
 import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.dto.OrganizacionDto;
+import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
 
 public class OrganizacionMapper {
 
-    // Convierte Organizacion → OrganizacionDto
-    public static OrganizacionDto toDto(Organizacion organizacion) {
+    // Convierte Organizacion en OrganizacionDto
+    public static OrganizacionDtoResponse toDto(Organizacion organizacion) {
         if (organizacion == null) return null;
 
-        return new OrganizacionDto(
+        return new OrganizacionDtoResponse(
                 organizacion.getId(),
                 organizacion.getNombre(),
                 organizacion.getDescripcion()
         );
     }
 
-    // Convierte OrganizacionDto → Organizacion (OJO: no incluye fechas)
-    public static Organizacion toEntity(OrganizacionDto dto) {
+    // Convierte OrganizacionDto en Organizacion
+    public static Organizacion toEntity(OrganizacionDtoResponse dto) {
         if (dto == null) return null;
 
-        Organizacion organizacion = new Organizacion(
+        return new Organizacion(
                 dto.getNombre(),
                 dto.getDescripcion()
         );
-
-        return organizacion;
     }
 
-    // Actualiza una entidad Organizacion desde su DTO (sin tocar creadoEn, actualizadoEn)
-    public static void updateEntityFromDto(OrganizacionDto dto, Organizacion organizacion) {
+    // Actualiza entidad existente con los valores del DTO
+    public static void updateEntityFromDtoRes(OrganizacionDtoResponse dto, Organizacion organizacion) {
         if (dto == null || organizacion == null) return;
 
         if (dto.getNombre() != null) organizacion.setNombre(dto.getNombre());

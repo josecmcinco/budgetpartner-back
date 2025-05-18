@@ -1,15 +1,16 @@
 package com.budgetpartner.APP.mapper;
 
 import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.dto.MiembroDto;
+import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
+import jakarta.persistence.Entity;
 
 public class MiembroMapper {
 
-    // Convierte Miembro → MiembroDto
-    public static MiembroDto toDto(Miembro miembro) {
+    // Convierte Miembro en MiembroDtoResponse
+    public static MiembroDtoResponse toDto(Miembro miembro) {
         if (miembro == null) return null;
 
-        return new MiembroDto(
+        return new MiembroDtoResponse(
                 miembro.getId(),
                 miembro.getUsuarioOrigen(),
                 miembro.getOrganizacionOrigen(),
@@ -20,38 +21,30 @@ public class MiembroMapper {
         );
     }
 
-    // Convierte MiembroDto → Miembro (OJO: no incluye fechas ni usuario si no viene en el DTO)
-    public static Miembro toEntity(MiembroDto dto) {
+    // Convierte MiembroDto to Miembro (OJO: no incluye fechas ni usuario si no viene en el DTO)
+    public static Miembro toEntity(MiembroDtoResponse dto) {
         if (dto == null) return null;
 
-        Miembro miembro = new Miembro(
+        return new Miembro(
                 dto.getOrganizacionOrigen(),
                 dto.getRolMiembro(),
                 dto.getNick()
         );
-
-        //miembro.setId(dto.getId());
-        //miembro.setUsuarioOrigen(dto.getUsuarioOrigen());
-        //miembro.setFechaIngreso(dto.getFechaIngreso());
-        //miembro.setActivo(dto.isActivo());
-
-        return miembro;
     }
 
-    // Actualiza un Miembro desde su DTO (no toca fechas automáticas)
-    public static void updateEntityFromDto(MiembroDto dto, Miembro miembro) {
+    // Actualiza entidad existente con los valores del DTO
+    public static void updateEntityFromDtoRes(MiembroDtoResponse dto, Miembro miembro) {
         if (dto == null || miembro == null) return;
 
-        //TODO ERROR POR CAMBIOS RAROS (VER COMENTADOS)
-        //if (dto.getUsuarioOrigen() != null) miembro.setUsuarioOrigen(dto.getUsuarioOrigen());
-        //if (dto.getOrganizacionOrigen() != null) miembro.setOrganizacionOrigen(dto.getOrganizacionOrigen());
+        //NO SE PERMITE MODIFICAR DESDE EL DTO:
+        //OrganizacionOrigen
         if (dto.getRolMiembro() != null) miembro.setRolMiembro(dto.getRolMiembro());
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 
         //TODO para cuando sepa como se invita a un usuario
+        //Asociación del usuario de origen
         if(dto.getIsActivo() && !miembro.getIsActivo()){miembro.asociarUsuario(null);}
-
-        if(!dto.getIsActivo() && miembro.getIsActivo()){miembro.desasociarUsuario();}
+        else if(!dto.getIsActivo() && miembro.getIsActivo()){miembro.desasociarUsuario();}
 
     }
 }

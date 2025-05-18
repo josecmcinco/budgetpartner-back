@@ -1,12 +1,6 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.response;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-import java.time.LocalDateTime;
-
-public class OrganizacionDto {
+public class OrganizacionDtoResponse {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         creadoEn-actualizadoEn
@@ -19,7 +13,7 @@ public class OrganizacionDto {
     TODO IMAGEN
      */
 
-    public OrganizacionDto(Long id, String nombre, String descripcion) {
+    public OrganizacionDtoResponse(Long id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;

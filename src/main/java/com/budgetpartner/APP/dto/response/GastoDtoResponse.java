@@ -1,10 +1,10 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.response;
 
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 
-public class GastoDto {
+public class GastoDtoResponse {
         /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         creadoEn-actualizadoEn
@@ -20,7 +20,7 @@ public class GastoDto {
         private Miembro pagador;
         private String descripcion;
 
-    public GastoDto(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
+    public GastoDtoResponse(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
         this.id = id;
         this.tarea = tarea;
         this.plan = plan;

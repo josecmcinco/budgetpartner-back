@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.dto;
+package com.budgetpartner.APP.dto.response;
 
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
@@ -6,7 +6,7 @@ import com.budgetpartner.APP.entity.Usuario;
 
 import java.time.LocalDateTime;
 
-public class MiembroDto {
+public class MiembroDtoResponse {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         creadoEn-actualizadoEn
@@ -20,7 +20,7 @@ public class MiembroDto {
     private LocalDateTime fechaIngreso;
     private boolean isActivo;
 
-    public MiembroDto(Long id, Usuario usuarioOrigen, Organizacion organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
+    public MiembroDtoResponse(Long id, Usuario usuarioOrigen, Organizacion organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
         this.id = id;
         this.usuarioOrigen = usuarioOrigen;
         this.organizacionOrigen = organizacionOrigen;
