@@ -1,12 +1,13 @@
 package com.budgetpartner.APP.mapper;
 
+import com.budgetpartner.APP.dto.request.GastoDtoRequest;
 import com.budgetpartner.APP.entity.Gasto;
 import com.budgetpartner.APP.dto.response.GastoDtoResponse;
 
 public class GastoMapper {
 
-    // Convierte Gasto en GastoDto
-    public static GastoDtoResponse toDto(Gasto gasto) {
+    // Convierte Gasto en GastoDtoResponse
+    public static GastoDtoResponse toDtoResponse(Gasto gasto) {
         if (gasto == null) return null;
 
         return new GastoDtoResponse(
@@ -20,8 +21,8 @@ public class GastoMapper {
         );
     }
 
-    // Convierte GastoDto en Gasto
-    public static Gasto toEntity(GastoDtoResponse dto) {
+    // Convierte GastoDtoRequest en Gasto
+    public static Gasto toEntity(GastoDtoRequest dto) {
         if (dto == null) return null;
 
         return new Gasto(
@@ -36,7 +37,7 @@ public class GastoMapper {
     }
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(GastoDtoResponse dto, Gasto gasto) {
+    public static void updateEntityFromDtoRes(GastoDtoRequest dto, Gasto gasto) {
         if (dto == null || gasto == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:

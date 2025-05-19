@@ -20,7 +20,6 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
     @Autowired
     private MiembroService miembroService;
 
@@ -33,8 +32,9 @@ public class UsuarioController {
 
     @GetMapping({"/{id}"})
     public UsuarioDtoResponse getUsuarioById(@Validated @NotNull @PathVariable Long id){
+        UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioById(id);
+        return usuarioDtoResp;
 
-        return null;
     }
 
     @PutMapping({"/{id}"})
@@ -51,13 +51,13 @@ public class UsuarioController {
 
     @DeleteMapping({"/{id}"})
     public UsuarioDtoResponse deleteUsuarioById(@Validated @NotNull @PathVariable Long id){
-
-        return null;
+        UsuarioDtoResponse usuarioDtoResp = usuarioService.deleteUsuarioById(id);
+        return usuarioDtoResp;
     }
 
-    @GetMapping("/{id}/organizaciones")
+    @GetMapping("/{id}/miembros")
     public ResponseEntity<List<MiembroDtoResponse>> getMiembrosByUsuarioId(@Validated @NotNull @PathVariable Long id) {
-        List<MiembroDtoResponse> organizaciones = miembroService.findMiembroByUsuarioId(id);
+        List<MiembroDtoResponse> organizaciones = miembroService.findMiembrosByUsuarioId(id);
         return ResponseEntity.ok(organizaciones);
     }
 

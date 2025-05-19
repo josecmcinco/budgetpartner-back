@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface MiembroRepository extends JpaRepository<Miembro, Long> {
-    List<Long> findByusuarioOrigen_id(Long id_usuario);
+    List<Miembro> findByusuarioOrigenId(Long id_usuario);
 }
