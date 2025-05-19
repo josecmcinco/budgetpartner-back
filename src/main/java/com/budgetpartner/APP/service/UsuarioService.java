@@ -30,10 +30,32 @@ public class UsuarioService {
 
     public UsuarioDtoResponse postUsuario(UsuarioDtoRequest UsuarioDtoReq){
 
+        //TODO VARIABLES REPETIDAS (EMAIL)
         Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
         usuarioRepository.save(usuario);
         return UsuarioMapper.toDtoResponse(usuario);
     }
+
+    public UsuarioDtoResponse getUsuarioById(Long id){
+        //Obtener ususario usando el id pasado en la llamada
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+
+        return UsuarioMapper.toDtoResponse(usuario);
+    }
+
+    public UsuarioDtoResponse deleteUsuarioById(Long id){
+        //Obtener ususario usando el id pasado en la llamada
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+
+        usuarioRepository.delete(usuario);
+
+        //TODO AJSUTAR DEPENDENCIAS DE BORRADO
+        return UsuarioMapper.toDtoResponse(usuario);
+    }
+
+
 
     public UsuarioDtoResponse actualizarUsuario(UsuarioDtoRequest dto, Long id) {
 

@@ -1,11 +1,13 @@
 package com.budgetpartner.APP.mapper;
 
+import com.budgetpartner.APP.dto.request.TareaDtoRequest;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.dto.response.TareaDtoResponse;
 
 public class TareaMapper {
-    // Convierte Tarea en TareaDto
-    public static TareaDtoResponse toDto(Tarea tarea) {
+
+    // Convierte Tarea en TareaDtoResponse
+    public static TareaDtoResponse toDtoResponse(Tarea tarea) {
         if (tarea == null) return null;
 
         return new TareaDtoResponse(
@@ -20,8 +22,8 @@ public class TareaMapper {
         );
     }
 
-    // Convierte TareaDto en Tarea
-    public static Tarea toEntity(TareaDtoResponse dto) {
+    // Convierte TareaDtoRequest en Tarea
+    public static Tarea toEntity(TareaDtoRequest dto) {
         if (dto == null) return null;
 
         // Lista de miembros requiere lógica externa
@@ -33,12 +35,13 @@ public class TareaMapper {
                 dto.getFechaFin(),
                 dto.getCosteEstimado(),
                 dto.getMoneda(),
-                null // Lista de miembros requiere lógica externa
+                //TODO Lista de miembros requiere lógica externa
+                null
         );
     }
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(TareaDtoResponse dto, Tarea tarea) {
+    public static void updateEntityFromDtoRes(TareaDtoRequest dto, Tarea tarea) {
         if (dto == null || tarea == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:

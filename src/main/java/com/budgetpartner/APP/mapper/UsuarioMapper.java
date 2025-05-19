@@ -20,7 +20,7 @@ public class UsuarioMapper {
         );
     }
 
-    // Convierte UsuarioDto en Usuario
+    // Convierte UsuarioDtoRequest en Usuario
     public static Usuario toEntity(UsuarioDtoRequest dto) {
         if (dto == null) return null;
 
@@ -33,7 +33,7 @@ public class UsuarioMapper {
         );
     }
 
-    //Combinación de los campos actualizados de Dto con los restantes de Usuario
+    //Actualiza entidad existente con los valores del DTO
     public static void updateEntityFromDtoRes(UsuarioDtoRequest dto, Usuario usuario) {
         if (dto == null || usuario == null) return;
 

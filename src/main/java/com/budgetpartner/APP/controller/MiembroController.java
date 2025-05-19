@@ -4,6 +4,7 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.dto.request.MiembroDtoRequest;
 import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
+import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
 import com.budgetpartner.APP.service.MiembroService;
 import com.budgetpartner.APP.service.OrganizacionService;
 import jakarta.validation.constraints.NotNull;
@@ -24,18 +25,19 @@ public class MiembroController {
 
    @Autowired
     private MiembroService miembroService;
-
     @Autowired
     private OrganizacionService organizacionService;
 
     @PostMapping
     public MiembroDtoResponse postMiembro(@Validated @NotNull @RequestBody MiembroDtoRequest miembroDtoR){
-        return null;
+        MiembroDtoResponse miembroDtoResp = miembroService.postMiembro(miembroDtoR);
+        return miembroDtoResp;
     }
 
     @GetMapping
     public MiembroDtoResponse getMiembroByUsuario (@Validated @NotNull Long userId){
-         return null;
+        MiembroDtoResponse miembroDtoResp = miembroService.getMiembroById(id);
+        return miembroDtoResp;
     }
 
     @PutMapping("/{id}")
@@ -50,12 +52,12 @@ public class MiembroController {
 
     @DeleteMapping("/{id}")
     public MiembroDtoResponse deleteMiembro(@Validated @NotNull @RequestBody Long userId){
-        return null;
+        MiembroDtoResponse miembroDtoResp = miembroService.deleteMiembroById(id);
+        return miembroDtoResp;
     }
 
-
     @GetMapping("/{id}/organizaciones")
-    public ResponseEntity<List<OrganizacionDtoResponse>> getMiembrosByUsuarioId(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByMiembroId(@Validated @NotNull @PathVariable Long id) {
         List<OrganizacionDtoResponse> organizaciones = organizacionService.findOrganizacionesByMiembroId(id);
         return ResponseEntity.ok(organizaciones);
     }

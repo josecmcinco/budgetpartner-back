@@ -1,12 +1,13 @@
 package com.budgetpartner.APP.mapper;
 
+import com.budgetpartner.APP.dto.request.PlanDtoRequest;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.dto.response.PlanDtoResponse;
 
 public class PlanMapper {
 
-    // Convierte Plan en PlanDto
-    public static PlanDtoResponse toDto(Plan plan) {
+    // Convierte Plan en PlanDtoResponse
+    public static PlanDtoResponse toDtoResponse(Plan plan) {
         if (plan == null) return null;
 
         return new PlanDtoResponse(
@@ -19,8 +20,8 @@ public class PlanMapper {
         );
     }
 
-    // Convierte PlanDto en Plan
-    public static Plan toEntity(PlanDtoResponse dto) {
+    // Convierte PlanDtoRequest en Plan
+    public static Plan toEntity(PlanDtoRequest dto) {
         if (dto == null) return null;
 
         return new Plan(
@@ -33,7 +34,7 @@ public class PlanMapper {
     }
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(PlanDtoResponse dto, Plan plan) {
+    public static void updateEntityFromDtoRes(PlanDtoRequest dto, Plan plan) {
         if (dto == null || plan == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:

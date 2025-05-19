@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.mapper;
 
+import com.budgetpartner.APP.dto.request.MiembroDtoRequest;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
 import jakarta.persistence.Entity;
@@ -7,7 +8,7 @@ import jakarta.persistence.Entity;
 public class MiembroMapper {
 
     // Convierte Miembro en MiembroDtoResponse
-    public static MiembroDtoResponse toDto(Miembro miembro) {
+    public static MiembroDtoResponse toDtoResponse(Miembro miembro) {
         if (miembro == null) return null;
 
         return new MiembroDtoResponse(
@@ -21,8 +22,8 @@ public class MiembroMapper {
         );
     }
 
-    // Convierte MiembroDto to Miembro (OJO: no incluye fechas ni usuario si no viene en el DTO)
-    public static Miembro toEntity(MiembroDtoResponse dto) {
+    // Convierte MiembroDto to Miembro
+    public static Miembro toEntity(MiembroDtoRequest dto) {
         if (dto == null) return null;
 
         return new Miembro(
@@ -33,7 +34,7 @@ public class MiembroMapper {
     }
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(MiembroDtoResponse dto, Miembro miembro) {
+    public static void updateEntityFromDtoRes(MiembroDtoRequest dto, Miembro miembro) {
         if (dto == null || miembro == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:
