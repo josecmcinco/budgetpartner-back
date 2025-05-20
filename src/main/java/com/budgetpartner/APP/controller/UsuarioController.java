@@ -24,19 +24,20 @@ public class UsuarioController {
     private MiembroService miembroService;
 
     @PostMapping
-    public UsuarioDtoResponse postUsuario(@Validated @NotNull @RequestBody UsuarioDtoRequest usuarioDtoReq){
+    public ResponseEntity<UsuarioDtoResponse> postUsuario(@Validated @NotNull @RequestBody UsuarioDtoRequest usuarioDtoReq){
 
         UsuarioDtoResponse usuarioDtoResp = usuarioService.postUsuario(usuarioDtoReq);
-        return usuarioDtoResp;
+        return ResponseEntity.ok(usuarioDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public UsuarioDtoResponse getUsuarioById(@Validated @NotNull @PathVariable Long id){
+    public ResponseEntity<UsuarioDtoResponse> getUsuarioById(@Validated @NotNull @PathVariable Long id){
         UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioById(id);
-        return usuarioDtoResp;
+        return ResponseEntity.ok(usuarioDtoResp);
 
     }
 
+    /*
     @PutMapping({"/{id}"})
     public UsuarioDtoResponse putUsuarioById(@Validated @NotNull @PathVariable UsuarioDtoRequest usuarioDtoReq){
 
@@ -47,12 +48,12 @@ public class UsuarioController {
     public UsuarioDtoResponse patchUsuarioById(@Validated @NotNull @PathVariable UsuarioDtoRequest usuarioDtoReq){
 
         return null;
-    }
+    }*/
 
     @DeleteMapping({"/{id}"})
-    public UsuarioDtoResponse deleteUsuarioById(@Validated @NotNull @PathVariable Long id){
+    public ResponseEntity<UsuarioDtoResponse> deleteUsuarioById(@Validated @NotNull @PathVariable Long id){
         UsuarioDtoResponse usuarioDtoResp = usuarioService.deleteUsuarioById(id);
-        return usuarioDtoResp;
+        return ResponseEntity.ok(usuarioDtoResp);
     }
 
     @GetMapping("/{id}/miembros")

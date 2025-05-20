@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.response.GastoDtoResponse;
 import com.budgetpartner.APP.service.GastoService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,15 @@ public class GastoController {
     GastoService gastoService;
 
     @PostMapping
-    public GastoDtoResponse postGasto(@Validated @NotNull @RequestBody GastoDtoRequest gastoDtoReq) {
+    public ResponseEntity<GastoDtoResponse> postGasto(@Validated @NotNull @RequestBody GastoDtoRequest gastoDtoReq) {
         GastoDtoResponse gastoDtoResp = gastoService.postGasto(gastoDtoReq);
-        return gastoDtoResp;
+        return ResponseEntity.ok(gastoDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public GastoDtoResponse getGastoById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<GastoDtoResponse> getGastoById(@Validated @NotNull @PathVariable Long id) {
         GastoDtoResponse gastoDtoResp = gastoService.getGastoById(id);
-        return gastoDtoResp;
+        return ResponseEntity.ok(gastoDtoResp);
     }
 
     /*
@@ -42,9 +43,9 @@ public class GastoController {
     }*/
 
     @DeleteMapping({"/{id}"})
-    public GastoDtoResponse deleteGastoById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<GastoDtoResponse> deleteGastoById(@Validated @NotNull @PathVariable Long id) {
         GastoDtoResponse gastoDtoResp = gastoService.deleteGastoById(id);
-        return gastoDtoResp;
+        return ResponseEntity.ok(gastoDtoResp);
     }
 
 

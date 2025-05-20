@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.response.TareaDtoResponse;
 import com.budgetpartner.APP.service.TareaService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,15 @@ public class TareaController {
     TareaService tareaService;
 
     @PostMapping
-    public TareaDtoResponse postTarea(@Validated @NotNull @RequestBody TareaDtoRequest tareaDtoReq) {
+    public ResponseEntity<TareaDtoResponse> postTarea(@Validated @NotNull @RequestBody TareaDtoRequest tareaDtoReq) {
         TareaDtoResponse tareaDtoResp = tareaService.postTarea(tareaDtoReq);
-        return tareaDtoResp;
+        return ResponseEntity.ok(tareaDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public TareaDtoResponse getTareaById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<TareaDtoResponse> getTareaById(@Validated @NotNull @PathVariable Long id) {
         TareaDtoResponse tareaDtoResp = tareaService.getTareaById(id);
-        return tareaDtoResp;
+        return ResponseEntity.ok(tareaDtoResp);
     }
 
     /*
@@ -43,8 +44,8 @@ public class TareaController {
     }*/
 
     @DeleteMapping({"/{id}"})
-    public TareaDtoResponse deleteTareaById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<TareaDtoResponse> deleteTareaById(@Validated @NotNull @PathVariable Long id) {
         TareaDtoResponse tareaDtoResp = tareaService.deleteTareaById(id);
-        return tareaDtoResp;
+        return ResponseEntity.ok(tareaDtoResp);
     }
 }

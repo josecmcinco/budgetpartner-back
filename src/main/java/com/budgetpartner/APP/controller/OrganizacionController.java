@@ -21,15 +21,15 @@ public class OrganizacionController {
     private PlanService planService;
 
     @PostMapping
-    public OrganizacionDtoResponse postOrganizacion(@Validated @NotNull OrganizacionDtoRequest organizacionDtoReq){
+    public ResponseEntity<OrganizacionDtoResponse> postOrganizacion(@Validated @NotNull OrganizacionDtoRequest organizacionDtoReq){
         OrganizacionDtoResponse organizacionDtoResp = organizacionService.postOrganizacion(organizacionDtoReq);
-        return organizacionDtoResp;
+        return ResponseEntity.ok(organizacionDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public OrganizacionDtoResponse getOrganizacion(@Validated @NotNull Long id){
+    public ResponseEntity<OrganizacionDtoResponse> getOrganizacion(@Validated @NotNull Long id){
         OrganizacionDtoResponse organizacionDtoResp = organizacionService.getOrganizacionById(id);
-        return organizacionDtoResp;
+        return ResponseEntity.ok(organizacionDtoResp);
     }
 
     /*
@@ -47,9 +47,9 @@ public class OrganizacionController {
     */
 
     @DeleteMapping({"/{id}"})
-    public OrganizacionDtoResponse deleteOrganizacion(@Validated @NotNull Long id){
+    public ResponseEntity<OrganizacionDtoResponse> deleteOrganizacion(@Validated @NotNull Long id){
             OrganizacionDtoResponse organizacionDtoResp = organizacionService.deleteOrganizacionById(id);
-            return organizacionDtoResp;
+            return ResponseEntity.ok(organizacionDtoResp);
     }
 
     @GetMapping("/{id}/planes")

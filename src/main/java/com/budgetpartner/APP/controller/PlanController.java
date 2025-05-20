@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.response.PlanDtoResponse;
 import com.budgetpartner.APP.service.PlanService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,15 @@ public class PlanController {
     PlanService planService;
 
     @PostMapping
-    public PlanDtoResponse postPlan(@Validated @NotNull @RequestBody PlanDtoRequest planDtoReq) {
+    public ResponseEntity<PlanDtoResponse> postPlan(@Validated @NotNull @RequestBody PlanDtoRequest planDtoReq) {
         PlanDtoResponse planDtoResp = planService.postPlan(planDtoReq);
-        return planDtoResp;
+        return ResponseEntity.ok(planDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public PlanDtoResponse getPlanById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<PlanDtoResponse> getPlanById(@Validated @NotNull @PathVariable Long id) {
         PlanDtoResponse planDtoResp = planService.getPlanById(id);
-        return planDtoResp;
+        return ResponseEntity.ok(planDtoResp);
     }
 
     /*
@@ -43,8 +44,8 @@ public class PlanController {
     }*/
 
     @DeleteMapping({"/{id}"})
-    public PlanDtoResponse deletePlanById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<PlanDtoResponse> deletePlanById(@Validated @NotNull @PathVariable Long id) {
         PlanDtoResponse planDtoResp = planService.deletePlanById(id);
-        return planDtoResp;
+        return ResponseEntity.ok(planDtoResp);
     }
 }

@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.response.RolDtoResponse;
 import com.budgetpartner.APP.service.RolService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,15 @@ public class RolController {
     RolService rolService;
 
     @PostMapping
-    public RolDtoResponse postRol(@Validated @NotNull @RequestBody RolDtoRequest rolDtoReq) {
+    public ResponseEntity<RolDtoResponse> postRol(@Validated @NotNull @RequestBody RolDtoRequest rolDtoReq) {
         RolDtoResponse rolDtoResp = rolService.postRol(rolDtoReq);
-        return rolDtoResp;
+        return ResponseEntity.ok(rolDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public RolDtoResponse getRolById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<RolDtoResponse> getRolById(@Validated @NotNull @PathVariable Long id) {
         RolDtoResponse rolDtoResp = rolService.getRolById(id);
-        return rolDtoResp;
+        return ResponseEntity.ok(rolDtoResp);
     }
 
     /*
@@ -43,8 +44,8 @@ public class RolController {
     }*/
 
     @DeleteMapping({"/{id}"})
-    public RolDtoResponse deleteRolById(@Validated @NotNull @PathVariable Long id) {
+    public ResponseEntity<RolDtoResponse> deleteRolById(@Validated @NotNull @PathVariable Long id) {
         RolDtoResponse rolDtoResp = rolService.deleteRolById(id);
-        return rolDtoResp;
+        return ResponseEntity.ok(rolDtoResp);
     }
 }

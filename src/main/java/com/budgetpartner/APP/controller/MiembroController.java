@@ -29,15 +29,15 @@ public class MiembroController {
     private OrganizacionService organizacionService;
 
     @PostMapping
-    public MiembroDtoResponse postMiembro(@Validated @NotNull @RequestBody MiembroDtoRequest miembroDtoR){
+    public ResponseEntity<MiembroDtoResponse> postMiembro(@Validated @NotNull @RequestBody MiembroDtoRequest miembroDtoR){
         MiembroDtoResponse miembroDtoResp = miembroService.postMiembro(miembroDtoR);
-        return miembroDtoResp;
+        return ResponseEntity.ok(miembroDtoResp);
     }
 
     @GetMapping
-    public MiembroDtoResponse getMiembroByUsuario (@Validated @NotNull Long userId){
+    public ResponseEntity<MiembroDtoResponse> getMiembroByUsuario (@Validated @NotNull Long userId){
         MiembroDtoResponse miembroDtoResp = miembroService.getMiembroById(userId);
-        return miembroDtoResp;
+        return ResponseEntity.ok(miembroDtoResp);
     }
 /*
     @PutMapping("/{id}")
@@ -51,9 +51,9 @@ public class MiembroController {
     }*/
 
     @DeleteMapping("/{id}")
-    public MiembroDtoResponse deleteMiembro(@Validated @NotNull @RequestBody Long userId){
+    public ResponseEntity<MiembroDtoResponse> deleteMiembro(@Validated @NotNull @RequestBody Long userId){
         MiembroDtoResponse miembroDtoResp = miembroService.deleteMiembroById(userId);
-        return miembroDtoResp;
+        return ResponseEntity.ok(miembroDtoResp);
     }
 
     @GetMapping("/{id}/organizaciones")
