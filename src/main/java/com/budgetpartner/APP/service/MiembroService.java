@@ -1,22 +1,15 @@
 package com.budgetpartner.APP.service;
 
 import com.budgetpartner.APP.dto.request.MiembroDtoRequest;
-import com.budgetpartner.APP.dto.request.UsuarioDtoRequest;
 import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
-import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
-import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.entity.Usuario;
-import com.budgetpartner.APP.exceptions.AppExceptions.MiembroNotFoundException;
-import com.budgetpartner.APP.exceptions.AppExceptions.UsuarioNotFoundException;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.MiembroMapper;
-import com.budgetpartner.APP.mapper.UsuarioMapper;
 import com.budgetpartner.APP.repository.MiembroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -35,7 +28,7 @@ public class MiembroService {
     public MiembroDtoResponse getMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
-                .orElseThrow(() -> new MiembroNotFoundException("Miembro no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
         return MiembroMapper.toDtoResponse(miembro);
     }
@@ -43,7 +36,7 @@ public class MiembroService {
     public MiembroDtoResponse deleteMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
-                .orElseThrow(() -> new MiembroNotFoundException("Miembro no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
         miembroRepository.delete(miembro);
 
@@ -55,7 +48,7 @@ public class MiembroService {
 
         // Obtener miembro usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
-                .orElseThrow(() -> new MiembroNotFoundException("Miembro no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
         MiembroMapper.updateEntityFromDtoRes(dto, miembro);
         miembroRepository.save(miembro);

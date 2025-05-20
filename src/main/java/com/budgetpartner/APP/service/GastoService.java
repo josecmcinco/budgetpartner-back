@@ -3,11 +3,9 @@ package com.budgetpartner.APP.service;
 import com.budgetpartner.APP.dto.request.GastoDtoRequest;
 import com.budgetpartner.APP.dto.response.GastoDtoResponse;
 import com.budgetpartner.APP.entity.Gasto;
-import com.budgetpartner.APP.exceptions.AppExceptions.GastoNotFoundException;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.repository.GastoRepository;
-import com.budgetpartner.APP.repository.MiembroRepository;
-import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class GastoService {
     public GastoDtoResponse getGastoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
-                .orElseThrow(() -> new GastoNotFoundException("Gasto no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
         return GastoMapper.toDtoResponse(gasto);
     }
@@ -38,7 +36,7 @@ public class GastoService {
     public GastoDtoResponse deleteGastoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
-                .orElseThrow(() -> new GastoNotFoundException("Gasto no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
         gastoRepository.delete(gasto);
 
@@ -49,7 +47,7 @@ public class GastoService {
     public GastoDtoResponse actualizarGasto(GastoDtoRequest dto, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
-                .orElseThrow(() -> new GastoNotFoundException("Gasto no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
         GastoMapper.updateEntityFromDtoRes(dto, gasto);
         gastoRepository.save(gasto);

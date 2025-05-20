@@ -3,9 +3,8 @@ package com.budgetpartner.APP.service;
 import com.budgetpartner.APP.dto.request.RolDtoRequest;
 import com.budgetpartner.APP.dto.response.RolDtoResponse;
 import com.budgetpartner.APP.entity.Rol;
-import com.budgetpartner.APP.exceptions.AppExceptions.RolNotFoundException;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.RolMapper;
-import com.budgetpartner.APP.repository.PlanRepository;
 import com.budgetpartner.APP.repository.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class RolService {
     public RolDtoResponse getRolById(Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
-                .orElseThrow(() -> new RolNotFoundException("Rol no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));
 
         return RolMapper.toDtoResponse(rol);
     }
@@ -38,7 +37,7 @@ public class RolService {
     public RolDtoResponse deleteRolById(Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
-                .orElseThrow(() -> new RolNotFoundException("Rol no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));
 
         rolRepository.delete(rol);
 
@@ -49,7 +48,7 @@ public class RolService {
     public RolDtoResponse actualizarRol(RolDtoRequest dto, Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
-                .orElseThrow(() -> new RolNotFoundException("Rol no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));
 
         RolMapper.updateEntityFromDtoRes(dto, rol);
         rolRepository.save(rol);

@@ -1,8 +1,6 @@
 package com.budgetpartner.APP.service;
 
 import com.budgetpartner.APP.dto.request.UsuarioDtoRequest;
-import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
-import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
@@ -10,11 +8,8 @@ import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.*;
 
-import com.budgetpartner.APP.exceptions.AppExceptions.UsuarioNotFoundException;
-import com.budgetpartner.APP.exceptions.AppExceptions.InvalidRequestException;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -39,7 +34,7 @@ public class UsuarioService {
     public UsuarioDtoResponse getUsuarioById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
         return UsuarioMapper.toDtoResponse(usuario);
     }
@@ -47,7 +42,7 @@ public class UsuarioService {
     public UsuarioDtoResponse deleteUsuarioById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
         usuarioRepository.delete(usuario);
 
@@ -61,7 +56,7 @@ public class UsuarioService {
 
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
         UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
         usuarioRepository.save(usuario);

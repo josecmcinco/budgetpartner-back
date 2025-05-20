@@ -8,7 +8,7 @@ import com.budgetpartner.APP.repository.OrganizacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.budgetpartner.APP.exceptions.AppExceptions.OrganizacionNotFoundException;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class OrganizacionService {
     public OrganizacionDtoResponse getOrganizacionById(Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
-                .orElseThrow(() -> new OrganizacionNotFoundException("Organización no encontrada con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
         return OrganizacionMapper.toDtoResponse(organizacion);
     }
@@ -37,7 +37,7 @@ public class OrganizacionService {
     public OrganizacionDtoResponse deleteOrganizacionById(Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
-                .orElseThrow(() -> new OrganizacionNotFoundException("Organización no encontrada con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
         organizacionRepository.delete(organizacion);
 
@@ -48,7 +48,7 @@ public class OrganizacionService {
     public OrganizacionDtoResponse actualizarOrganizacion(OrganizacionDtoRequest dto, Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
-                .orElseThrow(() -> new OrganizacionNotFoundException("Organización no encontrada con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
         OrganizacionMapper.updateEntityFromDtoRes(dto, organizacion);
         organizacionRepository.save(organizacion);

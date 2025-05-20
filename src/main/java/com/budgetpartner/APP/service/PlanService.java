@@ -3,11 +3,9 @@ package com.budgetpartner.APP.service;
 import com.budgetpartner.APP.dto.request.PlanDtoRequest;
 import com.budgetpartner.APP.dto.response.PlanDtoResponse;
 import com.budgetpartner.APP.entity.Plan;
-import com.budgetpartner.APP.exceptions.AppExceptions.PlanNotFoundException;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.PlanMapper;
-import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.PlanRepository;
-import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +29,7 @@ public class PlanService {
     public PlanDtoResponse getPlanById(Long id) {
         //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
-                .orElseThrow(() -> new PlanNotFoundException("Plan no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
         return PlanMapper.toDtoResponse(plan);
     }
@@ -39,7 +37,7 @@ public class PlanService {
     public PlanDtoResponse deletePlanById(Long id) {
         //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
-                .orElseThrow(() -> new PlanNotFoundException("Plan no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
         planRepository.delete(plan);
 
@@ -50,7 +48,7 @@ public class PlanService {
     public PlanDtoResponse actualizarPlan(PlanDtoRequest dto, Long id) {
         //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
-                .orElseThrow(() -> new PlanNotFoundException("Plan no encontrado con id: " + id));
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
         PlanMapper.updateEntityFromDtoRes(dto, plan);
         planRepository.save(plan);
