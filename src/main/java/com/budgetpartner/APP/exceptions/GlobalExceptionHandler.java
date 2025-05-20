@@ -26,4 +26,5 @@ public class GlobalExceptionHandler {
         ErrorDto error = new ErrorDto(500, "Error interno del servidor", request.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }*/

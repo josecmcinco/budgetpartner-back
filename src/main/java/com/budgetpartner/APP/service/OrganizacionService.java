@@ -18,23 +18,23 @@ public class OrganizacionService {
     @Autowired
     private OrganizacionRepository organizacionRepository;
 
-    public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoRequest organizacionDtoReq) {
+    public Organizacion postOrganizacion(OrganizacionDtoRequest organizacionDtoReq) {
 
         //TODO VARIABLES REPETIDAS (NOMBRE, CÓDIGO, ETC. según tu lógica de negocio)
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
         organizacionRepository.save(organizacion);
-        return OrganizacionMapper.toDtoResponse(organizacion);
+        return organizacion;
     }
 
-    public OrganizacionDtoResponse getOrganizacionById(Long id) {
+    public Organizacion getOrganizacionById(Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
-        return OrganizacionMapper.toDtoResponse(organizacion);
+        return organizacion;
     }
 
-    public OrganizacionDtoResponse deleteOrganizacionById(Long id) {
+    public Organizacion deleteOrganizacionById(Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
@@ -42,7 +42,7 @@ public class OrganizacionService {
         organizacionRepository.delete(organizacion);
 
         //TODO AJUSTAR DEPENDENCIAS DE BORRADO (por ejemplo, planes, miembros, tareas relacionadas)
-        return OrganizacionMapper.toDtoResponse(organizacion);
+        return organizacion;
     }
 
     public OrganizacionDtoResponse actualizarOrganizacion(OrganizacionDtoRequest dto, Long id) {
@@ -55,7 +55,7 @@ public class OrganizacionService {
         return OrganizacionMapper.toDtoResponse(organizacion);
     }
 
-    public List<OrganizacionDtoResponse> findOrganizacionesByMiembroId(Long id) {
+    public List<Organizacion> findOrganizacionesByMiembroId(Long id) {
         return null;
         //TODO
     }

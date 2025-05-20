@@ -7,45 +7,41 @@ import com.budgetpartner.APP.entity.Tarea;
 public class GastoDtoRequest {
         /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        creadoEn-actualizadoEn
+        id-creadoEn-actualizadoEn
         SE MODIFICA EL TIMPO DE LAS SIGUIENTES VARIABLES:
         miembrosDelUsuario
          */
 
-        private Long id;
-        private Tarea tarea;
-        private Plan plan;
+        private Long tareaId;
+        private Long planId;
         private double cantidad;
         private String nombre;
-        private Miembro pagador;
+        private Long pagadorId;
         private String descripcion;
 
-    public GastoDtoRequest(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
-        this.id = id;
-        this.tarea = tarea;
-        this.plan = plan;
+    public GastoDtoRequest(Long tareaId, Long planId, double cantidad, String nombre, Long pagadorId, String descripcion) {
+        this.tareaId = tareaId;
+        this.planId = planId;
         this.cantidad = cantidad;
         this.nombre = nombre;
-        this.pagador = pagador;
+        this.pagadorId = pagadorId;
         this.descripcion = descripcion;
     }
 
-    public Long getId(){return this.id;}
-
-    public Tarea getTarea() {
-        return tarea;
+    public Long getTareaId() {
+        return tareaId;
     }
 
-    public void setTarea(Tarea tarea) {
-        this.tarea = tarea;
+    public void setTareaId(Long tareaId) {
+        this.tareaId = tareaId;
     }
 
-    public Plan getPlan() {
-        return plan;
+    public Long getPlanId() {
+        return planId;
     }
 
-    public void setPlan(Plan plan) {
-        this.plan = plan;
+    public void setPlan(Long planId) {
+        this.planId = planId;
     }
 
     public double getCantidad() {
@@ -64,12 +60,12 @@ public class GastoDtoRequest {
         this.nombre = nombre;
     }
 
-    public Miembro getPagador() {
-        return pagador;
+    public Long getPagadorId() {
+        return pagadorId;
     }
 
-    public void setPagador(Miembro pagador) {
-        this.pagador = pagador;
+    public void setPagadorId(Long pagadorId) {
+        this.pagadorId = pagadorId;
     }
 
     public String getDescripcion() {

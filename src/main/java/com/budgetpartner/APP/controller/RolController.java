@@ -1,7 +1,11 @@
 package com.budgetpartner.APP.controller;
 
 import com.budgetpartner.APP.dto.request.RolDtoRequest;
+import com.budgetpartner.APP.dto.response.PlanDtoResponse;
 import com.budgetpartner.APP.dto.response.RolDtoResponse;
+import com.budgetpartner.APP.entity.Rol;
+import com.budgetpartner.APP.mapper.PlanMapper;
+import com.budgetpartner.APP.mapper.RolMapper;
 import com.budgetpartner.APP.service.RolService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +22,15 @@ public class RolController {
 
     @PostMapping
     public ResponseEntity<RolDtoResponse> postRol(@Validated @NotNull @RequestBody RolDtoRequest rolDtoReq) {
-        RolDtoResponse rolDtoResp = rolService.postRol(rolDtoReq);
+        Rol rol = rolService.postRol(rolDtoReq);
+        RolDtoResponse rolDtoResp = RolMapper.toDtoResponse(rol);
         return ResponseEntity.ok(rolDtoResp);
     }
 
     @GetMapping({"/{id}"})
     public ResponseEntity<RolDtoResponse> getRolById(@Validated @NotNull @PathVariable Long id) {
-        RolDtoResponse rolDtoResp = rolService.getRolById(id);
+        Rol rol = rolService.getRolById(id);
+        RolDtoResponse rolDtoResp = RolMapper.toDtoResponse(rol);
         return ResponseEntity.ok(rolDtoResp);
     }
 
@@ -45,7 +51,8 @@ public class RolController {
 
     @DeleteMapping({"/{id}"})
     public ResponseEntity<RolDtoResponse> deleteRolById(@Validated @NotNull @PathVariable Long id) {
-        RolDtoResponse rolDtoResp = rolService.deleteRolById(id);
+        Rol rol = rolService.deleteRolById(id);
+        RolDtoResponse rolDtoResp = RolMapper.toDtoResponse(rol);
         return ResponseEntity.ok(rolDtoResp);
     }
 }

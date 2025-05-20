@@ -1,8 +1,12 @@
 package com.budgetpartner.APP.controller;
 
 import com.budgetpartner.APP.dto.request.OrganizacionDtoRequest;
+import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.response.PlanDtoResponse;
+import com.budgetpartner.APP.entity.Organizacion;
+import com.budgetpartner.APP.mapper.MiembroMapper;
+import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.service.OrganizacionService;
 import com.budgetpartner.APP.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +26,15 @@ public class OrganizacionController {
 
     @PostMapping
     public ResponseEntity<OrganizacionDtoResponse> postOrganizacion(@Validated @NotNull OrganizacionDtoRequest organizacionDtoReq){
-        OrganizacionDtoResponse organizacionDtoResp = organizacionService.postOrganizacion(organizacionDtoReq);
+        Organizacion organizacion = organizacionService.postOrganizacion(organizacionDtoReq);
+        OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
         return ResponseEntity.ok(organizacionDtoResp);
     }
 
     @GetMapping({"/{id}"})
     public ResponseEntity<OrganizacionDtoResponse> getOrganizacion(@Validated @NotNull Long id){
-        OrganizacionDtoResponse organizacionDtoResp = organizacionService.getOrganizacionById(id);
+        Organizacion organizacion = organizacionService.getOrganizacionById(id);
+        OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
         return ResponseEntity.ok(organizacionDtoResp);
     }
 
@@ -48,7 +54,8 @@ public class OrganizacionController {
 
     @DeleteMapping({"/{id}"})
     public ResponseEntity<OrganizacionDtoResponse> deleteOrganizacion(@Validated @NotNull Long id){
-            OrganizacionDtoResponse organizacionDtoResp = organizacionService.deleteOrganizacionById(id);
+            Organizacion organizacion = organizacionService.deleteOrganizacionById(id);
+            OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
             return ResponseEntity.ok(organizacionDtoResp);
     }
 

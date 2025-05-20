@@ -18,23 +18,23 @@ public class PlanService {
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-    public PlanDtoResponse postPlan(PlanDtoRequest planDtoReq) {
+    public Plan postPlan(PlanDtoRequest planDtoReq) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (nombre, fechas, organización, etc.)
         Plan plan = PlanMapper.toEntity(planDtoReq);
         planRepository.save(plan);
-        return PlanMapper.toDtoResponse(plan);
+        return plan;
     }
 
-    public PlanDtoResponse getPlanById(Long id) {
+    public Plan getPlanById(Long id) {
         //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
-        return PlanMapper.toDtoResponse(plan);
+        return plan;
     }
 
-    public PlanDtoResponse deletePlanById(Long id) {
+    public Plan deletePlanById(Long id) {
         //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
@@ -42,16 +42,16 @@ public class PlanService {
         planRepository.delete(plan);
 
         //TODO AJUSTAR DEPENDENCIAS DE BORRADO (tareas, miembros asignados, etc.)
-        return PlanMapper.toDtoResponse(plan);
+        return plan;
     }
 
-    public PlanDtoResponse actualizarPlan(PlanDtoRequest dto, Long id) {
+    public Plan actualizarPlan(PlanDtoRequest dto, Long id) {
         //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
         PlanMapper.updateEntityFromDtoRes(dto, plan);
         planRepository.save(plan);
-        return PlanMapper.toDtoResponse(plan);
+        return plan;
     }
 }

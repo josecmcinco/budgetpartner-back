@@ -7,35 +7,30 @@ import java.time.LocalDateTime;
 public class PlanDtoRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        creadoEn-actualizadoEn
+        id-creadoEn-actualizadoEn
     */
 
-    private Long id;
-    private Organizacion organizacion;
+    private Long OrganizacionId;
     private String nombre;
     private String descripcion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 
-    public PlanDtoRequest(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        this.id = id;
-        this.organizacion = organizacion;
+    public PlanDtoRequest(Long OrganizacionId, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        this.OrganizacionId = OrganizacionId;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
 
-    public Long getId() {
-        return id;
+
+    public Long getOrganizacion() {
+        return OrganizacionId;
     }
 
-    public Organizacion getOrganizacion() {
-        return organizacion;
-    }
-
-    public void setOrganizacion(Organizacion organizacion) {
-        this.organizacion = organizacion;
+    public void setOrganizacionId(Long OrganizacionId) {
+        this.OrganizacionId = OrganizacionId;
     }
 
     public String getNombre() {

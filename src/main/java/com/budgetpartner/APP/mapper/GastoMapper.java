@@ -3,8 +3,24 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.request.GastoDtoRequest;
 import com.budgetpartner.APP.entity.Gasto;
 import com.budgetpartner.APP.dto.response.GastoDtoResponse;
+import com.budgetpartner.APP.service.GastoService;
+import com.budgetpartner.APP.service.MiembroService;
+import com.budgetpartner.APP.service.PlanService;
+import com.budgetpartner.APP.service.TareaService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GastoMapper {
+
+    @Autowired
+    private static PlanService planService;
+    @Autowired
+    private static TareaService tareaService;
+    @Autowired
+    private static MiembroService miembroService;
 
     // Convierte Gasto en GastoDtoResponse
     public static GastoDtoResponse toDtoResponse(Gasto gasto) {
@@ -26,11 +42,11 @@ public class GastoMapper {
         if (dto == null) return null;
 
         return new Gasto(
-                dto.getTarea(),
-                dto.getPlan(),
+                tareaService.getTareaById(dto.getTareaId()),
+                planService.getPlanById(dto.getPlanId()),
                 dto.getCantidad(),
                 dto.getNombre(),
-                dto.getPagador(),
+                miembroService.getMiembroById(dto.getPagadorId()),
                 dto.getDescripcion()
         );
 
@@ -47,4 +63,18 @@ public class GastoMapper {
         if (dto.getDescripcion() != null) gasto.setDescripcion(dto.getDescripcion());
 
     }
+    public static List<GastoDtoResponse> toDtoResponseListGasto(List<Gasto> gastos) {
+        List<GastoDtoResponse> listaGastosDtoResp = new ArrayList<>();
+        if (gastos == null || gastos.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            for (Gasto gasto : gastos) {
+                GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
+                listaGastosDtoResp.add(gastoDtoResp);
+            }
+            return listaGastosDtoResp;
+        }
+    }
+
+
 }

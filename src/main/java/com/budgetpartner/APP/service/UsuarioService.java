@@ -23,23 +23,23 @@ public class UsuarioService {
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-    public UsuarioDtoResponse postUsuario(UsuarioDtoRequest UsuarioDtoReq){
+    public Usuario postUsuario(UsuarioDtoRequest UsuarioDtoReq){
 
         //TODO VARIABLES REPETIDAS (EMAIL)
         Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
         usuarioRepository.save(usuario);
-        return UsuarioMapper.toDtoResponse(usuario);
+        return usuario;
     }
 
-    public UsuarioDtoResponse getUsuarioById(Long id){
+    public Usuario getUsuarioById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
-        return UsuarioMapper.toDtoResponse(usuario);
+        return usuario;
     }
 
-    public UsuarioDtoResponse deleteUsuarioById(Long id){
+    public Usuario deleteUsuarioById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
@@ -47,12 +47,12 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
 
         //TODO AJSUTAR DEPENDENCIAS DE BORRADO
-        return UsuarioMapper.toDtoResponse(usuario);
+        return usuario;
     }
 
 
 
-    public UsuarioDtoResponse actualizarUsuario(UsuarioDtoRequest dto, Long id) {
+    public Usuario actualizarUsuario(UsuarioDtoRequest dto, Long id) {
 
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(id)
@@ -60,6 +60,6 @@ public class UsuarioService {
 
         UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
         usuarioRepository.save(usuario);
-        return UsuarioMapper.toDtoResponse(usuario);
+        return usuario;
     }
 }

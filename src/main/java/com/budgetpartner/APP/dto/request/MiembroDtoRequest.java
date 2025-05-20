@@ -9,45 +9,40 @@ import java.time.LocalDateTime;
 public class MiembroDtoRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        creadoEn-actualizadoEn
+        id-creadoEn-actualizadoEn
     */
 
-    private Long id;
-    private Usuario usuarioOrigen;
-    private Organizacion organizacionOrigen;
+    //TODO ELIMINAR ISACTIVO???
+    private Long usuarioOrigenId;
+    private Long organizacionOrigenId;
     private Rol rolMiembro;
     private String nick;
     private LocalDateTime fechaIngreso;
     private boolean isActivo;
 
-    public MiembroDtoRequest(Long id, Usuario usuarioOrigen, Organizacion organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
-        this.id = id;
-        this.usuarioOrigen = usuarioOrigen;
-        this.organizacionOrigen = organizacionOrigen;
+    public MiembroDtoRequest(Long usuarioOrigenId, Long organizacionOrigenId, Rol rolMiembro, String nick, boolean isActivo) {
+        this.usuarioOrigenId = usuarioOrigenId;
+        this.organizacionOrigenId = organizacionOrigenId;
         this.rolMiembro = rolMiembro;
         this.nick = nick;
-        this.fechaIngreso = fechaIngreso;
         this.isActivo = isActivo;
     }
 
-    public Long getId() {
-        return id;
+
+    public Long getUsuarioOrigenId() {
+        return usuarioOrigenId;
     }
 
-    public Usuario getUsuarioOrigen() {
-        return usuarioOrigen;
+    public void setUsuarioOrigen(Long usuarioOrigenId) {
+        this.usuarioOrigenId = usuarioOrigenId;
     }
 
-    public void setUsuarioOrigen(Usuario usuarioOrigen) {
-        this.usuarioOrigen = usuarioOrigen;
+    public Long getOrganizacionOrigenId() {
+        return organizacionOrigenId;
     }
 
-    public Organizacion getOrganizacionOrigen() {
-        return organizacionOrigen;
-    }
-
-    public void setOrganizacionOrigen(Organizacion organizacionOrigen) {
-        this.organizacionOrigen = organizacionOrigen;
+    public void setOrganizacionOrigenId(Long organizacionOrigenId) {
+        this.organizacionOrigenId = organizacionOrigenId;
     }
 
     public Rol getRolMiembro() {
@@ -64,14 +59,6 @@ public class MiembroDtoRequest {
 
     public void setNick(String nick) {
         this.nick = nick;
-    }
-
-    public LocalDateTime getFechaIngreso() {
-        return fechaIngreso;
-    }
-
-    public void setFechaIngreso(LocalDateTime fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
     }
 
     public boolean getIsActivo() {

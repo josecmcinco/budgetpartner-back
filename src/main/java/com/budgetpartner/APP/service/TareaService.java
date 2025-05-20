@@ -18,23 +18,23 @@ public class TareaService {
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-    public TareaDtoResponse postTarea(TareaDtoRequest tareaDtoReq) {
+    public Tarea postTarea(TareaDtoRequest tareaDtoReq) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (título, descripción, fechas, estado, etc.)
         Tarea tarea = TareaMapper.toEntity(tareaDtoReq);
         tareaRepository.save(tarea);
-        return TareaMapper.toDtoResponse(tarea);
+        return tarea;
     }
 
-    public TareaDtoResponse getTareaById(Long id) {
+    public Tarea getTareaById(Long id) {
         //Obtener tarea usando el id pasado en la llamada
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
-        return TareaMapper.toDtoResponse(tarea);
+        return tarea;
     }
 
-    public TareaDtoResponse deleteTareaById(Long id) {
+    public Tarea deleteTareaById(Long id) {
         //Obtener tarea usando el id pasado en la llamada
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
@@ -42,16 +42,16 @@ public class TareaService {
         tareaRepository.delete(tarea);
 
         //TODO AJUSTAR DEPENDENCIAS DE BORRADO (comentarios, asignaciones, etc.)
-        return TareaMapper.toDtoResponse(tarea);
+        return tarea;
     }
 
-    public TareaDtoResponse actualizarTarea(TareaDtoRequest dto, Long id) {
+    public Tarea actualizarTarea(TareaDtoRequest dto, Long id) {
         //Obtener tarea usando el id pasado en la llamada
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
         TareaMapper.updateEntityFromDtoRes(dto, tarea);
         tareaRepository.save(tarea);
-        return TareaMapper.toDtoResponse(tarea);
+        return tarea;
     }
 }

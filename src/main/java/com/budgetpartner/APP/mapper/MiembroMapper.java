@@ -3,9 +3,21 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.request.MiembroDtoRequest;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
+import com.budgetpartner.APP.service.OrganizacionService;
+import com.budgetpartner.APP.service.RolService;
 import jakarta.persistence.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MiembroMapper {
+
+    @Autowired
+    private static OrganizacionService organizacionService;
+    @Autowired
+    private static RolService rolService;
 
     // Convierte Miembro en MiembroDtoResponse
     public static MiembroDtoResponse toDtoResponse(Miembro miembro) {
@@ -27,8 +39,8 @@ public class MiembroMapper {
         if (dto == null) return null;
 
         return new Miembro(
-                dto.getOrganizacionOrigen(),
-                dto.getRolMiembro(),
+                organizacionService.getOrganizacionById(dto.getOrganizacionOrigenId()),
+                rolService.getRolById(dto.getOrganizacionOrigenId()),
                 dto.getNick()
         );
     }
@@ -47,5 +59,17 @@ public class MiembroMapper {
         if(dto.getIsActivo() && !miembro.getIsActivo()){miembro.asociarUsuario(null);}
         else if(!dto.getIsActivo() && miembro.getIsActivo()){miembro.desasociarUsuario();}
 
+    }
+
+    public static List<MiembroDtoResponse> toDtoResponseListMiembro(List<Miembro> miembros) {
+        ArrayList<MiembroDtoResponse> listaMiembrosDtoResp = new ArrayList<MiembroDtoResponse>();
+        if (miembros.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            for (Miembro miembro : miembros) {
+                MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
+                listaMiembrosDtoResp.add(miembroDtoResp);
+            }
+            return listaMiembrosDtoResp;}
     }
 }

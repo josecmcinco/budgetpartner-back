@@ -3,8 +3,18 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.request.TareaDtoRequest;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.dto.response.TareaDtoResponse;
+import com.budgetpartner.APP.service.OrganizacionService;
+import com.budgetpartner.APP.service.PlanService;
+import com.budgetpartner.APP.service.TareaService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TareaMapper {
+    @Autowired
+    private static PlanService planService;
 
     // Convierte Tarea en TareaDtoResponse
     public static TareaDtoResponse toDtoResponse(Tarea tarea) {
@@ -29,7 +39,7 @@ public class TareaMapper {
         // Lista de miembros requiere lógica externa
 
         return new Tarea(
-                dto.getPlan(),
+                planService.getPlanById(dto.getPlan()),
                 dto.getTitulo(),
                 dto.getDescripcion(),
                 dto.getFechaFin(),
@@ -53,5 +63,18 @@ public class TareaMapper {
         if (dto.getCosteEstimado() != 0) tarea.setCosteEstimado(dto.getCosteEstimado());
         if (dto.getMoneda() != null) tarea.setMoneda(dto.getMoneda());
 
+    }
+
+    public static List<TareaDtoResponse> toDtoResponseListTarea(List<Tarea> tareas) {
+        List<TareaDtoResponse> listaTareasDtoResp = new ArrayList<>();
+        if (tareas == null || tareas.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            for (Tarea tarea : tareas) {
+                TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
+                listaTareasDtoResp.add(tareaDtoResp);
+            }
+            return listaTareasDtoResp;
+        }
     }
 }

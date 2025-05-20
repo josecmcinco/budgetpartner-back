@@ -17,23 +17,22 @@ public class GastoService {
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
-    public GastoDtoResponse postGasto(GastoDtoRequest gastoDtoReq) {
-
+    public Gasto postGasto(GastoDtoRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
         Gasto gasto = GastoMapper.toEntity(gastoDtoReq);
         gastoRepository.save(gasto);
-        return GastoMapper.toDtoResponse(gasto);
+        return gasto;
     }
 
-    public GastoDtoResponse getGastoById(Long id) {
+    public Gasto getGastoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
+        return gasto;
 
-        return GastoMapper.toDtoResponse(gasto);
     }
 
-    public GastoDtoResponse deleteGastoById(Long id) {
+    public Gasto deleteGastoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -41,17 +40,17 @@ public class GastoService {
         gastoRepository.delete(gasto);
 
         //TODO AJUSTAR DEPENDENCIAS DE BORRADO SI EXISTEN (referencias desde otras entidades)
-        return GastoMapper.toDtoResponse(gasto);
+        return gasto;
     }
 
-    public GastoDtoResponse actualizarGasto(GastoDtoRequest dto, Long id) {
+    public Gasto actualizarGasto(GastoDtoRequest dto, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
         GastoMapper.updateEntityFromDtoRes(dto, gasto);
         gastoRepository.save(gasto);
-        return GastoMapper.toDtoResponse(gasto);
+        return gasto;
     }
 
 }

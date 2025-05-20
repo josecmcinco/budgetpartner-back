@@ -6,6 +6,10 @@ import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class UsuarioMapper {
 
     // Convierte Usuario en UsuarioDtoResponse
@@ -40,5 +44,17 @@ public class UsuarioMapper {
         if (dto.getEmail() != null) usuario.setEmail(dto.getEmail());
         if (dto.getNombre() != null) usuario.setNombre(dto.getNombre());
         if (dto.getApellido() != null) usuario.setApellido(dto.getApellido());
+    }
+    public static List<UsuarioDtoResponse> toDtoResponseListUsuario(List<Usuario> usuarios) {
+        List<UsuarioDtoResponse> listaUsuariosDtoResp = new ArrayList<>();
+        if (usuarios == null || usuarios.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            for (Usuario usuario : usuarios) {
+                UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
+                listaUsuariosDtoResp.add(usuarioDtoResp);
+            }
+            return listaUsuariosDtoResp;
+        }
     }
 }

@@ -18,23 +18,23 @@ public class RolService {
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-    public RolDtoResponse postRol(RolDtoRequest rolDtoReq) {
+    public Rol postRol(RolDtoRequest rolDtoReq) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (nombre, permisos, etc.)
         Rol rol = RolMapper.toEntity(rolDtoReq);
         rolRepository.save(rol);
-        return RolMapper.toDtoResponse(rol);
+        return rol;
     }
 
-    public RolDtoResponse getRolById(Long id) {
+    public Rol getRolById(Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));
 
-        return RolMapper.toDtoResponse(rol);
+        return rol;
     }
 
-    public RolDtoResponse deleteRolById(Long id) {
+    public Rol deleteRolById(Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));
@@ -42,17 +42,17 @@ public class RolService {
         rolRepository.delete(rol);
 
         //TODO AJUSTAR DEPENDENCIAS DE BORRADO (usuarios asignados, permisos, etc.)
-        return RolMapper.toDtoResponse(rol);
+        return rol;
     }
 
-    public RolDtoResponse actualizarRol(RolDtoRequest dto, Long id) {
+    public Rol actualizarRol(RolDtoRequest dto, Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));
 
         RolMapper.updateEntityFromDtoRes(dto, rol);
         rolRepository.save(rol);
-        return RolMapper.toDtoResponse(rol);
+        return rol;
     }
 
     }

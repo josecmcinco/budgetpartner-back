@@ -18,22 +18,22 @@ public class MiembroService {
     @Autowired
     private MiembroRepository miembroRepository;
 
-    public MiembroDtoResponse postMiembro(MiembroDtoRequest MiembroDtoReq){
+    public Miembro postMiembro(MiembroDtoRequest MiembroDtoReq){
 
         Miembro miembro = MiembroMapper.toEntity(MiembroDtoReq);
         miembroRepository.save(miembro);
-        return MiembroMapper.toDtoResponse(miembro);
+        return miembro;
     }
 
-    public MiembroDtoResponse getMiembroById(Long id){
+    public Miembro getMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
-        return MiembroMapper.toDtoResponse(miembro);
+        return miembro;
     }
 
-    public MiembroDtoResponse deleteMiembroById(Long id){
+    public Miembro deleteMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
@@ -41,10 +41,10 @@ public class MiembroService {
         miembroRepository.delete(miembro);
 
         //TODO AJSUTAR DEPENDENCIAS DE BORRADO
-        return MiembroMapper.toDtoResponse(miembro);
+        return miembro;
     }
 
-    public MiembroDtoResponse actualizarMiembro(MiembroDtoRequest dto, Long id) {
+    public Miembro actualizarMiembro(MiembroDtoRequest dto, Long id) {
 
         // Obtener miembro usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
@@ -52,23 +52,13 @@ public class MiembroService {
 
         MiembroMapper.updateEntityFromDtoRes(dto, miembro);
         miembroRepository.save(miembro);
-        return MiembroMapper.toDtoResponse(miembro);
+        return miembro;
     }
 
 
-    public List<MiembroDtoResponse> findMiembrosByUsuarioId(Long id) {
+    public List<Miembro> findMiembrosByUsuarioId(Long id) {
         List<Miembro> miembros = miembroRepository.findByusuarioOrigenId(id);
-        List<MiembroDtoResponse> listaMiembrosDtoResp;
-        if (miembros.isEmpty()) {
-            return null;
-        } else {
-            listaMiembrosDtoResp = new ArrayList<>();
-            for (Miembro miembro : miembros) {
-                MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
-                listaMiembrosDtoResp.add(miembroDtoResp);
-            }
-            return listaMiembrosDtoResp;
-        }
+        return miembros;
     }
 
 }

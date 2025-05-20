@@ -1,7 +1,11 @@
 package com.budgetpartner.APP.controller;
 
 import com.budgetpartner.APP.dto.request.PlanDtoRequest;
+import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.response.PlanDtoResponse;
+import com.budgetpartner.APP.entity.Plan;
+import com.budgetpartner.APP.mapper.OrganizacionMapper;
+import com.budgetpartner.APP.mapper.PlanMapper;
 import com.budgetpartner.APP.service.PlanService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +22,15 @@ public class PlanController {
 
     @PostMapping
     public ResponseEntity<PlanDtoResponse> postPlan(@Validated @NotNull @RequestBody PlanDtoRequest planDtoReq) {
-        PlanDtoResponse planDtoResp = planService.postPlan(planDtoReq);
+        Plan plan = planService.postPlan(planDtoReq);
+        PlanDtoResponse planDtoResp = PlanMapper.toDtoResponse(plan);
         return ResponseEntity.ok(planDtoResp);
     }
 
     @GetMapping({"/{id}"})
     public ResponseEntity<PlanDtoResponse> getPlanById(@Validated @NotNull @PathVariable Long id) {
-        PlanDtoResponse planDtoResp = planService.getPlanById(id);
+        Plan plan = planService.getPlanById(id);
+        PlanDtoResponse planDtoResp = PlanMapper.toDtoResponse(plan);
         return ResponseEntity.ok(planDtoResp);
     }
 
@@ -45,7 +51,8 @@ public class PlanController {
 
     @DeleteMapping({"/{id}"})
     public ResponseEntity<PlanDtoResponse> deletePlanById(@Validated @NotNull @PathVariable Long id) {
-        PlanDtoResponse planDtoResp = planService.deletePlanById(id);
+        Plan plan = planService.deletePlanById(id);
+        PlanDtoResponse planDtoResp = PlanMapper.toDtoResponse(plan);
         return ResponseEntity.ok(planDtoResp);
     }
 }

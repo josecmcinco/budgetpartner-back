@@ -9,10 +9,9 @@ public class TareaDtoRequest {
 
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        creadoEn-actualizadoEn
+        id-creadoEn-actualizadoEn
     */
-    private Long id;
-    private Plan plan;
+    private Long planId;
     private String titulo;
     private String descripcion;
     private LocalDateTime fechaFin;
@@ -20,9 +19,8 @@ public class TareaDtoRequest {
     private double costeEstimado;
     private String moneda;
 
-    public TareaDtoRequest(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
-        this.id = id;
-        this.plan = plan;
+    public TareaDtoRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
+        this.planId = planId;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
@@ -31,16 +29,12 @@ public class TareaDtoRequest {
         this.moneda = moneda;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPlan() {
+        return planId;
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
+    public void setPlan(Long plan) {
+        this.planId = planId;
     }
 
     public String getTitulo() {
