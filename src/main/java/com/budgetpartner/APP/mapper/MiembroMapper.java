@@ -13,8 +13,8 @@ public class MiembroMapper {
 
         return new MiembroDtoResponse(
                 miembro.getId(),
-                miembro.getUsuarioOrigen(),
-                miembro.getOrganizacionOrigen(),
+                miembro.getUsuarioOrigen().getId(),
+                miembro.getOrganizacionOrigen().getId(),
                 miembro.getRolMiembro(),
                 miembro.getNick(),
                 miembro.getFechaIngreso(),

@@ -13,14 +13,14 @@ public class MiembroDtoResponse {
     */
 
     private Long id;
-    private Usuario usuarioOrigen;
-    private Organizacion organizacionOrigen;
+    private Long usuarioOrigen;
+    private Long organizacionOrigen;
     private Rol rolMiembro;
     private String nick;
     private LocalDateTime fechaIngreso;
     private boolean isActivo;
 
-    public MiembroDtoResponse(Long id, Usuario usuarioOrigen, Organizacion organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
+    public MiembroDtoResponse(Long id, Long usuarioOrigen, Long organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
         this.id = id;
         this.usuarioOrigen = usuarioOrigen;
         this.organizacionOrigen = organizacionOrigen;
@@ -34,19 +34,19 @@ public class MiembroDtoResponse {
         return id;
     }
 
-    public Usuario getUsuarioOrigen() {
+    public Long getUsuarioOrigen() {
         return usuarioOrigen;
     }
 
-    public void setUsuarioOrigen(Usuario usuarioOrigen) {
+    public void setUsuarioOrigen(Long usuarioOrigen) {
         this.usuarioOrigen = usuarioOrigen;
     }
 
-    public Organizacion getOrganizacionOrigen() {
+    public Long getOrganizacionOrigen() {
         return organizacionOrigen;
     }
 
-    public void setOrganizacionOrigen(Organizacion organizacionOrigen) {
+    public void setOrganizacionOrigen(Long organizacionOrigen) {
         this.organizacionOrigen = organizacionOrigen;
     }
 

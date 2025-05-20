@@ -51,7 +51,7 @@ public class MiembroController {
     }*/
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MiembroDtoResponse> deleteMiembro(@Validated @NotNull @RequestBody Long userId){
+    public ResponseEntity<MiembroDtoResponse> deleteMiembro(@Validated @NotNull Long userId){
         MiembroDtoResponse miembroDtoResp = miembroService.deleteMiembroById(userId);
         return ResponseEntity.ok(miembroDtoResp);
     }
