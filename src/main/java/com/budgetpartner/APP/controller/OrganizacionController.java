@@ -25,14 +25,14 @@ public class OrganizacionController {
     private PlanService planService;
 
     @PostMapping
-    public ResponseEntity<OrganizacionDtoResponse> postOrganizacion(@Validated @NotNull OrganizacionDtoRequest organizacionDtoReq){
+    public ResponseEntity<OrganizacionDtoResponse> postOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoRequest organizacionDtoReq){
         Organizacion organizacion = organizacionService.postOrganizacion(organizacionDtoReq);
         OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
         return ResponseEntity.ok(organizacionDtoResp);
     }
 
     @GetMapping({"/{id}"})
-    public ResponseEntity<OrganizacionDtoResponse> getOrganizacion(@Validated @NotNull Long id){
+    public ResponseEntity<OrganizacionDtoResponse> getOrganizacion(@Validated @NotNull @PathVariable Long id){
         Organizacion organizacion = organizacionService.getOrganizacionById(id);
         OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
         return ResponseEntity.ok(organizacionDtoResp);
@@ -53,14 +53,14 @@ public class OrganizacionController {
     */
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<OrganizacionDtoResponse> deleteOrganizacion(@Validated @NotNull Long id){
+    public ResponseEntity<OrganizacionDtoResponse> deleteOrganizacion(@Validated @NotNull @PathVariable Long id){
             Organizacion organizacion = organizacionService.deleteOrganizacionById(id);
             OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
             return ResponseEntity.ok(organizacionDtoResp);
     }
 
     @GetMapping("/{id}/planes")
-    public OrganizacionDtoResponse getPlanesByOrganizacionId(@Validated @NotNull Long id){
+    public OrganizacionDtoResponse getPlanesByOrganizacionId(@Validated @NotNull @PathVariable Long id){
         //List<PlanDtoResponse> planes = planService.findPlanesByOrganizacionId(id);
         //return ResponseEntity.ok(planes);
         return null;

@@ -38,7 +38,7 @@ public class MiembroController {
     }
 
     @GetMapping
-    public ResponseEntity<MiembroDtoResponse> getMiembroByUsuario (@Validated @NotNull Long userId){
+    public ResponseEntity<MiembroDtoResponse> getMiembroByUsuario (@Validated @NotNull @PathVariable Long userId){
         Miembro miembro = miembroService.getMiembroById(userId);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
         return ResponseEntity.ok(miembroDtoResp);
@@ -55,7 +55,7 @@ public class MiembroController {
     }*/
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MiembroDtoResponse> deleteMiembro(@Validated @NotNull Long userId){
+    public ResponseEntity<MiembroDtoResponse> deleteMiembro(@Validated @NotNull @PathVariable Long userId){
         Miembro miembro = miembroService.deleteMiembroById(userId);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
         return ResponseEntity.ok(miembroDtoResp);
