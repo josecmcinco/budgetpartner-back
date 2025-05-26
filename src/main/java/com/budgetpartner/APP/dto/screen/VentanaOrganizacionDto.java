@@ -12,14 +12,15 @@ import java.util.List;
 
 public class VentanaOrganizacionDto {
 
-    private OrganizacionDtoResponse organizacion;
-    private Plan Plan;
-    private List<Miembro> miembros;
-/*
-    public VentanaOrganizacionDto(OrganizacionDtoResponse organizacion, PlanDtoResponse plan, List<MiembroDtoResponse> miembros) {
-        this.organizacion = organizacion;
-        Plan = plan;
-        this.miembros = miembros;
-    }*/
+    private OrganizacionDtoResponse organizacionDto;
+    private PlanDtoResponse planDto;
+    private List<MiembroDtoResponse> miembrosDto;
+
+    public VentanaOrganizacionDto(OrganizacionDtoResponse organizacionDto, PlanDtoResponse planDto, List<MiembroDtoResponse> miembrosDto) {
+        this.organizacionDto = organizacionDto;
+        this.planDto = planDto;
+        this.miembrosDto = miembrosDto;
+    }
+
 
 }

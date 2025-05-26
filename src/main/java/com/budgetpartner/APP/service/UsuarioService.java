@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.service;
 
 import com.budgetpartner.APP.dto.request.UsuarioDtoRequest;
+import com.budgetpartner.APP.dto.response.TokenResponse;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
@@ -9,6 +10,7 @@ import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.*;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -61,5 +63,23 @@ public class UsuarioService {
         UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
         usuarioRepository.save(usuario);
         return usuario;
+    }
+
+    /// Auth
+    //@Service
+    private JwtService jwtService;
+
+    public TokenResponse register(UsuarioDtoRequest UsuarioDtoReq){
+
+        //TODO VARIABLES REPETIDAS (EMAIL)
+        Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
+        usuarioRepository.save(usuario);
+
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+        var jwtToken = jwtService.generateToken(usuarioGuardado);
+        var refreshToken = jwtService.generateTokenRefresh(usuarioGuardado);
+
+        return new TokenResponse(jwtToken, refreshToken);
     }
 }

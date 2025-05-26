@@ -10,7 +10,10 @@ import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.mapper.GastoMapper;
+import com.budgetpartner.APP.service.GastoService;
+import com.budgetpartner.APP.service.screen.VentanaOrganizacionService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
-/*
+
 @RestController
 @RequestMapping()
 public class VentanaOrganizacionController {
 
+    @Autowired
+    private VentanaOrganizacionService ventanaOrganizacionService;
 
     @GetMapping({"organizationScreen/{organizacionId}"})
     public ResponseEntity<VentanaOrganizacionDto> getVentanaOrganizacionController(@Validated @NotNull @PathVariable Long organizacionId) {
+
+        //TODO
+        //ventanaOrganizacionService.getVentana(OrganizacionId);
         OrganizacionDtoResponse organizacion = null;
         PlanDtoResponse plan = null;
         List<MiembroDtoResponse> miembros = Arrays.asList();
@@ -36,10 +44,9 @@ public class VentanaOrganizacionController {
         return ResponseEntity.ok(ventanaOrganizacionDto);
     }
 
-    -
-    -Dashborard- Ultima actividad  - no org no planes no tareas
-    -OrganizacionesVentana -NumMiembros -NumPlanes
-    -Organizacion - Organizacion-Miembro-Rol-Plan-Tarea-GastoTotal-GastoGlobal
+    //-
+    //-Dashborard- Ultima actividad  - no org no planes no tareas
+    //-OrganizacionesVentana -NumMiembros -NumPlanes
+    //-Organizacion - Organizacion-Miembro-Rol-Plan-Tarea-GastoTotal-GastoGlobal
 
 }
-*/
