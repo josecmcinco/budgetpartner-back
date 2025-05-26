@@ -16,11 +16,13 @@ public class UsuarioDtoRequest {
     private String email;
     private String nombre;
     private String apellido;
+    private String contraseña;
 
-    public UsuarioDtoRequest(String email, String nombre, String apellido) {
+    public UsuarioDtoRequest(String email, String nombre, String apellido, String contraseña) {
         this.email = email;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.contraseña = contraseña;
     }
 
 
@@ -48,4 +50,10 @@ public class UsuarioDtoRequest {
         this.apellido = apellido;
     }
 
+    public String getContraseña() {
+        return contraseña;
+    }
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
 }

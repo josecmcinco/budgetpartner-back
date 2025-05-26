@@ -74,7 +74,7 @@ public class UsuarioController {
 
     //TODO autenticación???
 
-    @PostMapping("/register")
+    @PostMapping("/registarse")
     public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoRequest request) {
         final TokenResponse token = usuarioService.register(request);
         return ResponseEntity.ok(token);

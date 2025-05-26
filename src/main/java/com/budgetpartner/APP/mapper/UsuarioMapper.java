@@ -32,8 +32,7 @@ public class UsuarioMapper {
             dto.getEmail(),
             dto.getNombre(),
             dto.getApellido(),
-            //TODO QUE HAGO CON LA CONTRASEÑA????
-            null
+            dto.getContraseña()
         );
     }
 

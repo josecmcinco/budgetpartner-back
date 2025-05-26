@@ -11,6 +11,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
+
 @Service
 public class JwtService {
 
@@ -40,6 +41,7 @@ public class JwtService {
                 .signWith(getSignInKey())
                 .compact();
     }
+
     private SecretKey getSignInKey(){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);

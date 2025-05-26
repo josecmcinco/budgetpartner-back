@@ -10,7 +10,7 @@ import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.*;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -66,7 +66,7 @@ public class UsuarioService {
     }
 
     /// Auth
-    //@Service
+    @Autowired
     private JwtService jwtService;
 
     public TokenResponse register(UsuarioDtoRequest UsuarioDtoReq){
@@ -77,8 +77,9 @@ public class UsuarioService {
 
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
 
-        var jwtToken = jwtService.generateToken(usuarioGuardado);
-        var refreshToken = jwtService.generateTokenRefresh(usuarioGuardado);
+
+        String jwtToken = jwtService.generateToken(usuarioGuardado);
+        String refreshToken = jwtService.generateTokenRefresh(usuarioGuardado);
 
         return new TokenResponse(jwtToken, refreshToken);
     }
