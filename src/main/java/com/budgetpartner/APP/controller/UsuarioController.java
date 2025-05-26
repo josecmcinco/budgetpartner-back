@@ -42,6 +42,9 @@ public class UsuarioController {
         Usuario usuario = usuarioService.getUsuarioById(id);
         UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
         return ResponseEntity.ok(usuarioDtoResp);
+        /*
+
+         */
 
     }
 

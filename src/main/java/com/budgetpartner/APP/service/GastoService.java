@@ -43,7 +43,7 @@ public class GastoService {
         return gasto;
     }
 
-    public Gasto actualizarGasto(GastoDtoRequest dto, Long id) {
+    public Gasto patchGasto(GastoDtoRequest dto, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));

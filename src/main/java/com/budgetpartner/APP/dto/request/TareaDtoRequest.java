@@ -33,8 +33,8 @@ public class TareaDtoRequest {
         return planId;
     }
 
-    public void setPlan(Long plan) {
-        this.planId = planId;
+    public Long getPlanId() {
+        return planId;
     }
 
     public String getTitulo() {

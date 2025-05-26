@@ -12,6 +12,7 @@ public class GastoDtoRequest {
         miembrosDelUsuario
          */
 
+    //TODO solo parte como endeudados(lista) o siempre todos???
         private Long tareaId;
         private Long planId;
         private double cantidad;
@@ -32,17 +33,13 @@ public class GastoDtoRequest {
         return tareaId;
     }
 
-    public void setTareaId(Long tareaId) {
-        this.tareaId = tareaId;
-    }
+    //public void setTareaId(Long tareaId) {this.tareaId = tareaId;}
 
     public Long getPlanId() {
         return planId;
     }
 
-    public void setPlan(Long planId) {
-        this.planId = planId;
-    }
+    //public void setPlanId(Long planId) {this.planId = planId;}
 
     public double getCantidad() {
         return cantidad;
@@ -64,9 +61,7 @@ public class GastoDtoRequest {
         return pagadorId;
     }
 
-    public void setPagadorId(Long pagadorId) {
-        this.pagadorId = pagadorId;
-    }
+    //public void setPagadorId(Long pagadorId) {this.pagadorId = pagadorId;}
 
     public String getDescripcion() {
         return descripcion;

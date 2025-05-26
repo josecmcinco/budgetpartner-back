@@ -17,7 +17,6 @@ public class MiembroDtoRequest {
     private Long organizacionOrigenId;
     private Rol rolMiembro;
     private String nick;
-    private LocalDateTime fechaIngreso;
     private boolean isActivo;
 
     public MiembroDtoRequest(Long usuarioOrigenId, Long organizacionOrigenId, Rol rolMiembro, String nick, boolean isActivo) {
@@ -33,7 +32,7 @@ public class MiembroDtoRequest {
         return usuarioOrigenId;
     }
 
-    public void setUsuarioOrigen(Long usuarioOrigenId) {
+    public void setUsuarioOrigenId(Long usuarioOrigenId) {
         this.usuarioOrigenId = usuarioOrigenId;
     }
 
@@ -42,8 +41,7 @@ public class MiembroDtoRequest {
     }
 
     public void setOrganizacionOrigenId(Long organizacionOrigenId) {
-        this.organizacionOrigenId = organizacionOrigenId;
-    }
+        this.organizacionOrigenId = organizacionOrigenId;}
 
     public Rol getRolMiembro() {
         return rolMiembro;

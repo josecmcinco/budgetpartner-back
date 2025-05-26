@@ -35,20 +35,16 @@ public class GastoController {
         return ResponseEntity.ok(gastoDtoResp);
     }
 
-    /*
-    @PutMapping({"/{id}"})
-    public GastoDtoResponse putGastoById(@Validated @NotNull @RequestBody GastoDtoRequest gastoDtoReq,
-                                         @PathVariable Long id) {
-        GastoDtoResponse gastoDtoResp = gastoService.putGastoById(gastoDtoReq, id);
-        return gastoDtoResp;
-    }
+
 
     @PatchMapping({"/{id}"})
     public GastoDtoResponse patchGastoById(@Validated @NotNull @RequestBody GastoDtoRequest gastoDtoReq,
                                            @PathVariable Long id) {
-        GastoDtoResponse gastoDtoResp = gastoService.patchGastoById(gastoDtoReq, id);
+        Gasto gasto = gastoService.patchGasto(gastoDtoReq, id);
+        GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
         return gastoDtoResp;
-    }*/
+    }
+
     @Operation(
             summary = "Eliminar un gasto por ID",
             description = "Elimina un gasto existente dado su ID. Devuelve el objeto eliminado como confirmación.",
