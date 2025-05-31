@@ -3,7 +3,9 @@ package com.budgetpartner.APP.repository;
 import com.budgetpartner.APP.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
+    Optional<Usuario> findByEmail(String email);
 }

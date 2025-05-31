@@ -15,6 +15,7 @@ import com.budgetpartner.APP.service.MiembroService;
 import com.budgetpartner.APP.service.UsuarioService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -74,14 +75,14 @@ public class UsuarioController {
 
     //TODO autenticación???
 
-    @PostMapping("/registarse")
+    @PostMapping("/registro")
     public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoRequest request) {
         final TokenResponse token = usuarioService.register(request);
         return ResponseEntity.ok(token);
     }
-/*
+
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> authenticate(@RequestBody LoginRequest request) {
+    public ResponseEntity<TokenResponse> authenticate(@RequestBody UsuarioDtoRequest request) {
         final TokenResponse token = usuarioService.login(request);
         return ResponseEntity.ok(token);
     }
@@ -89,6 +90,6 @@ public class UsuarioController {
     @PostMapping("/refresh")
     public TokenResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
         return usuarioService.refreshToken(authHeader);
-    }*/
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.budgetpartner.APP.service;
 
+import com.budgetpartner.APP.entity.Token;
 import com.budgetpartner.APP.entity.Usuario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -32,6 +34,7 @@ public class JwtService {
         return buildToken(usuario, refreshExpiration);
     }
 
+    //Genera nuevo token de cualquier tipo
     private String buildToken(final Usuario usuario, final long expiration){
         return Jwts.builder()
                 .id(usuario.getId().toString())
@@ -42,10 +45,40 @@ public class JwtService {
                 .compact();
     }
 
+    //Generador de claves codificadas
     private SecretKey getSignInKey(){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
-
     }
+
+    public  String extractUsuario(final String token){
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();//Info pública del token
+        return jwtToken.getSubject();
+    }
+
+    public boolean isTokenValid(final String token, final Usuario usuario){
+        final String nombreUsuario = extractUsuario(token);
+        return (nombreUsuario.equals(usuario.getEmail())) && !isTokenExpired(token);
+    }
+
+    public boolean isTokenExpired(final String token){
+
+        return  extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(final String token){
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return jwtToken.getExpiration();
+    }
+
 
 }
