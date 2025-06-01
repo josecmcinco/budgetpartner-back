@@ -1,11 +1,12 @@
 package com.budgetpartner.APP.mapper;
 
-import com.budgetpartner.APP.dto.request.TareaDtoRequest;
+import com.budgetpartner.APP.dto.tarea.TareaDtoPostRequest;
+import com.budgetpartner.APP.dto.tarea.TareaDtoUpdateRequest;
+import com.budgetpartner.APP.entity.Miembro;
+import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
-import com.budgetpartner.APP.dto.response.TareaDtoResponse;
-import com.budgetpartner.APP.service.OrganizacionService;
+import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.service.PlanService;
-import com.budgetpartner.APP.service.TareaService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class TareaMapper {
 
         return new TareaDtoResponse(
                 tarea.getId(),
-                tarea.getPlan(),
+                PlanMapper.toDtoResponse(tarea.getPlan()),
                 tarea.getTitulo(),
                 tarea.getDescripcion(),
                 tarea.getFechaFin(),
@@ -33,10 +34,8 @@ public class TareaMapper {
     }
 
     // Convierte TareaDtoRequest en Tarea
-    public static Tarea toEntity(TareaDtoRequest dto) {
+    public static Tarea toEntity(TareaDtoPostRequest dto) {
         if (dto == null) return null;
-
-        // Lista de miembros requiere lógica externa
 
         return new Tarea(
                 planService.getPlanById(dto.getPlan()),
@@ -45,13 +44,13 @@ public class TareaMapper {
                 dto.getFechaFin(),
                 dto.getCosteEstimado(),
                 dto.getMoneda(),
-                //TODO Lista de miembros requiere lógica externa
-                null
+                //dto.getMiembros()
+                null//TODO
         );
     }
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(TareaDtoRequest dto, Tarea tarea) {
+    public static void updateEntityFromDtoRes(TareaDtoUpdateRequest dto, Tarea tarea) {
         if (dto == null || tarea == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:

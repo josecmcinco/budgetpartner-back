@@ -1,39 +1,23 @@
-package com.budgetpartner.APP.dto.request;
+package com.budgetpartner.APP.dto.miembro;
 
-import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
-import com.budgetpartner.APP.entity.Usuario;
 
-import java.time.LocalDateTime;
-
-public class MiembroDtoRequest {
+public class MiembroDtoPostRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        id-creadoEn-actualizadoEn
+        id-creadoEn-actualizadoEn-usuarioOrigen
     */
 
-    //TODO ELIMINAR ISACTIVO???
-    private Long usuarioOrigenId;
     private Long organizacionOrigenId;
     private Rol rolMiembro;
     private String nick;
     private boolean isActivo;
 
-    public MiembroDtoRequest(Long usuarioOrigenId, Long organizacionOrigenId, Rol rolMiembro, String nick, boolean isActivo) {
-        this.usuarioOrigenId = usuarioOrigenId;
+    public MiembroDtoPostRequest(Long usuarioOrigenId, Long organizacionOrigenId, Rol rolMiembro, String nick, boolean isActivo) {
         this.organizacionOrigenId = organizacionOrigenId;
         this.rolMiembro = rolMiembro;
         this.nick = nick;
         this.isActivo = isActivo;
-    }
-
-
-    public Long getUsuarioOrigenId() {
-        return usuarioOrigenId;
-    }
-
-    public void setUsuarioOrigenId(Long usuarioOrigenId) {
-        this.usuarioOrigenId = usuarioOrigenId;
     }
 
     public Long getOrganizacionOrigenId() {

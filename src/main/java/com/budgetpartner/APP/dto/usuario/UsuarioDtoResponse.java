@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.dto.response;
+package com.budgetpartner.APP.dto.usuario;
 
 import com.budgetpartner.APP.entity.Miembro;
 

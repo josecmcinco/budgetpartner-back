@@ -1,8 +1,7 @@
-package com.budgetpartner.APP.dto.response;
+package com.budgetpartner.APP.dto.miembro;
 
-import com.budgetpartner.APP.entity.Organizacion;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.entity.Rol;
-import com.budgetpartner.APP.entity.Usuario;
 
 import java.time.LocalDateTime;
 
@@ -13,42 +12,30 @@ public class MiembroDtoResponse {
     */
 
     private Long id;
-    private Long usuarioOrigen;
-    private Long organizacionOrigen;
+    private OrganizacionDtoResponse organizacionOrigen;
     private Rol rolMiembro;
     private String nick;
     private LocalDateTime fechaIngreso;
     private boolean isActivo;
 
-    public MiembroDtoResponse(Long id, Long usuarioOrigen, Long organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
+    public MiembroDtoResponse(Long id, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
         this.id = id;
-        this.usuarioOrigen = usuarioOrigen;
-        this.organizacionOrigen = organizacionOrigen;
         this.rolMiembro = rolMiembro;
         this.nick = nick;
         this.fechaIngreso = fechaIngreso;
         this.isActivo = isActivo;
     }
 
+
     public Long getId() {
         return id;
     }
 
-    public Long getUsuarioOrigen() {
-        return usuarioOrigen;
-    }
-
-    public void setUsuarioOrigen(Long usuarioOrigen) {
-        this.usuarioOrigen = usuarioOrigen;
-    }
-
-    public Long getOrganizacionOrigen() {
+    public OrganizacionDtoResponse getOrganizacionOrigen() {
         return organizacionOrigen;
     }
 
-    public void setOrganizacionOrigen(Long organizacionOrigen) {
-        this.organizacionOrigen = organizacionOrigen;
-    }
+    public void setOrganizacionOrigen(OrganizacionDtoResponse organizacionOrigen) {this.organizacionOrigen = organizacionOrigen;}
 
     public Rol getRolMiembro() {
         return rolMiembro;

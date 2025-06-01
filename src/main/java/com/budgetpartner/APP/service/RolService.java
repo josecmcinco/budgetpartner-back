@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.service;
 
-import com.budgetpartner.APP.dto.request.RolDtoRequest;
-import com.budgetpartner.APP.dto.response.RolDtoResponse;
+import com.budgetpartner.APP.dto.rol.RolDtoPostRequest;
 import com.budgetpartner.APP.entity.Rol;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.RolMapper;
@@ -18,7 +17,7 @@ public class RolService {
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-    public Rol postRol(RolDtoRequest rolDtoReq) {
+    public Rol postRol(RolDtoPostRequest rolDtoReq) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (nombre, permisos, etc.)
         Rol rol = RolMapper.toEntity(rolDtoReq);
@@ -45,7 +44,7 @@ public class RolService {
         return rol;
     }
 
-    public Rol actualizarRol(RolDtoRequest dto, Long id) {
+    public Rol actualizarRol(RolDtoPostRequest dto, Long id) {
         //Obtener rol usando el id pasado en la llamada
         Rol rol = rolRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Rol no encontrado con id: " + id));

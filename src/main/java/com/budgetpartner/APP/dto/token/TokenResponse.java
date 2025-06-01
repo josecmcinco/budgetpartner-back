@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.dto.response;
+package com.budgetpartner.APP.dto.token;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -52,7 +52,7 @@ public class Usuario {
     }
 
     //Extracción Usuario ya creado de la DB
-    public Usuario(Long id, String email, String nombre, String apellido, String contraseña, LocalDateTime creadoEn, LocalDateTime actualizadoEn, List<Miembro> miembrosDelUsuario) {
+    public Usuario(Long id, String email, String nombre, String apellido, String contraseña, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.email = email;
         this.nombre = nombre;
@@ -60,7 +60,6 @@ public class Usuario {
         this.contraseña = contraseña;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
-        this.miembrosDelUsuario = miembrosDelUsuario;
     }
 
     public Long getId() {

@@ -1,11 +1,15 @@
 package com.budgetpartner.APP.mapper;
 
-import com.budgetpartner.APP.dto.request.PlanDtoRequest;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
+import com.budgetpartner.APP.dto.plan.PlanDtoPostRequest;
+import com.budgetpartner.APP.dto.plan.PlanDtoUpdateRequest;
+import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Plan;
-import com.budgetpartner.APP.dto.response.PlanDtoResponse;
+import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.service.OrganizacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,12 +32,13 @@ public class PlanMapper {
         );
     }
 
-    // Convierte PlanDtoRequest en Plan
-    public static Plan toEntity(PlanDtoRequest dto) {
+    //Obtener Entity desde GastoDtoPostRequest
+    //No se hacen llamadas al servicio desde aquí
+    public static Plan toEntity(PlanDtoPostRequest dto, Organizacion organizacion) {
         if (dto == null) return null;
 
         return new Plan(
-                organizacionService.getOrganizacionById(dto.getOrganizacion()),
+                organizacion,
                 dto.getNombre(),
                 dto.getDescripcion(),
                 dto.getFechaInicio(),
@@ -41,8 +46,25 @@ public class PlanMapper {
         );
     }
 
+    //Obtener Entity desde GastoDtoUpdateRequest
+    //No se hacen llamadas al servicio desde aquí
+    public static Plan toEntity(PlanDtoUpdateRequest dto, Organizacion organizacion) {
+        if (dto == null) return null;
+
+        return new Plan(
+                dto.getId(),
+                organizacion,
+                dto.getNombre(),
+                dto.getDescripcion(),
+                dto.getFechaInicio(),
+                dto.getFechaFin(),
+                LocalDateTime.now(), //TODO
+                LocalDateTime.now()
+        );
+    }
+
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(PlanDtoRequest dto, Plan plan) {
+    public static void updateEntityFromDtoRes(PlanDtoUpdateRequest dto, Plan plan) {
         if (dto == null || plan == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:

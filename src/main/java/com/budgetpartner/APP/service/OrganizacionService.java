@@ -1,7 +1,8 @@
 package com.budgetpartner.APP.service;
 
-import com.budgetpartner.APP.dto.request.OrganizacionDtoRequest;
-import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.repository.OrganizacionRepository;
@@ -18,20 +19,22 @@ public class OrganizacionService {
     @Autowired
     private OrganizacionRepository organizacionRepository;
 
-    public Organizacion postOrganizacion(OrganizacionDtoRequest organizacionDtoReq) {
+    //ENDPOINTS
 
+    public Organizacion postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
         //TODO VARIABLES REPETIDAS (NOMBRE, CÓDIGO, ETC. según tu lógica de negocio)
+
+
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
         organizacionRepository.save(organizacion);
         return organizacion;
     }
 
-    public Organizacion getOrganizacionById(Long id) {
+    public OrganizacionDtoResponse getOrganizacionByIdAndTransform(Long id) {
         //Obtener organización usando el id pasado en la llamada
-        Organizacion organizacion = organizacionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
-
-        return organizacion;
+        Organizacion organizacion = getOrganizacionById(id);
+        OrganizacionDtoResponse dto = OrganizacionMapper.toDtoResponse(organizacion);
+        return dto;
     }
 
     public Organizacion deleteOrganizacionById(Long id) {
@@ -45,10 +48,10 @@ public class OrganizacionService {
         return organizacion;
     }
 
-    public OrganizacionDtoResponse actualizarOrganizacion(OrganizacionDtoRequest dto, Long id) {
+    public OrganizacionDtoResponse patchOrganizacion(OrganizacionDtoUpdateRequest dto) {
         //Obtener organización usando el id pasado en la llamada
-        Organizacion organizacion = organizacionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
+        Organizacion organizacion = organizacionRepository.findById(dto.getId())
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + dto.getId()));
 
         OrganizacionMapper.updateEntityFromDtoRes(dto, organizacion);
         organizacionRepository.save(organizacion);
@@ -58,5 +61,14 @@ public class OrganizacionService {
     public List<Organizacion> findOrganizacionesByMiembroId(Long id) {
         return null;
         //TODO
+    }
+
+    //OTROS MÉTODOS
+    public Organizacion getOrganizacionById(Long id) {
+        //Obtener organización usando el id pasado en la llamada
+        Organizacion organizacion = organizacionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
+
+        return organizacion;
     }
 }

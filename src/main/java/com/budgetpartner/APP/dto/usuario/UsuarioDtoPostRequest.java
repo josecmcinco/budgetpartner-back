@@ -1,10 +1,6 @@
-package com.budgetpartner.APP.dto.request;
+package com.budgetpartner.APP.dto.usuario;
 
-import com.budgetpartner.APP.entity.Miembro;
-
-import java.util.List;
-
-public class UsuarioDtoRequest {
+public class UsuarioDtoPostRequest {
 
     /*
     SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -13,12 +9,17 @@ public class UsuarioDtoRequest {
     miembrosDelUsuario
      */
 
+    /*
+
+    ELIMINAR
+     */
+
     private String email;
     private String nombre;
     private String apellido;
     private String contraseña;
 
-    public UsuarioDtoRequest(String email, String nombre, String apellido, String contraseña) {
+    public UsuarioDtoPostRequest(String email, String nombre, String apellido, String contraseña) {
         this.email = email;
         this.nombre = nombre;
         this.apellido = apellido;

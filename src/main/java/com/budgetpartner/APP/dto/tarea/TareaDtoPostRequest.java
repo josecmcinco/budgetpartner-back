@@ -1,11 +1,10 @@
-package com.budgetpartner.APP.dto.request;
+package com.budgetpartner.APP.dto.tarea;
 
-import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.enums.EstadoTarea;
 
 import java.time.LocalDateTime;
 
-public class TareaDtoRequest {
+public class TareaDtoPostRequest {
 
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -19,7 +18,7 @@ public class TareaDtoRequest {
     private double costeEstimado;
     private String moneda;
 
-    public TareaDtoRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
+    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
         this.planId = planId;
         this.titulo = titulo;
         this.descripcion = descripcion;

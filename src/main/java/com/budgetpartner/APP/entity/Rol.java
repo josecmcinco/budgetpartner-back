@@ -10,7 +10,7 @@ public class Rol {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column
     private String nombre;
@@ -38,7 +38,7 @@ public class Rol {
     }
 
     //Extraer Rol de la DB
-    public Rol(int id, String nombre, String permisos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Rol(Long id, String nombre, String permisos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.nombre = nombre;
         this.permisos = permisos;
@@ -49,7 +49,7 @@ public class Rol {
     //Getters y setters
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

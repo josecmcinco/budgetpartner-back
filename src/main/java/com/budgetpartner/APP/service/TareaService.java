@@ -1,7 +1,8 @@
 package com.budgetpartner.APP.service;
 
-import com.budgetpartner.APP.dto.request.TareaDtoRequest;
-import com.budgetpartner.APP.dto.response.TareaDtoResponse;
+import com.budgetpartner.APP.dto.tarea.TareaDtoPostRequest;
+import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
+import com.budgetpartner.APP.dto.tarea.TareaDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.TareaMapper;
@@ -18,7 +19,10 @@ public class TareaService {
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
-    public Tarea postTarea(TareaDtoRequest tareaDtoReq) {
+
+    //ENDPOINTS
+
+    public Tarea postTarea(TareaDtoPostRequest tareaDtoReq) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (título, descripción, fechas, estado, etc.)
         Tarea tarea = TareaMapper.toEntity(tareaDtoReq);
@@ -26,12 +30,10 @@ public class TareaService {
         return tarea;
     }
 
-    public Tarea getTareaById(Long id) {
-        //Obtener tarea usando el id pasado en la llamada
-        Tarea tarea = tareaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
-
-        return tarea;
+    public TareaDtoResponse getTareaByIdAndTransform(Long id) {
+        Tarea tarea = getTareaById(id);
+        TareaDtoResponse dto = TareaMapper.toDtoResponse(tarea);
+        return dto;
     }
 
     public Tarea deleteTareaById(Long id) {
@@ -45,13 +47,22 @@ public class TareaService {
         return tarea;
     }
 
-    public Tarea actualizarTarea(TareaDtoRequest dto, Long id) {
+    public Tarea patchTarea(TareaDtoUpdateRequest dto) {
+        //Obtener tarea usando el id pasado en la llamada
+        Tarea tarea = tareaRepository.findById(dto.getId())
+                .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + dto.getId()));
+
+        TareaMapper.updateEntityFromDtoRes(dto, tarea);
+        tareaRepository.save(tarea);
+        return tarea;
+    }
+
+    //OTROS MÉTODOS
+    public Tarea getTareaById(Long id) {
         //Obtener tarea usando el id pasado en la llamada
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
-        TareaMapper.updateEntityFromDtoRes(dto, tarea);
-        tareaRepository.save(tarea);
         return tarea;
     }
 }

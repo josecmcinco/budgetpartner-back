@@ -1,18 +1,22 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.dto.request.UsuarioDtoRequest;
-import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
-import com.budgetpartner.APP.dto.response.TareaDtoResponse;
-import com.budgetpartner.APP.dto.response.TokenResponse;
-import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
+import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
+import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
+import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
+import com.budgetpartner.APP.dto.token.TokenResponse;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.mapper.MiembroMapper;
-import com.budgetpartner.APP.mapper.TareaMapper;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
 import com.budgetpartner.APP.service.MiembroService;
 import com.budgetpartner.APP.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,42 +32,104 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-    @Autowired
     private MiembroService miembroService;
 
+    @Operation(
+            summary = "Crear un usuario",
+            description = "Crea un usuario nuevo dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuario creado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @PostMapping
-    public ResponseEntity<UsuarioDtoResponse> postUsuario(@Validated @NotNull @RequestBody UsuarioDtoRequest usuarioDtoReq){
-
+    public ResponseEntity<UsuarioDtoResponse> postUsuario(@Validated @NotNull @RequestBody UsuarioDtoPostRequest usuarioDtoReq) {
         Usuario usuario = usuarioService.postUsuario(usuarioDtoReq);
         UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
         return ResponseEntity.ok(usuarioDtoResp);
     }
 
-    @GetMapping({"/{id}"})
-    public ResponseEntity<UsuarioDtoResponse> getUsuarioById(@Validated @NotNull @PathVariable Long id){
-        Usuario usuario = usuarioService.getUsuarioById(id);
-        UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
+    @Operation(
+            summary = "Obtener un usuario por ID",
+            description = "Devuelve un usuario existente dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuario obtenido correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDtoResponse> getUsuarioById(@Validated @NotNull @PathVariable Long id) {
+        UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioByIdAndTransform(id);
         return ResponseEntity.ok(usuarioDtoResp);
     }
 
-    /*
-    @PutMapping({"/{id}"})
-    public UsuarioDtoResponse putUsuarioById(@Validated @NotNull @PathVariable UsuarioDtoRequest usuarioDtoReq){
-
-        return null;
+    @Operation(
+            summary = "Actualizar parcialmente un usuario",
+            description = "Actualiza los campos indicados de un usuario existente. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuario actualizado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> patchUsuarioById(@Validated @NotNull @RequestBody UsuarioDtoUpdateRequest usuarioDtoUpReq) {
+        usuarioService.patchUsuario(usuarioDtoUpReq);
+        return ResponseEntity.ok("Usuario actualizado correctamente");
     }
 
-    @PatchMapping({"/{id}"})
-    public UsuarioDtoResponse patchUsuarioById(@Validated @NotNull @PathVariable UsuarioDtoRequest usuarioDtoReq){
-
-        return null;
-    }*/
-
-    @DeleteMapping({"/{id}"})
-    public ResponseEntity<UsuarioDtoResponse> deleteUsuarioById(@Validated @NotNull @PathVariable Long id){
+    @Operation(
+            summary = "Eliminar un usuario por ID",
+            description = "Elimina un usuario existente dado su ID. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuario eliminado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "\"Usuario eliminado correctamente\""
+                                    )
+                            )
+                    )
+            }
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUsuarioById(@Validated @NotNull @PathVariable Long id) {
         Usuario usuario = usuarioService.deleteUsuarioById(id);
         UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
-        return ResponseEntity.ok(usuarioDtoResp);
+        return ResponseEntity.ok("Usuario eliminado correctamente");
     }
 
     @GetMapping("/{id}/miembros")
@@ -73,21 +139,21 @@ public class UsuarioController {
         return ResponseEntity.ok(miembroDtoRespList);
     }
 
-    //TODO autenticación???
+    //LLAMADAS RELACIONADAS CON JWT
 
     @PostMapping("/registro")
-    public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoRequest request) {
+    public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoUpdateRequest request) {
         final TokenResponse token = usuarioService.register(request);
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> authenticate(@RequestBody UsuarioDtoRequest request) {
+    public ResponseEntity<TokenResponse> authenticate(@RequestBody UsuarioDtoUpdateRequest request) {
         final TokenResponse token = usuarioService.login(request);
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/refrescar")
     public TokenResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
         return usuarioService.refreshToken(authHeader);
     }

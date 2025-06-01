@@ -1,19 +1,24 @@
-package com.budgetpartner.APP.dto.request;
+package com.budgetpartner.APP.dto.rol;
 
-public class RolDtoRequest {
+public class RolDtoResponse {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        id-creadoEn-actualizadoEn
+        creadoEn-actualizadoEn
     */
 
+    private Long id;
     private String nombre;
     private String permisos;
 
-    public RolDtoRequest(String nombre, String permisos) {
+    public RolDtoResponse(Long id, String nombre, String permisos) {
+        this.id = id;
         this.nombre = nombre;
         this.permisos = permisos;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getNombre() {
         return nombre;

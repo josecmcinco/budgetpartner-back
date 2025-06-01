@@ -1,23 +1,23 @@
-package com.budgetpartner.APP.dto.request;
+package com.budgetpartner.APP.dto.organizacion;
 
-public class OrganizacionDtoRequest {
+public class OrganizacionDtoUpdateRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn
     */
+    private Long id;
     private String nombre;
     private String descripcion;
 
-    /*
-    TODO IMAGEN
-     */
-
-    public OrganizacionDtoRequest(String nombre, String descripcion) {
+    public OrganizacionDtoUpdateRequest(Long id, String nombre, String descripcion) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
-
+    public Long getId() {
+        return id;
+    }
 
     public String getNombre() {
         return nombre;

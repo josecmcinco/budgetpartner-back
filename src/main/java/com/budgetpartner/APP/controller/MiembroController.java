@@ -1,71 +1,128 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.dto.request.MiembroDtoRequest;
-import com.budgetpartner.APP.dto.response.GastoDtoResponse;
-import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
-import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
-import com.budgetpartner.APP.dto.response.UsuarioDtoResponse;
+import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.mapper.MiembroMapper;
-import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.service.MiembroService;
 import com.budgetpartner.APP.service.OrganizacionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/miembros")
 public class MiembroController {
 
-   @Autowired
-    private MiembroService miembroService;
     @Autowired
+    private MiembroService miembroService;
     private OrganizacionService organizacionService;
 
+    @Operation(
+            summary = "Crear un miembro",
+            description = "Crea un miembro nuevo dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro creado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @PostMapping
-    public ResponseEntity<MiembroDtoResponse> postMiembro(@Validated @NotNull @RequestBody MiembroDtoRequest miembroDtoR){
-        Miembro miembro = miembroService.postMiembro(miembroDtoR);
+    public ResponseEntity<MiembroDtoResponse> postMiembro(@Validated @NotNull @RequestBody MiembroDtoPostRequest miembroDtoReq) {
+        Miembro miembro = miembroService.postMiembro(miembroDtoReq);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
         return ResponseEntity.ok(miembroDtoResp);
     }
 
-    @GetMapping
-    public ResponseEntity<MiembroDtoResponse> getMiembroByUsuario (@Validated @NotNull @PathVariable Long userId){
-        Miembro miembro = miembroService.getMiembroById(userId);
-        MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
+    @Operation(
+            summary = "Obtener un miembro por ID",
+            description = "Devuelve un miembro existente dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro obtenido correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/{id}")
+    public ResponseEntity<MiembroDtoResponse> getMiembroById(@Validated @NotNull @PathVariable Long id) {
+        MiembroDtoResponse miembroDtoResp = miembroService.getMiembroByIdAndTransform(id);
         return ResponseEntity.ok(miembroDtoResp);
     }
-/*
-    @PutMapping("/{id}")
-    public MiembroDtoResponse putMiembro(@Validated @NotNull @RequestBody MiembroDtoRequest miembroDtoR){
-        return null;
-    }
 
+    @Operation(
+            summary = "Actualizar parcialmente un miembro",
+            description = "Actualiza los campos indicados de un miembro existente. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro actualizado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @PatchMapping("/{id}")
-    public MiembroDtoResponse patchMiembro(@Validated @NotNull  @RequestBody MiembroDtoRequest miembroDtoR){
-        return null;
-    }*/
+    public ResponseEntity<String> patchMiembroById(@Validated @NotNull @RequestBody MiembroDtoUpdateRequest miembroDtoUpReq) {
+        miembroService.patchMiembro(miembroDtoUpReq);
+        return ResponseEntity.ok("Miembro actualizado correctamente");
+    }
 
+    @Operation(
+            summary = "Eliminar un miembro por ID",
+            description = "Elimina un miembro existente dado su ID. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro eliminado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "\"Miembro eliminado correctamente\""
+                                    )
+                            )
+                    )
+            }
+    )
     @DeleteMapping("/{id}")
-    public ResponseEntity<MiembroDtoResponse> deleteMiembro(@Validated @NotNull @PathVariable Long userId){
-        Miembro miembro = miembroService.deleteMiembroById(userId);
+    public ResponseEntity<String> deleteMiembroById(@Validated @NotNull @PathVariable Long id) {
+        Miembro miembro = miembroService.deleteMiembroById(id);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
-        return ResponseEntity.ok(miembroDtoResp);
+        return ResponseEntity.ok("Miembro eliminado correctamente");
     }
-
-    @GetMapping("/{id}/organizaciones")
-    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByMiembroId(@Validated @NotNull @PathVariable Long id) {
-        List<Organizacion> organizaciones = organizacionService.findOrganizacionesByMiembroId(id);
-        List<OrganizacionDtoResponse> organizacionesDtoResp  = OrganizacionMapper.toDtoResponseListOrganizacion(organizaciones);
-        return ResponseEntity.ok(organizacionesDtoResp);
-    }
-
 }
+

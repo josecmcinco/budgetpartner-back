@@ -1,5 +1,7 @@
-package com.budgetpartner.APP.dto.response;
+package com.budgetpartner.APP.dto.gasto;
 
+import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
+import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
@@ -13,38 +15,43 @@ public class GastoDtoResponse {
          */
 
         private Long id;
-        private Tarea tarea;
-        private Plan plan;
+        private TareaDtoResponse tarea;
+        private PlanDtoResponse plan;
         private double cantidad;
         private String nombre;
         private Miembro pagador;
         private String descripcion;
 
-    public GastoDtoResponse(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
+    public GastoDtoResponse(Long id, TareaDtoResponse tarea, PlanDtoResponse plan, double cantidad, String nombre, String descripcion) {
         this.id = id;
         this.tarea = tarea;
         this.plan = plan;
         this.cantidad = cantidad;
         this.nombre = nombre;
-        this.pagador = pagador;
         this.descripcion = descripcion;
     }
 
-    public Long getId(){return this.id;}
+    public Long getId() {
+        return id;
+    }
 
-    public Tarea getTarea() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TareaDtoResponse getTarea() {
         return tarea;
     }
 
-    public void setTarea(Tarea tarea) {
+    public void setTarea(TareaDtoResponse tarea) {
         this.tarea = tarea;
     }
 
-    public Plan getPlan() {
+    public PlanDtoResponse getPlan() {
         return plan;
     }
 
-    public void setPlan(Plan plan) {
+    public void setPlan(PlanDtoResponse plan) {
         this.plan = plan;
     }
 

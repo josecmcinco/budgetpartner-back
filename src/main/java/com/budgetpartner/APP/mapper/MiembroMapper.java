@@ -1,13 +1,18 @@
 package com.budgetpartner.APP.mapper;
 
-import com.budgetpartner.APP.dto.request.MiembroDtoRequest;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.dto.response.MiembroDtoResponse;
+import com.budgetpartner.APP.entity.Organizacion;
+import com.budgetpartner.APP.entity.Rol;
+import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.service.OrganizacionService;
 import com.budgetpartner.APP.service.RolService;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +30,6 @@ public class MiembroMapper {
 
         return new MiembroDtoResponse(
                 miembro.getId(),
-                miembro.getUsuarioOrigen().getId(),
-                miembro.getOrganizacionOrigen().getId(),
                 miembro.getRolMiembro(),
                 miembro.getNick(),
                 miembro.getFechaIngreso(),
@@ -34,24 +37,44 @@ public class MiembroMapper {
         );
     }
 
-    // Convierte MiembroDto to Miembro
-    public static Miembro toEntity(MiembroDtoRequest dto) {
+    // Convierte MiembroDtoPostRequest to Miembro
+    //No se hacen llamadas al servicio desde aquí
+    public static Miembro toEntity(MiembroDtoPostRequest dto, Organizacion organizacion) {
         if (dto == null) return null;
 
         return new Miembro(
-                organizacionService.getOrganizacionById(dto.getOrganizacionOrigenId()),
-                rolService.getRolById(dto.getOrganizacionOrigenId()),
-                dto.getNick()
+                organizacion,
+                dto.getRolMiembro(),
+                dto.getNick(),
+                dto.getIsActivo()
+        );
+    }
+
+    // Convierte MiembroDtoUpdateRequest to Miembro
+    //No se hacen llamadas al servicio desde aquí
+    public static Miembro toEntity(MiembroDtoUpdateRequest dto, Usuario usuario, Organizacion organizacion, Rol rol) {
+        if (dto == null) return null;
+
+        return new Miembro(
+                dto.getId(),
+                usuario,
+                organizacion,
+                rol,
+                dto.getNick(),
+                LocalDateTime.now(),
+                dto.getIsActivo(),
+                LocalDateTime.now(),
+                LocalDateTime.now()
         );
     }
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(MiembroDtoRequest dto, Miembro miembro) {
+    public static void updateEntityFromDtoRes(MiembroDtoUpdateRequest dto, Miembro miembro) {
         if (dto == null || miembro == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:
         //OrganizacionOrigen
-        if (dto.getRolMiembro() != null) miembro.setRolMiembro(dto.getRolMiembro());
+        if (dto.getRolMiembro() != null) miembro.setRolMiembro(new Rol()); //TODO
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 
         //TODO para cuando sepa como se invita a un usuario

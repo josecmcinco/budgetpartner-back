@@ -1,26 +1,25 @@
-package com.budgetpartner.APP.dto.request;
+package com.budgetpartner.APP.dto.gasto;
 
-import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 
-public class GastoDtoRequest {
+public class GastoDtoPostRequest {
         /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-        id-creadoEn-actualizadoEn
+        id-creadoEn-actualizadoEn-id
         SE MODIFICA EL TIMPO DE LAS SIGUIENTES VARIABLES:
         miembrosDelUsuario
          */
 
     //TODO solo parte como endeudados(lista) o siempre todos???
-        private Long tareaId;
         private Long planId;
+        private Long tareaId;
         private double cantidad;
         private String nombre;
         private Long pagadorId;
         private String descripcion;
 
-    public GastoDtoRequest(Long tareaId, Long planId, double cantidad, String nombre, Long pagadorId, String descripcion) {
+    public GastoDtoPostRequest(Long tareaId, Long planId, double cantidad, String nombre, Long pagadorId, String descripcion) {
         this.tareaId = tareaId;
         this.planId = planId;
         this.cantidad = cantidad;
@@ -29,17 +28,14 @@ public class GastoDtoRequest {
         this.descripcion = descripcion;
     }
 
-    public Long getTareaId() {
-        return tareaId;
-    }
-
-    //public void setTareaId(Long tareaId) {this.tareaId = tareaId;}
-
     public Long getPlanId() {
         return planId;
     }
 
     //public void setPlanId(Long planId) {this.planId = planId;}
+    public Long getTareaId() {
+        return tareaId;
+    }
 
     public double getCantidad() {
         return cantidad;

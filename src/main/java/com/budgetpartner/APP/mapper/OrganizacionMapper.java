@@ -1,9 +1,11 @@
 package com.budgetpartner.APP.mapper;
 
-import com.budgetpartner.APP.dto.request.OrganizacionDtoRequest;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.dto.response.OrganizacionDtoResponse;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +23,10 @@ public class OrganizacionMapper {
         );
     }
 
-    // Convierte OrganizacionDtoRequest en Organizacion
-    public static Organizacion toEntity(OrganizacionDtoRequest dto) {
+
+    //Obtener Entity desde OrganizacionDtoPostRequest
+    //No se hacen llamadas al servicio desde aquí
+    public static Organizacion toEntity(OrganizacionDtoPostRequest dto) {
         if (dto == null) return null;
 
         return new Organizacion(
@@ -31,8 +35,21 @@ public class OrganizacionMapper {
         );
     }
 
+    //Obtener Entity desde OrganizacionDtoUpdateRequest
+    //No se hacen llamadas al servicio desde aquí
+    public static Organizacion toEntity(OrganizacionDtoUpdateRequest dto, LocalDateTime creadoEn) {
+        if (dto == null) return null;
+
+        return new Organizacion(
+                dto.getId(),
+                dto.getNombre(),
+                dto.getDescripcion(),
+                creadoEn,//TODO ARREGLAR
+                creadoEn);
+    }
+
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(OrganizacionDtoRequest dto, Organizacion organizacion) {
+    public static void updateEntityFromDtoRes(OrganizacionDtoUpdateRequest dto, Organizacion organizacion) {
         if (dto == null || organizacion == null) return;
 
         if (dto.getNombre() != null) organizacion.setNombre(dto.getNombre());

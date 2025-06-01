@@ -1,8 +1,12 @@
 package com.budgetpartner.APP.service;
 
-import com.budgetpartner.APP.dto.request.GastoDtoRequest;
-import com.budgetpartner.APP.dto.response.GastoDtoResponse;
+import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
+import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
+import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Gasto;
+import com.budgetpartner.APP.entity.Miembro;
+import com.budgetpartner.APP.entity.Plan;
+import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.repository.GastoRepository;
@@ -14,21 +18,34 @@ public class GastoService {
 
     @Autowired
     private GastoRepository gastoRepository;
+    private TareaService tareaService;
+    private PlanService planService;
+    private MiembroService miembroService;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
-    public Gasto postGasto(GastoDtoRequest gastoDtoReq) {
+
+    //ENDPOINTS
+    public Gasto postGasto(GastoDtoPostRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
-        Gasto gasto = GastoMapper.toEntity(gastoDtoReq);
+
+        Tarea tarea = tareaService.getTareaById(gastoDtoReq.getTareaId());
+        Plan plan = planService.getPlanById(gastoDtoReq.getPlanId());
+        Miembro pagador = miembroService.getMiembroById(gastoDtoReq.getPagadorId());
+
+
+        Gasto gasto = GastoMapper.toEntity(gastoDtoReq, tarea, plan, pagador);
         gastoRepository.save(gasto);
         return gasto;
     }
 
-    public Gasto getGastoById(Long id) {
+    public GastoDtoResponse getGastoByIdAndTransform(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
-        return gasto;
+
+        GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
+        return gastoDtoResp;
 
     }
 
@@ -43,7 +60,7 @@ public class GastoService {
         return gasto;
     }
 
-    public Gasto patchGasto(GastoDtoRequest dto, Long id) {
+    public Gasto patchGasto(GastoDtoUpdateRequest dto, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -51,6 +68,16 @@ public class GastoService {
         GastoMapper.updateEntityFromDtoRes(dto, gasto);
         gastoRepository.save(gasto);
         return gasto;
+    }
+
+
+    //OTROS MÉTODOS
+    public Gasto getGastoById(Long id) {
+        //Obtener gasto usando el id pasado en la llamada
+        Gasto gasto = gastoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
+        return gasto;
+
     }
 
 }

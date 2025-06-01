@@ -1,12 +1,15 @@
 package com.budgetpartner.APP.controller;
 
-import com.budgetpartner.APP.dto.request.TareaDtoRequest;
-import com.budgetpartner.APP.dto.response.RolDtoResponse;
-import com.budgetpartner.APP.dto.response.TareaDtoResponse;
+import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
+import com.budgetpartner.APP.dto.tarea.TareaDtoPostRequest;
+import com.budgetpartner.APP.dto.tarea.TareaDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Tarea;
-import com.budgetpartner.APP.mapper.RolMapper;
 import com.budgetpartner.APP.mapper.TareaMapper;
 import com.budgetpartner.APP.service.TareaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,39 +23,102 @@ public class TareaController {
     @Autowired
     TareaService tareaService;
 
+    @Operation(
+            summary = "Crear una tarea",
+            description = "Crea una tarea nueva dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Tarea creada correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @PostMapping
-    public ResponseEntity<TareaDtoResponse> postTarea(@Validated @NotNull @RequestBody TareaDtoRequest tareaDtoReq) {
+    public ResponseEntity<TareaDtoResponse> postTarea(@Validated @NotNull @RequestBody TareaDtoPostRequest tareaDtoReq) {
         Tarea tarea = tareaService.postTarea(tareaDtoReq);
         TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
         return ResponseEntity.ok(tareaDtoResp);
     }
 
-    @GetMapping({"/{id}"})
+    @Operation(
+            summary = "Obtener una tarea por ID",
+            description = "Devuelve una tarea existente dado un ID.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Tarea obtenida correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/{id}")
     public ResponseEntity<TareaDtoResponse> getTareaById(@Validated @NotNull @PathVariable Long id) {
-        Tarea tarea = tareaService.getTareaById(id);
-        TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
+        TareaDtoResponse tareaDtoResp  = tareaService.getTareaByIdAndTransform(id);
         return ResponseEntity.ok(tareaDtoResp);
     }
 
-    /*
-    @PutMapping({"/{id}"})
-    public TareaDtoResponse putTareaById(@Validated @NotNull @RequestBody TareaDtoRequest tareaDtoReq,
-                                         @PathVariable Long id) {
-        TareaDtoResponse tareaDtoResp = tareaService.putTareaById(tareaDtoReq, id);
-        return tareaDtoResp;
+    @Operation(
+            summary = "Actualizar parcialmente una tarea",
+            description = "Actualiza los campos indicados de una tarea existente. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Tarea actualizada correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> patchTareaById(@Validated @NotNull @RequestBody TareaDtoUpdateRequest tareaDtoUpReq,
+                                                 @PathVariable Long id) {
+        tareaService.patchTarea(tareaDtoUpReq);
+        return ResponseEntity.ok("Tarea actualizada correctamente");
     }
 
-    @PatchMapping({"/{id}"})
-    public TareaDtoResponse patchTareaById(@Validated @NotNull @RequestBody TareaDtoRequest tareaDtoReq,
-                                           @PathVariable Long id) {
-        TareaDtoResponse tareaDtoResp = tareaService.patchTareaById(tareaDtoReq, id);
-        return tareaDtoResp;
-    }*/
-
-    @DeleteMapping({"/{id}"})
-    public ResponseEntity<TareaDtoResponse> deleteTareaById(@Validated @NotNull @PathVariable Long id) {
+    @Operation(
+            summary = "Eliminar una tarea por ID",
+            description = "Elimina una tarea existente dado su ID. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Tarea eliminada correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "\"Tarea eliminada correctamente\""
+                                    )
+                            )
+                    )
+            }
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTareaById(@Validated @NotNull @PathVariable Long id) {
         Tarea tarea = tareaService.deleteTareaById(id);
         TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
-        return ResponseEntity.ok(tareaDtoResp);
+        return ResponseEntity.ok("Tarea eliminada correctamente");
     }
 }

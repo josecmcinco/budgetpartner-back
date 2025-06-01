@@ -43,16 +43,16 @@ public class Miembro {
 
     //Creación de Miembro desde 0
     //POR DEFECTO NO TIENE USUARIO ADJUNTO
-    public Miembro(Organizacion organizacionOrigen, Rol rolMiembro, String nick) {
+    public Miembro(Organizacion organizacionOrigen, Rol rolMiembro, String nick, boolean isActivo) {
         this.organizacionOrigen = organizacionOrigen;
         this.rolMiembro = rolMiembro;
         this.nick = nick;
-        this.fechaIngreso = fechaIngreso;
+        this.isActivo = isActivo;
 
         //Generado automáticamente
         this.actualizadoEn = LocalDateTime.now();
         this.creadoEn = LocalDateTime.now();
-        this.isActivo=false;
+
     }
 
     //Extracción de Miembro de la DB
