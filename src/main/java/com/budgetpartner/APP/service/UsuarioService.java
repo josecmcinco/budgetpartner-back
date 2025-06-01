@@ -124,7 +124,7 @@ public class UsuarioService {
         final Usuario usuario = usuarioRepository.findByEmail(usuarioEmail).
                 orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + usuarioEmail));
 
-        //Conifirmar que el token es válido??
+        //Conifirmar que el token es válido
 
         if(!jwtService.isTokenValid(refreshToken, usuario)){
             throw new IllegalArgumentException("Invalid refresh token");
