@@ -26,13 +26,13 @@ public class OpenApiConfig {
                                 .url("https://tusitio.com"))
                         .license(new License()
                                 .name("Apache 2.0")
-                                .url("https://www.apache.org/licenses/LICENSE-2.0")));
-/*                .components(new Components()
+                                .url("https://www.apache.org/licenses/LICENSE-2.0")))
+                .components(new Components()
                                 .addSecuritySchemes("bearer-key",
                     new SecurityScheme()
                     .type(SecurityScheme.Type.HTTP)
                     .scheme("bearer")
                     .bearerFormat("JWT")))
-        .addSecurityItem(new SecurityRequirement().addList("bearer-key"));*/
+        .addSecurityItem(new SecurityRequirement().addList("bearer-key"));
     }
 }
