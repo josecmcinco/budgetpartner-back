@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class TareaMapper {
-    @Autowired
-    private static PlanService planService;
 
     // Convierte Tarea en TareaDtoResponse
     public static TareaDtoResponse toDtoResponse(Tarea tarea) {
@@ -34,11 +32,11 @@ public class TareaMapper {
     }
 
     // Convierte TareaDtoRequest en Tarea
-    public static Tarea toEntity(TareaDtoPostRequest dto) {
+    public static Tarea toEntity(TareaDtoPostRequest dto, Plan plan) {
         if (dto == null) return null;
 
         return new Tarea(
-                planService.getPlanById(dto.getPlan()),
+                plan,
                 dto.getTitulo(),
                 dto.getDescripcion(),
                 dto.getFechaFin(),

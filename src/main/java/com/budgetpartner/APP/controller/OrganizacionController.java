@@ -23,6 +23,7 @@ public class OrganizacionController {
 
     @Autowired
     private OrganizacionService organizacionService;
+    @Autowired
     private PlanService planService;
 
     @Operation(

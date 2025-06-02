@@ -28,9 +28,6 @@ public class TareaDtoPostRequest {
         this.moneda = moneda;
     }
 
-    public Long getPlan() {
-        return planId;
-    }
 
     public Long getPlanId() {
         return planId;

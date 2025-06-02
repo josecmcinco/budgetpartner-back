@@ -32,6 +32,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
     private MiembroService miembroService;
 
     @Operation(
@@ -141,12 +142,14 @@ public class UsuarioController {
 
     //LLAMADAS RELACIONADAS CON JWT
 
+    //NO NECESITA JWT
     @PostMapping("/registro")
     public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoPostRequest request) {
         final TokenResponse token = usuarioService.register(request);
         return ResponseEntity.ok(token);
     }
 
+    //NO NECESITA JWT
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> authenticate(@RequestBody UsuarioDtoUpdateRequest request) {
         final TokenResponse token = usuarioService.login(request);

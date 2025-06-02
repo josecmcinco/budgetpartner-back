@@ -1,8 +1,10 @@
 package com.budgetpartner.APP.service;
 
+import com.budgetpartner.APP.controller.PlanController;
 import com.budgetpartner.APP.dto.tarea.TareaDtoPostRequest;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.dto.tarea.TareaDtoUpdateRequest;
+import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.TareaMapper;
@@ -15,6 +17,8 @@ public class TareaService {
 
     @Autowired
     private TareaRepository tareaRepository;
+    @Autowired
+    private PlanService planService;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -22,10 +26,12 @@ public class TareaService {
 
     //ENDPOINTS
 
-    public Tarea postTarea(TareaDtoPostRequest tareaDtoReq) {
+    public Tarea postTarea(TareaDtoPostRequest dto) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (título, descripción, fechas, estado, etc.)
-        Tarea tarea = TareaMapper.toEntity(tareaDtoReq);
+        Plan plan = planService.getPlanById(dto.getPlanId());
+
+        Tarea tarea = TareaMapper.toEntity(dto, plan);
         tareaRepository.save(tarea);
         return tarea;
     }

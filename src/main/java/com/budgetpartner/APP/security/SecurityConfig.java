@@ -40,7 +40,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         //Rutas que se pueden acceder sin autentificación
                         .requestMatchers(
-                                "/usuarios/**",
+                                "/usuarios/registro",
+                                "/usuarios/login",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",

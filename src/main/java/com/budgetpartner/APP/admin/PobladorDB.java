@@ -4,6 +4,7 @@ import com.budgetpartner.APP.entity.*;
 import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,8 @@ public class PobladorDB {
     @Autowired private  PlanRepository planRepository;
 
     @Autowired private JdbcTemplate jdbc;
+
+    @Autowired private PasswordEncoder passwordEncoder;
 
 
 
@@ -313,11 +316,11 @@ public class PobladorDB {
 
     public List<Usuario> poblarUsuarios() {
         List<Usuario> usuarios = Arrays.asList(
-                new Usuario("juan.perez@mail.com", "Juan", "Pérez", "contraseña123"),
-                new Usuario("maria.gomez@mail.com", "María", "Gómez", "contraseña456"),
-                new Usuario("carlos.martinez@mail.com", "Carlos", "Martínez", "contraseña789"),
-                new Usuario("ana.rodriguez@mail.com", "Ana", "Rodríguez", "contraseña012"),
-                new Usuario("luis.fernandez@mail.com", "Luis", "Fernández", "contraseña345")
+                new Usuario("juan.perez@mail.com", "Juan", "Pérez", passwordEncoder.encode("contraseña123")),
+                new Usuario("maria.gomez@mail.com", "María", "Gómez", passwordEncoder.encode("contraseña456")),
+                new Usuario("carlos.martinez@mail.com", "Carlos", "Martínez", passwordEncoder.encode("contraseña789")),
+                new Usuario("ana.rodriguez@mail.com", "Ana", "Rodríguez", passwordEncoder.encode("contraseña012")),
+                new Usuario("luis.fernandez@mail.com", "Luis", "Fernández", passwordEncoder.encode("contraseña345"))
         );
 
         usuarioRepository.saveAll(usuarios);

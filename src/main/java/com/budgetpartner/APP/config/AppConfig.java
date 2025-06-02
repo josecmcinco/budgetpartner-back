@@ -34,7 +34,7 @@ public class AppConfig {
 
         return username ->{
             final Usuario usuario = usuarioRepository.findByEmail(username)
-                    .orElseThrow(()->new UsernameNotFoundException("Usuario no encontrado"));
+                    .orElseThrow(()->new UsernameNotFoundException("Usuario no encontradoBBB"));
             return org.springframework.security.core.userdetails.User.builder()
                     .username(usuario.getEmail())
                     .password(usuario.getContraseña())

@@ -30,7 +30,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtService jwtService;
+    @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
 
@@ -71,9 +73,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
-        //Token Valido
-        //TODO ARREGLAR EL .GET()
         final boolean isTokenValid = jwtService.isTokenValid(jwtToken, usuario.get());
 
         if(!isTokenValid){
@@ -93,6 +92,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
-
     }
 }
