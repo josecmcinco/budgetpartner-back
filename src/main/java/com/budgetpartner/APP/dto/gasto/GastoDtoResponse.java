@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.dto.gasto;
 
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
@@ -19,7 +20,7 @@ public class GastoDtoResponse {
         private PlanDtoResponse plan;
         private double cantidad;
         private String nombre;
-        private Miembro pagador;
+        private MiembroDtoResponse pagador;
         private String descripcion;
 
     public GastoDtoResponse(Long id, TareaDtoResponse tarea, PlanDtoResponse plan, double cantidad, String nombre, String descripcion) {
@@ -71,11 +72,11 @@ public class GastoDtoResponse {
         this.nombre = nombre;
     }
 
-    public Miembro getPagador() {
+    public MiembroDtoResponse getPagador() {
         return pagador;
     }
 
-    public void setPagador(Miembro pagador) {
+    public void setPagador(MiembroDtoResponse pagador) {
         this.pagador = pagador;
     }
 

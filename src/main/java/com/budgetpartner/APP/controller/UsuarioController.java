@@ -79,7 +79,7 @@ public class UsuarioController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDtoResponse> getUsuarioById(@Validated @NotNull @PathVariable Long id) {
-        UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioByIdAndTransform(id);
+        UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioByIdAndTransform("id");
         return ResponseEntity.ok(usuarioDtoResp);
     }
 
@@ -142,7 +142,7 @@ public class UsuarioController {
     //LLAMADAS RELACIONADAS CON JWT
 
     @PostMapping("/registro")
-    public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoUpdateRequest request) {
+    public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoPostRequest request) {
         final TokenResponse token = usuarioService.register(request);
         return ResponseEntity.ok(token);
     }
@@ -153,9 +153,11 @@ public class UsuarioController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("/refrescar")
+    @GetMapping("/refrescar")
     public TokenResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
         return usuarioService.refreshToken(authHeader);
     }
+
+
 
 }

@@ -1,5 +1,7 @@
 package com.budgetpartner.APP.dto.organizacion;
 
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 
@@ -18,8 +20,8 @@ TODO IMAGEN
     private Long id;
     private String nombre;
     private String descripcion;
-    private List<Miembro> miembros;
-    private List<Plan> planes;
+    private List<MiembroDtoResponse> miembros;
+    private List<PlanDtoResponse> planes;
 
     public OrganizacionDtoResponse(Long id, String nombre, String descripcion) {
         this.id = id;
@@ -47,19 +49,19 @@ TODO IMAGEN
         this.descripcion = descripcion;
     }
 
-    public List<Miembro> getMiembros() {
+    public List<MiembroDtoResponse> getMiembros() {
         return miembros;
     }
 
-    public void setMiembros(List<Miembro> miembros) {
+    public void setMiembros(List<MiembroDtoResponse> miembros) {
         this.miembros = miembros;
     }
 
-    public List<Plan> getPlanes() {
+    public List<PlanDtoResponse> getPlanes() {
         return planes;
     }
 
-    public void setPlanes(List<Plan> planes) {
+    public void setPlanes(List<PlanDtoResponse> planes) {
         this.planes = planes;
     }
 }

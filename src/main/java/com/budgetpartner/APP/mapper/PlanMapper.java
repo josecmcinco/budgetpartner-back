@@ -24,7 +24,7 @@ public class PlanMapper {
 
         return new PlanDtoResponse(
                 plan.getId(),
-                plan.getOrganizacion(),
+                OrganizacionMapper.toDtoResponse(plan.getOrganizacion()),
                 plan.getNombre(),
                 plan.getDescripcion(),
                 plan.getFechaInicio(),

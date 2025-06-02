@@ -24,6 +24,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
     private MiembroRepository miembroRepository;
     private AuthenticationManager authenticationManager;
+    private JwtService jwtService;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -36,8 +37,13 @@ public class UsuarioService {
         return usuario;
     }
 
-    public UsuarioDtoResponse getUsuarioByIdAndTransform(Long id){
-        Usuario usuario = getUsuarioById(id);
+    public UsuarioDtoResponse getUsuarioByIdAndTransform(String token){
+
+        String s = jwtService.extractUsuario(token);
+
+        System.out.println(s);
+
+        Usuario usuario = getUsuarioById(1L);
         UsuarioDtoResponse dto = UsuarioMapper.toDtoResponse(usuario);
 
         return dto;
@@ -68,10 +74,8 @@ public class UsuarioService {
     }
 
     /// Auth
-    @Autowired
-    private JwtService jwtService;
 
-    public TokenResponse register(UsuarioDtoUpdateRequest UsuarioDtoReq){
+    public TokenResponse register(UsuarioDtoPostRequest UsuarioDtoReq){
 
         //TODO VARIABLES REPETIDAS (EMAIL)
         Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
@@ -141,6 +145,24 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
         return usuario;
+    }
+
+    public Integer contarOrganizacionesPorUsuario(Long id){
+
+           //return usuarioRepository.contarOrganizacionesPorUsuario(id);
+        return null;
+    }
+
+    public Integer contarPlanesPorUsuario(Long id){
+
+        //return usuarioRepository.contarPlanesPorUsuario(id);
+        return null;
+    }
+
+    public Integer contarTareasPorUsuario(Long id){
+
+        return null;
+        //return usuarioRepository.contarTareasPorUsuario(id);
     }
 
 }

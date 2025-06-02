@@ -47,7 +47,7 @@ public class GastoController {
     }
 
     @Operation(
-            summary = "Crear un gasto",
+            summary = "Devolver un gasto",
             description = "Devuelve un gasto existente dado un id.",
             responses = {
                     @ApiResponse(
