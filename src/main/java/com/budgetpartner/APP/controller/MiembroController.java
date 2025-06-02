@@ -25,6 +25,7 @@ public class MiembroController {
 
     @Autowired
     private MiembroService miembroService;
+    @Autowired
     private OrganizacionService organizacionService;
 
     @Operation(

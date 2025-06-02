@@ -45,8 +45,12 @@ public class DashboardController {
     )
     @GetMapping({"/{id}"})
     public ResponseEntity<DashboardDtoResponse> getDashboard() {
+        /*
         DashboardDtoResponse dashboardDtoResp = dashboardService.getDashboard();
         return ResponseEntity.ok(dashboardDtoResp);
+
+         */
+        return null;
     }
 
 

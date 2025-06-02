@@ -14,6 +14,7 @@ import com.budgetpartner.APP.exceptions.NotFoundException;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -22,9 +23,14 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
     private MiembroRepository miembroRepository;
+    @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
     private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -83,25 +89,30 @@ public class UsuarioService {
 
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
 
-
         String jwtToken = jwtService.generateToken(usuarioGuardado);
         String refreshToken = jwtService.generateTokenRefresh(usuarioGuardado);
 
         return new TokenResponse(jwtToken, refreshToken);
     }
 
-    public TokenResponse login(UsuarioDtoUpdateRequest usuarioDtoReq){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        usuarioDtoReq.getEmail(),
-                        usuarioDtoReq.getContraseña()
+    public TokenResponse login(UsuarioDtoUpdateRequest dto){
 
-                )
-        );
+        try {
+            System.out.println("dto.getContraseña()");
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            dto.getEmail(),
+                            dto.getContraseña()
 
-        Usuario usuario = usuarioRepository.findByEmail(usuarioDtoReq.getEmail())
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + usuarioDtoReq.getEmail()));
+                    )
+            );
+        }
+        catch(Exception E){System.out.println(E.getMessage());}
 
+        System.out.println("aaaaaaaaaaaaaa");
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + dto.getEmail()));
+        System.out.println("bbbbbbbbbbbbbb");
         var jwtToken = jwtService.generateToken(usuario);
         var refreshToken = jwtService.generateTokenRefresh(usuario);
         //revokeAllUserTokens(user);No es necesario porque no se guardan tokens

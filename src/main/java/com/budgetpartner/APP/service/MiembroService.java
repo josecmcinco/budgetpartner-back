@@ -21,6 +21,7 @@ public class MiembroService {
 
     @Autowired
     private MiembroRepository miembroRepository;
+    @Autowired
     private OrganizacionService organizacionService;
 
     //ENDPOINTS

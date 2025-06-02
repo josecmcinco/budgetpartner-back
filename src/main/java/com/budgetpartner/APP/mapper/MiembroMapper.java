@@ -19,11 +19,6 @@ import java.util.List;
 
 public class MiembroMapper {
 
-    @Autowired
-    private static OrganizacionService organizacionService;
-    @Autowired
-    private static RolService rolService;
-
     // Convierte Miembro en MiembroDtoResponse
     public static MiembroDtoResponse toDtoResponse(Miembro miembro) {
         if (miembro == null) return null;

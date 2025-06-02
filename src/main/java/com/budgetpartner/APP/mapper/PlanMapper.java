@@ -15,8 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class PlanMapper {
-    @Autowired
-    private static OrganizacionService organizacionService;
 
     // Convierte Plan en PlanDtoResponse
     public static PlanDtoResponse toDtoResponse(Plan plan) {

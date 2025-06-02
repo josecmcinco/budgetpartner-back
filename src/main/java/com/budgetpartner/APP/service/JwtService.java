@@ -39,7 +39,7 @@ public class JwtService {
         return Jwts.builder()
                 .id(usuario.getId().toString())
                 .claims(Map.of("name", usuario.getNombre()))
-                .subject(usuario.getId().toString())
+                .subject(usuario.getEmail())
                 .expiration(new Date(System.currentTimeMillis()+  expiration))
                 .signWith(getSignInKey())
                 .compact();

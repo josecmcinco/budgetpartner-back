@@ -18,8 +18,11 @@ public class GastoService {
 
     @Autowired
     private GastoRepository gastoRepository;
+    @Autowired
     private TareaService tareaService;
+    @Autowired
     private PlanService planService;
+    @Autowired
     private MiembroService miembroService;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES

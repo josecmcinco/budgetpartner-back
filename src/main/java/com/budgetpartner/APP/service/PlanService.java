@@ -16,6 +16,7 @@ public class PlanService {
 
     @Autowired
     private PlanRepository planRepository;
+    @Autowired
     private OrganizacionService organizacionService;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
