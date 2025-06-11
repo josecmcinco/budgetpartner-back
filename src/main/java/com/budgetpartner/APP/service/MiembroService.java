@@ -83,7 +83,6 @@ public class MiembroService {
     public Integer contarMiembrosPorUsuario(Long id){
 
         return miembroRepository.contarMiembrosPorUsuario(id);
-        //return null;
     }
 
 }
