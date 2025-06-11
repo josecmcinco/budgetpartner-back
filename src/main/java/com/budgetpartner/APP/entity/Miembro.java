@@ -12,15 +12,15 @@ public class Miembro {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuarioOrigen;
 
     @ManyToOne
-    @JoinColumn(name = "id_organizacion")
+    @JoinColumn(name = "organizacion_id")
     private Organizacion organizacionOrigen;
 
     @ManyToOne
-    @JoinColumn(name = "id_rol")
+    @JoinColumn(name = "rol_id")
     private Rol rolMiembro;
 
     @Column

@@ -71,4 +71,8 @@ public class TareaService {
 
         return tarea;
     }
+    public Integer contarTareasPorUsuario(Long id){
+
+        return tareaRepository.contarTareasPorUsuario(id);
+    }
 }

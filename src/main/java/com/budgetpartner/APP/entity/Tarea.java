@@ -14,7 +14,7 @@ public class Tarea {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_plan")
+    @JoinColumn(name = "plan_id")
     private Plan plan;
 
     @Column

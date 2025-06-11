@@ -1,9 +1,10 @@
 package com.budgetpartner.APP.service;
 
+import com.budgetpartner.APP.dto.token.TokenDtoRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
-import com.budgetpartner.APP.dto.token.TokenResponse;
+import com.budgetpartner.APP.dto.token.TokenDtoResponse;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
 import com.budgetpartner.APP.repository.MiembroRepository;
@@ -81,7 +82,7 @@ public class UsuarioService {
 
     /// Auth
 
-    public TokenResponse register(UsuarioDtoPostRequest UsuarioDtoReq){
+    public TokenDtoResponse register(UsuarioDtoPostRequest UsuarioDtoReq){
 
         //TODO VARIABLES REPETIDAS (EMAIL)
         Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
@@ -92,13 +93,12 @@ public class UsuarioService {
         String jwtToken = jwtService.generateToken(usuarioGuardado);
         String refreshToken = jwtService.generateTokenRefresh(usuarioGuardado);
 
-        return new TokenResponse(jwtToken, refreshToken);
+        return new TokenDtoResponse(jwtToken, refreshToken);
     }
 
-    public TokenResponse login(UsuarioDtoUpdateRequest dto){
+    public TokenDtoResponse login(TokenDtoRequest dto){
 
         try {
-            System.out.println("dto.getContraseña()");
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             dto.getEmail(),
@@ -109,43 +109,40 @@ public class UsuarioService {
         }
         catch(Exception E){System.out.println(E.getMessage());}
 
-        System.out.println("aaaaaaaaaaaaaa");
         Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + dto.getEmail()));
-        System.out.println("bbbbbbbbbbbbbb");
         var jwtToken = jwtService.generateToken(usuario);
         var refreshToken = jwtService.generateTokenRefresh(usuario);
         //revokeAllUserTokens(user);No es necesario porque no se guardan tokens
-        return new TokenResponse(jwtToken, refreshToken);
+        return new TokenDtoResponse(jwtToken, refreshToken);
     }
 
 
 
-    public TokenResponse refreshToken(final String authHeader){
+    public TokenDtoResponse refreshToken(final String authHeader){
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             throw new IllegalArgumentException("Invalid bearer token");
         }
 
-        //Obtener token sin bearer
+        //Obtener token de refresco sin bearer
         final String refreshToken = authHeader.substring(7);
         final String usuarioEmail = jwtService.extractUsuario(refreshToken);
 
+        //Comprobar que existe un usuario con ese coreeo
         if(usuarioEmail == null){
             throw new IllegalArgumentException("Invalid refresh token");
         }
-
         final Usuario usuario = usuarioRepository.findByEmail(usuarioEmail).
                 orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + usuarioEmail));
 
-        //Conifirmar que el token es válido
-
+        //Conifirmar que el token de refresco es válido
         if(!jwtService.isTokenValid(refreshToken, usuario)){
             throw new IllegalArgumentException("Invalid refresh token");
         }
 
         final String accessToken = jwtService.generateToken(usuario);
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenDtoResponse(accessToken, refreshToken);
 
     }
 
@@ -156,24 +153,6 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
         return usuario;
-    }
-
-    public Integer contarOrganizacionesPorUsuario(Long id){
-
-           //return usuarioRepository.contarOrganizacionesPorUsuario(id);
-        return null;
-    }
-
-    public Integer contarPlanesPorUsuario(Long id){
-
-        //return usuarioRepository.contarPlanesPorUsuario(id);
-        return null;
-    }
-
-    public Integer contarTareasPorUsuario(Long id){
-
-        return null;
-        //return usuarioRepository.contarTareasPorUsuario(id);
     }
 
 }

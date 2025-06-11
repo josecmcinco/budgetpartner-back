@@ -68,4 +68,10 @@ public class PlanService {
 
         return plan;
     }
+
+    public Integer contarPlanesPorUsuario(Long id){
+
+        return planRepository.contarPlanesPorUsuario(id);
+
+    }
 }

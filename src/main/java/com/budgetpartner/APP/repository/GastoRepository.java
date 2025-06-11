@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 public interface GastoRepository extends JpaRepository<Gasto, Long> {
-    Optional<Plan> findByplanId(Long id_plan);
-    Optional<Tarea> findBytareaId(Long id_tarea);
+    Optional<Plan> findByplanId(Long plan_id);
+    Optional<Tarea> findBytareaId(Long tarea_id);
 
 }
