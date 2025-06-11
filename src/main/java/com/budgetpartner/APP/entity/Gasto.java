@@ -12,11 +12,11 @@ public class Gasto {
     public Long id;
 
     @ManyToOne
-    @JoinColumn(name= "id_tarea")
+    @JoinColumn(name= "tarea_id")
     private Tarea tarea;
 
     @ManyToOne
-    @JoinColumn(name = "id_plan")
+    @JoinColumn(name = "plan_id")
     private Plan plan;
 
     @Column
@@ -26,7 +26,7 @@ public class Gasto {
     private String nombre;
 
     @ManyToOne
-    @JoinColumn(name= "id_miembro_pagador")
+    @JoinColumn(name= "miembro_pagador_id")
     private Miembro pagador;
 
     @Column

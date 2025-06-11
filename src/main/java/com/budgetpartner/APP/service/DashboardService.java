@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 public class DashboardService {
 
     @Autowired
-    UsuarioService usuarioService;
+    PlanService planService;
+    @Autowired
+    MiembroService miembroService;
+    @Autowired
+    TareaService tareaService;
 
     public DashboardDtoResponse getDashboard(){
 
         Long idUsuario = 0L;
 
-        Integer numOrganizaciones = usuarioService.contarOrganizacionesPorUsuario(idUsuario);
-        Integer numPlanes = usuarioService.contarPlanesPorUsuario(idUsuario);
-        Integer numTareas = usuarioService.contarTareasPorUsuario(idUsuario);
+        Integer numOrganizaciones = miembroService.contarMiembrosPorUsuario(idUsuario);
+        Integer numPlanes = planService.contarPlanesPorUsuario(idUsuario);
+        Integer numTareas = tareaService.contarTareasPorUsuario(idUsuario);
 
         DashboardDtoResponse dto = new DashboardDtoResponse(numOrganizaciones, numPlanes, numTareas);
         return dto;

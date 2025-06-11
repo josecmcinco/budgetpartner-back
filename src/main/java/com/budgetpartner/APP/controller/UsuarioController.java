@@ -1,12 +1,12 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.dto.token.TokenDtoRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
-import com.budgetpartner.APP.dto.token.TokenResponse;
+import com.budgetpartner.APP.dto.token.TokenDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.mapper.MiembroMapper;
@@ -144,20 +144,20 @@ public class UsuarioController {
 
     //NO NECESITA JWT
     @PostMapping("/registro")
-    public ResponseEntity<TokenResponse> register(@RequestBody UsuarioDtoPostRequest request) {
-        final TokenResponse token = usuarioService.register(request);
+    public ResponseEntity<TokenDtoResponse> register(@RequestBody UsuarioDtoPostRequest request) {
+        final TokenDtoResponse token = usuarioService.register(request);
         return ResponseEntity.ok(token);
     }
 
     //NO NECESITA JWT
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> authenticate(@RequestBody UsuarioDtoUpdateRequest request) {
-        final TokenResponse token = usuarioService.login(request);
+    public ResponseEntity<TokenDtoResponse> authenticate(@RequestBody TokenDtoRequest request) {
+        final TokenDtoResponse token = usuarioService.login(request);
         return ResponseEntity.ok(token);
     }
 
     @GetMapping("/refrescar")
-    public TokenResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
+    public TokenDtoResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
         return usuarioService.refreshToken(authHeader);
     }
 

@@ -12,7 +12,7 @@ public class Plan {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_organizacion")
+    @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
 
     @Column
