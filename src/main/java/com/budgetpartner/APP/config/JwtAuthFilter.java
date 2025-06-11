@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,8 +20,6 @@ import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
 import java.util.Optional;
-
-import static java.net.http.HttpHeaders.*;
 
 //Require Args constructor
 @Component
@@ -60,7 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         //El token a partir del 7º carácter
         final String jwtToken = authHeader.substring(7);
-        final String ususarioEmail = jwtService.extractUsuario(jwtToken);
+        final String ususarioEmail = jwtService.extractEmailUsuario(jwtToken);
 
         if(ususarioEmail == null || SecurityContextHolder.getContext().getAuthentication() != null){
             return;

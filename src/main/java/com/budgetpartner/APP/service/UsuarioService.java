@@ -46,7 +46,7 @@ public class UsuarioService {
 
     public UsuarioDtoResponse getUsuarioByIdAndTransform(String token){
 
-        String s = jwtService.extractUsuario(token);
+        String s = jwtService.extractEmailUsuario(token);
 
         System.out.println(s);
 
@@ -113,7 +113,6 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + dto.getEmail()));
         var jwtToken = jwtService.generateToken(usuario);
         var refreshToken = jwtService.generateTokenRefresh(usuario);
-        //revokeAllUserTokens(user);No es necesario porque no se guardan tokens
         return new TokenDtoResponse(jwtToken, refreshToken);
     }
 
@@ -126,12 +125,14 @@ public class UsuarioService {
 
         //Obtener token de refresco sin bearer
         final String refreshToken = authHeader.substring(7);
-        final String usuarioEmail = jwtService.extractUsuario(refreshToken);
+        final String usuarioEmail = jwtService.extractEmailUsuario(refreshToken);
 
         //Comprobar que existe un usuario con ese coreeo
+        //NUNCA DEBERÍA DE ERRAR
         if(usuarioEmail == null){
             throw new IllegalArgumentException("Invalid refresh token");
         }
+
         final Usuario usuario = usuarioRepository.findByEmail(usuarioEmail).
                 orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + usuarioEmail));
 
@@ -152,6 +153,39 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
 
+        return usuario;
+    }
+
+    public Usuario getUsuarioByEmail(String email){
+        //Obtener ususario usando el email pasado en la llamada
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + email));
+
+        return usuario;
+    }
+
+    public Usuario validarTokenYDevolverUsuario(String authHeader){
+
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            throw new IllegalArgumentException("Invalid bearer token");
+        }
+
+        //Obtener token de de autentificación sin bearer
+        final String authenticationToken = authHeader.substring(7);
+        final String usuarioEmail = jwtService.extractEmailUsuario(authenticationToken);
+
+        //Comprobar que existe un usuario con ese coreeo
+        //NUNCA DEBERÍA DE ERRAR
+        if(usuarioEmail == null){
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+
+        final Usuario usuario = getUsuarioByEmail(usuarioEmail);
+
+        //Conifirmar que el token de refresco es válido
+        if(!jwtService.isTokenValid(authenticationToken, usuario)){
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
         return usuario;
     }
 
