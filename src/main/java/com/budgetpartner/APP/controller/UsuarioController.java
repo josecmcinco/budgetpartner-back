@@ -34,11 +34,10 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
-    private MiembroService miembroService;
-    @Autowired
     private OrganizacionService organizacionService;
 
-
+/*
+TODO ELIMINAR
     @Operation(
             summary = "Obtener un usuario por ID",
             description = "Devuelve un usuario existente dado un id.",
@@ -61,11 +60,11 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDtoResponse> getUsuarioById(@Validated @NotNull @PathVariable Long id) {
         UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioDtoById("id");
         return ResponseEntity.ok(usuarioDtoResp);
-    }
+    }*/
 
     @Operation(
             summary = "Actualizar parcialmente un usuario",
-            description = "Actualiza los campos indicados de un usuario existente. Devuelve un mensaje de confirmación.",
+            description = "Actualiza los campos email/nombre/apellido/contraseña de un usuario existente. Devuelve un mensaje de confirmación.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -81,9 +80,10 @@ public class UsuarioController {
                     )
             }
     )
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> patchUsuarioById(@Validated @NotNull @RequestBody UsuarioDtoUpdateRequest usuarioDtoUpReq) {
-        usuarioService.patchUsuario(usuarioDtoUpReq);
+    @PatchMapping
+    public ResponseEntity<String> patchUsuarioById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                   @Validated @NotNull @RequestBody UsuarioDtoUpdateRequest usuarioDtoUpReq) {
+        usuarioService.patchUsuario(authHeader, usuarioDtoUpReq);
         return ResponseEntity.ok("Usuario actualizado correctamente");
     }
 
@@ -105,9 +105,9 @@ public class UsuarioController {
                     )
             }
     )
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUsuarioById(@Validated @NotNull @PathVariable Long id) {
-        Usuario usuario = usuarioService.deleteUsuarioById(id);
+    @DeleteMapping
+    public ResponseEntity<String> deleteUsuarioById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
+        Usuario usuario = usuarioService.deleteUsuarioById(authHeader);
         UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
         return ResponseEntity.ok("Usuario eliminado correctamente");
     }
@@ -118,7 +118,7 @@ public class UsuarioController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Organizacioes obtenidas correctamente",
+                            description = "Organizaciones obtenidas correctamente",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = @ExampleObject(
@@ -131,8 +131,9 @@ public class UsuarioController {
             }
     )
     @GetMapping("/{id}/organizaciones")
-    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId(@Validated @NotNull @PathVariable Long id) {
-        List<Organizacion> organizacion = organizacionService.getOrganizacionesByUsuarioId(id);
+    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                                                      @Validated @NotNull @PathVariable Long id) {
+        List<Organizacion> organizacion = organizacionService.getOrganizacionesByUsuarioId(authHeader, id);
         List<OrganizacionDtoResponse> organizacionDtoResponses = OrganizacionMapper.toDtoResponseListOrganizacion(organizacion);
         return ResponseEntity.ok(organizacionDtoResponses);
     }
@@ -142,6 +143,24 @@ public class UsuarioController {
     //-----------------------------
 
     //NO NECESITA JWT
+    @Operation(
+            summary = "Registrar usuario",
+            description = "Da de alta un usuario y devuelve los tokens de acceso y refresco",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Usuario creado correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @PostMapping("/registro")
     public ResponseEntity<TokenDtoResponse> register(@RequestBody UsuarioDtoPostRequest request) {
         final TokenDtoResponse token = usuarioService.register(request);
@@ -149,12 +168,48 @@ public class UsuarioController {
     }
 
     //NO NECESITA JWT
+    @Operation(
+            summary = "Inicio de sesión",
+            description = "Devuelve devuelve los tokens de acceso y refresco si coinciden el usuario y contraseña enviados.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Inicio de sesión correcto correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @PostMapping("/login")
     public ResponseEntity<TokenDtoResponse> authenticate(@RequestBody TokenDtoRequest request) {
         final TokenDtoResponse token = usuarioService.login(request);
         return ResponseEntity.ok(token);
     }
 
+    @Operation(
+            summary = "Obtener token de acceso",
+            description = "Obtener el token de acceso de un usuario usando su token de refresco.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Token obtenido correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @GetMapping("/refrescar")
     public TokenDtoResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
         return usuarioService.refreshToken(authHeader);

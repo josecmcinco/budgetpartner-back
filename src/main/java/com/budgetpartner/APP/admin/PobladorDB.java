@@ -1,6 +1,8 @@
 package com.budgetpartner.APP.admin;
 
 import com.budgetpartner.APP.entity.*;
+import com.budgetpartner.APP.enums.ModoPlan;
+import com.budgetpartner.APP.enums.NombreRol;
 import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -208,25 +210,28 @@ public class PobladorDB {
                 new Plan(
                         org1,
                         "Plan A de la Organización 1",
-                        "Descripción del Plan A de la Organización 1",
+                        "Descripción del Plan A de la Organización. 1 PLAN SIMPLE",
                         LocalDateTime.of(2025, 6, 1, 10, 0),
-                        LocalDateTime.of(2025, 6, 30, 10, 0)
+                        LocalDateTime.of(2025, 6, 30, 10, 0),
+                        ModoPlan.simple
                 ),
 
                 new Plan(
                         org1,
                         "Plan B de la Organización 1",
-                        "Descripción del Plan B de la Organización 1",
+                        "Descripción del Plan B de la Organización 1. PLAN ESTRUCTURADO",
                         LocalDateTime.of(2025, 7, 1, 10, 0),
-                        LocalDateTime.of(2025, 7, 31, 10, 0)
+                        LocalDateTime.of(2025, 7, 31, 10, 0),
+                        ModoPlan.estructurado
                 ),
 
                 new Plan(
                         org2,
                         "Plan único de la Organización 2",
-                        "Descripción del Plan único de la Organización 2",
+                        "Descripción del Plan único de la Organización 2. PLAN SIMPLE",
                         LocalDateTime.of(2025, 6, 1, 10, 0),
-                        LocalDateTime.of(2025, 6, 15, 10, 0)
+                        LocalDateTime.of(2025, 6, 15, 10, 0),
+                        ModoPlan.simple
                 )
         );
 
@@ -238,9 +243,9 @@ public class PobladorDB {
 
     public List<Rol> poblarRoles() {
         List<Rol> roles = Arrays.asList(
-        new Rol("super", "ALL_PRIVILEGES"),
-         new Rol("administrador", "CREATE,READ,UPDATE,DELETE"),
-        new Rol("miembro", "READ")
+        new Rol(NombreRol.ROLE_SUPER),
+        new Rol(NombreRol.ROLE_ADMIN),
+        new Rol(NombreRol.ROLE_MEMBER)
         );
         rolRepository.saveAll(roles);
         System.out.println("Roles creados");

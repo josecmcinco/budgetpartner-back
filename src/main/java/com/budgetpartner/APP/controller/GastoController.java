@@ -25,36 +25,27 @@ public class GastoController {
 
     @Operation(
             summary = "Crear un gasto",
-            description = "Crea un gasto nuevo dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
+            description = "Crea un gasto nuevo dado su planId/tareaId/cantidad/nombre/pagadorId/descripcion. Devuelve un mensaje de confirmación.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Gasto creado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )//Content
+                            description = "Gasto creado correctamente"
                     )}
     )
     @PostMapping
-    public ResponseEntity<GastoDtoResponse> postGasto(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+    public ResponseEntity<String> postGasto(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
                                                       @NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
-        Gasto gasto = gastoService.postGasto(authHeader, gastoDtoReq);
-        GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
-        return ResponseEntity.ok(gastoDtoResp);
+        gastoService.postGasto(authHeader, gastoDtoReq);;
+        return ResponseEntity.ok("Gasto creado correctamente");
     }
 
     @Operation(
             summary = "Devolver un gasto",
-            description = "Devuelve un gasto existente dado un id.",
+            description = "Devuelve un gasto existente dado un id. Además se devuelve PENDIENTE", //TDOD
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Gasto creado correctamente",
+                            description = "Gasto devuelto correctamente",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = @ExampleObject(
@@ -68,32 +59,24 @@ public class GastoController {
     @GetMapping({"/{id}"})
     public ResponseEntity<GastoDtoResponse> getGastoById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
                                                          @Validated @NotNull @PathVariable Long id) {
-        GastoDtoResponse gastoDtoResp = gastoService.getGastoDtoById(id);
+        GastoDtoResponse gastoDtoResp = gastoService.getGastoDtoById(authHeader, id);
         return ResponseEntity.ok(gastoDtoResp);
     }
 
 
     @Operation(
-            summary = "Crear un gasto",
-            description = "Crea un gasto nuevo dado su PENDIENTE. Devuelve un mensaje de confirmación.",
+            summary = "Actualiza un gasto",
+            description = "Actualiza las variables cantidad/nombre/pagadorId/descripcion de un gasto. Devuelve un mensaje de confirmación.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Gasto creado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )//Content
+                            description = "Gasto actualizado correctamente"
                     )}
     )
     @PatchMapping({"/{id}"})
     public ResponseEntity<String> patchGastoById(@Validated @NotNull @RequestBody GastoDtoUpdateRequest gastoDtoUpReq,
-                                               @PathVariable Long id) {
-        Gasto gasto = gastoService.patchGasto(gastoDtoUpReq, id);
+                                                 @RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
+        Gasto gasto = gastoService.patchGasto(authHeader,gastoDtoUpReq);
         return ResponseEntity.ok("Gasto actualizado correctamente");
     }
 
@@ -103,21 +86,13 @@ public class GastoController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Gasto eliminado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "\"Gasto eliminado correctamente\""
-                                    )
-                            )//Content
+                            description = "Gasto eliminado correctamente"
                     )}
     )
-
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<String> deleteGastoById(@Validated @NotNull @PathVariable Long id) {
-        Gasto gasto = gastoService.deleteGastoById(id);
+    public ResponseEntity<String> deleteGastoById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                  @Validated @NotNull @PathVariable Long id) {
+        Gasto gasto = gastoService.deleteGastoById(authHeader, id);
         GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
         return ResponseEntity.ok("Gasto eliminado correctamente");
     }

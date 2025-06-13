@@ -23,13 +23,15 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     @Autowired
+    private JwtService jwtService;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
     private MiembroRepository miembroRepository;
+
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -41,25 +43,12 @@ public class UsuarioService {
      /*DEVUELVE AL USUARIO:
 
     */
-    public UsuarioDtoResponse getUsuarioDtoById(String token){
-        //TODO
-
-        String s = jwtService.extractEmailUsuario(token);
-
-        Usuario usuario = usuarioRepository.findById(1L)
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: PREGUNTAR" ));
-
-        UsuarioDtoResponse dto = UsuarioMapper.toDtoResponse(usuario);
-
-        return dto;
-    }
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Usuario deleteUsuarioById(Long id){
-        //Obtener ususario usando el id pasado en la llamada
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
+    public Usuario deleteUsuarioById(String authHeader){
+
+        Usuario usuario = validarTokenYDevolverUsuario(authHeader);
 
         usuarioRepository.delete(usuario);
 
@@ -69,7 +58,7 @@ public class UsuarioService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Usuario patchUsuario(UsuarioDtoUpdateRequest dto) {
+    public Usuario patchUsuario(String authHeader, UsuarioDtoUpdateRequest dto) {
 
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(dto.getId())
@@ -100,6 +89,7 @@ public class UsuarioService {
 
         return new TokenDtoResponse(jwtToken, refreshToken);
     }
+
 
     //Llamada para Endpoint
     //Devuelve los JWT si coincide el usuario y contraseña

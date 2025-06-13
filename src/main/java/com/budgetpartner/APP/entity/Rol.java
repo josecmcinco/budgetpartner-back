@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.entity;
 
+import com.budgetpartner.APP.enums.NombreRol;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,11 +13,8 @@ public class Rol {
     @GeneratedValue
     private Long id;
 
-    @Column
-    private String nombre;
-
-    @Column
-    private String permisos;
+    @Enumerated(EnumType.STRING)
+    private NombreRol nombre;
 
     @Column
     private LocalDateTime creadoEn;
@@ -28,9 +26,8 @@ public class Rol {
     public Rol(){}
 
     //Crear Rol desde 0
-    public Rol(String nombre, String permisos) {
+    public Rol(NombreRol nombre) {
         this.nombre = nombre;
-        this.permisos = permisos;
 
         //Generar automñaticamente
         this.creadoEn = LocalDateTime.now();
@@ -38,10 +35,9 @@ public class Rol {
     }
 
     //Extraer Rol de la DB
-    public Rol(Long id, String nombre, String permisos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Rol(Long id, NombreRol nombre, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.nombre = nombre;
-        this.permisos = permisos;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
     }
@@ -53,12 +49,8 @@ public class Rol {
         return id;
     }
 
-    public String getNombre() {
+    public NombreRol getNombre() {
         return nombre;
-    }
-
-    public String getPermisos() {
-        return permisos;
     }
 
     public LocalDateTime getCreadoEn() {
@@ -69,13 +61,9 @@ public class Rol {
         return actualizadoEn;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(NombreRol nombre) {
         this.nombre = nombre;
         this.actualizadoEn = LocalDateTime.now();
     }
 
-    public void setPermisos(String permisos) {
-        this.permisos = permisos;
-        this.actualizadoEn = LocalDateTime.now();
-    }
 }

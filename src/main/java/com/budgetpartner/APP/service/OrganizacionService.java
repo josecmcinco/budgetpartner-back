@@ -68,7 +68,7 @@ public class OrganizacionService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public OrganizacionDtoResponse patchOrganizacion(OrganizacionDtoUpdateRequest dto) {
+    public OrganizacionDtoResponse patchOrganizacion(String authHeader, OrganizacionDtoUpdateRequest dto) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(dto.getId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + dto.getId()));
@@ -84,7 +84,7 @@ public class OrganizacionService {
         Miembro
             |-Organizacion
      */
-    public List<Organizacion> getOrganizacionesByUsuarioId(Long id) {
+    public List<Organizacion> getOrganizacionesByUsuarioId(String authHeader, Long id) {
         List<Miembro> miembrosDelUsuario =  miembroRepository.obtenerMiembrosPorUsuarioId(id);
 
         //TODO NUM 15845184

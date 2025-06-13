@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Tarea;
+import com.budgetpartner.APP.enums.ModoPlan;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,15 +24,17 @@ public class PlanDtoResponse {
     private LocalDateTime fechaFin;
     private List<TareaDtoResponse> tareas;
     private List<GastoDtoResponse> gastos;
+    private ModoPlan modoPlan;
 
 
-    public PlanDtoResponse(Long id, OrganizacionDtoResponse organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    public PlanDtoResponse(Long id, OrganizacionDtoResponse organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin,  ModoPlan modoPlan) {
         this.id = id;
         this.organizacion = organizacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.modoPlan = modoPlan;
     }
 
     public Long getId() {
@@ -92,5 +95,13 @@ public class PlanDtoResponse {
 
     public void setGastos(List<GastoDtoResponse> gastos) {
         this.gastos = gastos;
+    }
+
+    public ModoPlan getModoPlan() {
+        return modoPlan;
+    }
+
+    public void setModoPlan(ModoPlan modoPlan) {
+        this.modoPlan = modoPlan;
     }
 }

@@ -13,15 +13,15 @@ public class Miembro {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuarioOrigen;
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "organizacion_id")
-    private Organizacion organizacionOrigen;
+    private Organizacion organizacion;
 
     @ManyToOne
     @JoinColumn(name = "rol_id")
-    private Rol rolMiembro;
+    private Rol rol;
 
     @Column
     private String nick;
@@ -43,9 +43,9 @@ public class Miembro {
 
     //Creación de Miembro desde 0
     //POR DEFECTO NO TIENE USUARIO ADJUNTO
-    public Miembro(Organizacion organizacionOrigen, Rol rolMiembro, String nick, boolean isActivo) {
-        this.organizacionOrigen = organizacionOrigen;
-        this.rolMiembro = rolMiembro;
+    public Miembro(Organizacion organizacion, Rol rol, String nick, boolean isActivo) {
+        this.organizacion = organizacion;
+        this.rol = rol;
         this.nick = nick;
         this.isActivo = isActivo;
 
@@ -56,11 +56,11 @@ public class Miembro {
     }
 
     //Extracción de Miembro de la DB
-    public Miembro(Long id, Usuario usuarioOrigen, Organizacion organizacionOrigen, Rol rolMiembro, String nick, LocalDateTime fechaIngreso, boolean isActivo, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Miembro(Long id, Usuario usuario, Organizacion organizacion, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isActivo, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
-        this.usuarioOrigen = usuarioOrigen;
-        this.organizacionOrigen = organizacionOrigen;
-        this.rolMiembro = rolMiembro;
+        this.usuario = usuario;
+        this.organizacion = organizacion;
+        this.rol = rol;
         this.nick = nick;
         this.fechaIngreso = fechaIngreso;
         this.isActivo = isActivo;
@@ -71,14 +71,14 @@ public class Miembro {
     //Asociación de un miembro a un Usuario de la DB
     //TODO SOLO si la variable usuario está vacía
     public void asociarUsuario(Usuario usuarioOrigen) {
-        this.usuarioOrigen = usuarioOrigen;
+        this.usuario = usuarioOrigen;
         this.isActivo = true;
         this.fechaIngreso = LocalDateTime.now();
         this.actualizadoEn = LocalDateTime.now();
     }
 
     public void desasociarUsuario() {
-        this.usuarioOrigen = null;
+        this.usuario = null;
         this.isActivo = false;
         this.fechaIngreso = null;
         this.actualizadoEn = LocalDateTime.now();
@@ -92,16 +92,16 @@ public class Miembro {
         return id;
     }
 
-    public Usuario getUsuarioOrigen() {
-        return usuarioOrigen;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public Organizacion getOrganizacionOrigen() {
-        return organizacionOrigen;
+    public Organizacion getOrganizacion() {
+        return organizacion;
     }
 
-    public Rol getRolMiembro() {
-        return rolMiembro;
+    public Rol getRol() {
+        return rol;
     }
 
     public String getNick() {
@@ -124,8 +124,8 @@ public class Miembro {
         return actualizadoEn;
     }
 
-    public void setRolMiembro(Rol rolMiembro) {
-        this.rolMiembro = rolMiembro;
+    public void setRol(Rol rol) {
+        this.rol = rol;
         this.actualizadoEn = LocalDateTime.now();
     }
 

@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.entity;
 
+import com.budgetpartner.APP.enums.ModoPlan;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -33,16 +34,20 @@ public class Plan {
     @Column
     private LocalDateTime actualizadoEn;
 
-    //Constructir vacío para Hibernate
+    @Enumerated
+    private ModoPlan modoPlan;
+
+    //Constructor vacío para Hibernate
     public Plan(){}
 
     //Creacion de Plan desde 0
-    public Plan(Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    public Plan(Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan) {
         this.organizacion = organizacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.modoPlan = modoPlan;
 
         //Generado automáticamente
         this.creadoEn = LocalDateTime.now();
@@ -50,13 +55,14 @@ public class Plan {
     }
 
     //Extraer Plan de la DB
-    public Plan(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Plan(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.organizacion = organizacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.modoPlan = modoPlan;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
     }
@@ -93,6 +99,10 @@ public class Plan {
         return actualizadoEn;
     }
 
+    public ModoPlan getModoPlan() {
+        return modoPlan;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
         this.actualizadoEn = LocalDateTime.now();
@@ -110,6 +120,11 @@ public class Plan {
 
     public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
+        this.actualizadoEn = LocalDateTime.now();
+    }
+
+    public void setModoPlan(ModoPlan modoPlan) {
+        this.modoPlan = modoPlan;
         this.actualizadoEn = LocalDateTime.now();
     }
 }

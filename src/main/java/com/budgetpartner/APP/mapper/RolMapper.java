@@ -1,9 +1,7 @@
 package com.budgetpartner.APP.mapper;
 
-import com.budgetpartner.APP.dto.rol.RolDtoPostRequest;
-import com.budgetpartner.APP.dto.rol.RolDtoUpdateRequest;
+
 import com.budgetpartner.APP.entity.Rol;
-import com.budgetpartner.APP.dto.rol.RolDtoResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +10,7 @@ import java.util.List;
 
 public class RolMapper {
 
+    /*
     // Convierte Rol en RolDtoResponse
     public static RolDtoResponse toDtoResponse(Rol rol) {
         if (rol == null) return null;
@@ -67,5 +66,5 @@ public class RolMapper {
             }
             return listaRolesDtoResp;
         }
-    }
+    }*/
 }

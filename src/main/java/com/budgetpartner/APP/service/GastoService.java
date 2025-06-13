@@ -61,7 +61,7 @@ public class GastoService {
     /*DEVUELVE AL USUARIO:
 
      */
-    public GastoDtoResponse getGastoDtoById(Long id) {
+    public GastoDtoResponse getGastoDtoById(String authHeader, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -73,7 +73,7 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Gasto deleteGastoById(Long id) {
+    public Gasto deleteGastoById(String authHeader, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -85,11 +85,11 @@ public class GastoService {
     }
 
     //Llamada para Endpoint
-    //Elimina una Entidad usando el id recibido por el usuario
-    public Gasto patchGasto(GastoDtoUpdateRequest dto, Long id) {
+    //Actualiza una Entidad usando el id recibido por el usuario
+    public Gasto patchGasto(String authHeader, GastoDtoUpdateRequest dto) {
         //Obtener gasto usando el id pasado en la llamada
-        Gasto gasto = gastoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
+        Gasto gasto = gastoRepository.findById(dto.getId())
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + dto.getId()));
 
         GastoMapper.updateEntityFromDtoRes(dto, gasto);
         gastoRepository.save(gasto);
@@ -99,25 +99,5 @@ public class GastoService {
 
     //OTROS MÉTODOS
 
-
-    public Gasto crearGasto(GastoDtoPostRequest gastoDtoReq) {
-        //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
-
-        /*
-        Tarea tarea = tareaRepository.obtenerTareaPorId(gastoDtoReq.getTareaId())
-                .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + gastoDtoReq.getTareaId()));
-        Plan plan = planRepository.encontarPlanPorId(gastoDtoReq.getPlanId())
-                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + gastoDtoReq.getPlanId()));
-        Miembro pagador = miembroRepository.obtenerMiembroPorId(gastoDtoReq.getPagadorId())
-                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + gastoDtoReq.getPagadorId()));
-
-
-        Gasto gasto = GastoMapper.toEntity(gastoDtoReq, tarea, plan, pagador);
-        gastoRepository.save(gasto);
-        return gasto;*/
-        return null;
-
-
-    }
 
 }

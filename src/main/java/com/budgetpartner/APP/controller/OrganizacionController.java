@@ -79,8 +79,9 @@ public class OrganizacionController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoUpdateRequest organizacionDtoUpReq) {
-        organizacionService.patchOrganizacion(organizacionDtoUpReq);
+    public ResponseEntity<String> patchOrganizacion(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                    @Validated @NotNull @RequestBody OrganizacionDtoUpdateRequest organizacionDtoUpReq) {
+        organizacionService.patchOrganizacion(authHeader, organizacionDtoUpReq);
         return ResponseEntity.ok("Organización actualizada correctamente");
     }
 
@@ -121,8 +122,9 @@ public class OrganizacionController {
     )
 
     @GetMapping("/{id}/planes")
-    public OrganizacionDtoResponse getPlanesByOrganizacionId(@Validated @NotNull @PathVariable Long id){
-        //List<PlanDtoResponse> planes = planService.findPlanesByOrganizacionId(id);
+    public OrganizacionDtoResponse getPlanesByOrganizacionId(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                             @Validated @NotNull @PathVariable Long id){
+        //List<PlanDtoResponse> planes = planService.findPlanesByOrganizacionId(authHeader, id);
         //return ResponseEntity.ok(planes);
         return null;
     }

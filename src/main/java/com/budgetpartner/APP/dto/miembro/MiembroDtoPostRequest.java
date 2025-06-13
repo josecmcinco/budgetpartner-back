@@ -1,38 +1,35 @@
 package com.budgetpartner.APP.dto.miembro;
 
-import com.budgetpartner.APP.entity.Rol;
-
 public class MiembroDtoPostRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn-usuarioOrigen
     */
-
-    private Long organizacionOrigenId;
-    private Rol rolMiembro;
+    private Long organizacionId;
+    private Long rolId;
     private String nick;
     private boolean isActivo;
 
-    public MiembroDtoPostRequest(Long usuarioOrigenId, Long organizacionOrigenId, Rol rolMiembro, String nick, boolean isActivo) {
-        this.organizacionOrigenId = organizacionOrigenId;
-        this.rolMiembro = rolMiembro;
+    public MiembroDtoPostRequest(Long organizacionId, Long rolId, String nick, boolean isActivo) {
+        this.organizacionId = organizacionId;
+        this.rolId = rolId;
         this.nick = nick;
         this.isActivo = isActivo;
     }
 
-    public Long getOrganizacionOrigenId() {
-        return organizacionOrigenId;
+    public Long getOrganizacionId() {
+        return organizacionId;
     }
 
-    public void setOrganizacionOrigenId(Long organizacionOrigenId) {
-        this.organizacionOrigenId = organizacionOrigenId;}
+    public void setOrganizacionId(Long organizacionId) {
+        this.organizacionId = organizacionId;}
 
-    public Rol getRolMiembro() {
-        return rolMiembro;
+    public Long getRolMiembro() {
+        return rolId;
     }
 
-    public void setRolMiembro(Rol rolMiembro) {
-        this.rolMiembro = rolMiembro;
+    public void setRolMiembro(Long rolMiembro) {
+        this.rolId = rolId;
     }
 
     public String getNick() {

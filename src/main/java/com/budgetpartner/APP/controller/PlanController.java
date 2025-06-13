@@ -25,19 +25,11 @@ public class PlanController {
 
     @Operation(
             summary = "Crear un plan",
-            description = "Crea un plan nuevo dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
+            description = "Crea un plan nuevo dado su organizacionId/nombre/Descripcion/fechaIncio/FechaFin/modoPlan. Devuelve un mensaje de confirmación..",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Plan creado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )
+                            description = "Plan creado correctamente"
                     )
             }
     )
@@ -78,15 +70,7 @@ public class PlanController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Plan actualizado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )
+                            description = "Plan actualizado correctamente"
                     )
             }
     )
@@ -103,15 +87,7 @@ public class PlanController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Plan eliminado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "\"Plan eliminado correctamente\""
-                                    )
-                            )
+                            description = "Plan eliminado correctamente"
                     )
             }
     )

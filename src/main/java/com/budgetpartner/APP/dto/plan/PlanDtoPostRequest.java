@@ -1,5 +1,7 @@
 package com.budgetpartner.APP.dto.plan;
 
+import com.budgetpartner.APP.enums.ModoPlan;
+
 import java.time.LocalDateTime;
 
 public class PlanDtoPostRequest {
@@ -8,27 +10,29 @@ public class PlanDtoPostRequest {
         id-creadoEn-actualizadoEn-id
     */
 
-    private Long OrganizacionId;
+    private Long organizacionId;
     private String nombre;
     private String descripcion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
+    private ModoPlan modoPlan;
 
-    public PlanDtoPostRequest(Long OrganizacionId, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        this.OrganizacionId = OrganizacionId;
+    public PlanDtoPostRequest(Long organizacionId, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan) {
+        this.organizacionId = organizacionId;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.modoPlan = modoPlan;
     }
 
 
     public Long getOrganizacionId() {
-        return OrganizacionId;
+        return organizacionId;
     }
 
-    public void setOrganizacionId(Long OrganizacionId) {
-        this.OrganizacionId = OrganizacionId;
+    public void setOrganizacionId(Long organizacionId) {
+        this.organizacionId = organizacionId;
     }
 
     public String getNombre() {
@@ -61,5 +65,13 @@ public class PlanDtoPostRequest {
 
     public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public ModoPlan getModoPlan() {
+        return modoPlan;
+    }
+
+    public void setModoPlan(ModoPlan modoPlan) {
+        this.modoPlan = modoPlan;
     }
 }

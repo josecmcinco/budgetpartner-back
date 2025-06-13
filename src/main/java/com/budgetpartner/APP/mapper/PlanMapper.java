@@ -26,7 +26,8 @@ public class PlanMapper {
                 plan.getNombre(),
                 plan.getDescripcion(),
                 plan.getFechaInicio(),
-                plan.getFechaFin()
+                plan.getFechaFin(),
+                plan.getModoPlan()
         );
     }
 
@@ -40,7 +41,9 @@ public class PlanMapper {
                 dto.getNombre(),
                 dto.getDescripcion(),
                 dto.getFechaInicio(),
-                dto.getFechaFin()
+                dto.getFechaFin(),
+                dto.getModoPlan()
+
         );
     }
 
@@ -56,6 +59,7 @@ public class PlanMapper {
                 dto.getDescripcion(),
                 dto.getFechaInicio(),
                 dto.getFechaFin(),
+                dto.getModoPlan(),
                 LocalDateTime.now(), //TODO
                 LocalDateTime.now()
         );

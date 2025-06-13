@@ -1,6 +1,5 @@
 package com.budgetpartner.APP.service;
 
-import com.budgetpartner.APP.dto.rol.RolDtoPostRequest;
 import com.budgetpartner.APP.entity.Rol;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.RolMapper;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RolService {
+    /*
 
     @Autowired
     private RolRepository rolRepository;
@@ -52,6 +52,6 @@ public class RolService {
         RolMapper.updateEntityFromDtoRes(dto, rol);
         rolRepository.save(rol);
         return rol;
-    }
+    }*/
 
     }

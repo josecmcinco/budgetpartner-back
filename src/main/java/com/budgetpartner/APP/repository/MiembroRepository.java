@@ -9,8 +9,8 @@ import java.util.List;
 
 
 public interface MiembroRepository extends JpaRepository<Miembro, Long> {
-    //List<Miembro> findByusuarioOrigenId(Long usuario_id);
-    @Query("SELECT m FROM Miembro m WHERE m.usuarioOrigen.id = :usuario_id")
+    //List<Miembro> findByusuarioId(Long usuario_id);
+    @Query("SELECT m FROM Miembro m WHERE m.usuario.id = :usuario_id")
     List<Miembro> obtenerMiembroPorUsuarioId(@Param("usuario_id") Long usuario_id);
 
     @Query(value = "SELECT COUNT(*) FROM miembro m where m.usuario_id = :usuarioId", nativeQuery = true)

@@ -1,6 +1,6 @@
 package com.budgetpartner.APP.enums;
 
-public enum modoPlan {
+public enum ModoPlan {
     simple,
     estructurado
 }

@@ -3,14 +3,10 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
-import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
 import com.budgetpartner.APP.entity.Usuario;
-import com.budgetpartner.APP.service.OrganizacionService;
-import com.budgetpartner.APP.service.RolService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,7 +21,7 @@ public class MiembroMapper {
 
         return new MiembroDtoResponse(
                 miembro.getId(),
-                miembro.getRolMiembro(),
+                miembro.getRol(),
                 miembro.getNick(),
                 miembro.getFechaIngreso(),
                 miembro.getIsActivo()
@@ -34,12 +30,12 @@ public class MiembroMapper {
 
     // Convierte MiembroDtoPostRequest to Miembro
     //No se hacen llamadas al servicio desde aquí
-    public static Miembro toEntity(MiembroDtoPostRequest dto, Organizacion organizacion) {
+    public static Miembro toEntity(MiembroDtoPostRequest dto, Organizacion organizacion, Rol rol) {
         if (dto == null) return null;
 
         return new Miembro(
                 organizacion,
-                dto.getRolMiembro(),
+                rol,
                 dto.getNick(),
                 dto.getIsActivo()
         );
@@ -69,7 +65,7 @@ public class MiembroMapper {
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:
         //OrganizacionOrigen
-        if (dto.getRolMiembro() != null) miembro.setRolMiembro(new Rol()); //TODO
+        if (dto.getRolMiembro() != null) miembro.setRol(new Rol()); //TODO
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 
         //TODO para cuando sepa como se invita a un usuario

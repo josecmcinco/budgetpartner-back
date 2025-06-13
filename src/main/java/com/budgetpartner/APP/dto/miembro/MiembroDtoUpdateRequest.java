@@ -1,21 +1,19 @@
 package com.budgetpartner.APP.dto.miembro;
 
-import com.budgetpartner.APP.entity.Rol;
-
 public class MiembroDtoUpdateRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn
     */
     private Long id;
-    private Long usuarioOrigenId;
+    private Long usuarioId;
     private Long rolId;
     private String nick;
     private boolean isActivo;
 
-    public MiembroDtoUpdateRequest(Long id, Long usuarioOrigenId, Long rolId, String nick, boolean isActivo) {
+    public MiembroDtoUpdateRequest(Long id, Long usuarioId, Long rolId, String nick, boolean isActivo) {
         this.id = id;
-        this.usuarioOrigenId = usuarioOrigenId;
+        this.usuarioId = usuarioId;
         this.rolId = rolId;
         this.nick = nick;
         this.isActivo = isActivo;
@@ -25,12 +23,12 @@ public class MiembroDtoUpdateRequest {
         return id;
     }
 
-    public Long getUsuarioOrigenId() {
-        return usuarioOrigenId;
+    public Long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioOrigenId(Long usuarioOrigenId) {
-        this.usuarioOrigenId = usuarioOrigenId;
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public Long getRolMiembro() {
