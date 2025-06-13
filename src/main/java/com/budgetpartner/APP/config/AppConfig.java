@@ -33,7 +33,7 @@ public class AppConfig {
     public UserDetailsService usuarioDetailsService(){
 
         return username ->{
-            final Usuario usuario = usuarioRepository.findByEmail(username)
+            final Usuario usuario = usuarioRepository.obtenerUsuarioPorEmail(username)
                     .orElseThrow(()->new UsernameNotFoundException("Usuario no encontradoBBB"));
             return org.springframework.security.core.userdetails.User.builder()
                     .username(usuario.getEmail())

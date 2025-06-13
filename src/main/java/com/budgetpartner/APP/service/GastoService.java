@@ -3,13 +3,13 @@ package com.budgetpartner.APP.service;
 import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
-import com.budgetpartner.APP.entity.Gasto;
-import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.entity.Plan;
-import com.budgetpartner.APP.entity.Tarea;
+import com.budgetpartner.APP.entity.*;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.repository.GastoRepository;
+import com.budgetpartner.APP.repository.MiembroRepository;
+import com.budgetpartner.APP.repository.PlanRepository;
+import com.budgetpartner.APP.repository.TareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,30 +19,49 @@ public class GastoService {
     @Autowired
     private GastoRepository gastoRepository;
     @Autowired
-    private TareaService tareaService;
+    private UsuarioService usuarioService;
+
     @Autowired
-    private PlanService planService;
+    TareaRepository tareaRepository;
     @Autowired
-    private MiembroService miembroService;
+    PlanRepository planRepository;
+    @Autowired
+    MiembroRepository miembroRepository;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
 
     //ENDPOINTS
-    public Gasto postGasto(GastoDtoPostRequest gastoDtoReq) {
+
+    //Llamada para Endpoint
+    //Crea una Entidad usando el DTO recibido por el usuario
+    public Gasto postGasto(String authHeader, GastoDtoPostRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
-        Tarea tarea = tareaService.getTareaById(gastoDtoReq.getTareaId());
-        Plan plan = planService.getPlanById(gastoDtoReq.getPlanId());
-        Miembro pagador = miembroService.getMiembroById(gastoDtoReq.getPagadorId());
+        //Validar Token
+        Usuario usuario = usuarioService.validarTokenYDevolverUsuario(authHeader);
+        //Ver que permisos ok
 
+        //Crear
+
+        Tarea tarea = tareaRepository.findById(gastoDtoReq.getPlanId())
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + gastoDtoReq.getPlanId()));
+        Plan plan = planRepository.findById(gastoDtoReq.getPlanId())
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + gastoDtoReq.getPlanId()));;
+        Miembro pagador = miembroRepository.findById(gastoDtoReq.getPagadorId())
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + gastoDtoReq.getPlanId()));;
 
         Gasto gasto = GastoMapper.toEntity(gastoDtoReq, tarea, plan, pagador);
         gastoRepository.save(gasto);
         return gasto;
     }
 
-    public GastoDtoResponse getGastoByIdAndTransform(Long id) {
+    //Llamada para Endpoint
+    //Obtiene una Entidad usando el id recibido por el usuario
+    /*DEVUELVE AL USUARIO:
+
+     */
+    public GastoDtoResponse getGastoDtoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -52,6 +71,8 @@ public class GastoService {
 
     }
 
+    //Llamada para Endpoint
+    //Elimina una Entidad usando el id recibido por el usuario
     public Gasto deleteGastoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
@@ -63,6 +84,8 @@ public class GastoService {
         return gasto;
     }
 
+    //Llamada para Endpoint
+    //Elimina una Entidad usando el id recibido por el usuario
     public Gasto patchGasto(GastoDtoUpdateRequest dto, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
@@ -75,11 +98,25 @@ public class GastoService {
 
 
     //OTROS MÉTODOS
-    public Gasto getGastoById(Long id) {
-        //Obtener gasto usando el id pasado en la llamada
-        Gasto gasto = gastoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
-        return gasto;
+
+
+    public Gasto crearGasto(GastoDtoPostRequest gastoDtoReq) {
+        //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
+
+        /*
+        Tarea tarea = tareaRepository.obtenerTareaPorId(gastoDtoReq.getTareaId())
+                .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + gastoDtoReq.getTareaId()));
+        Plan plan = planRepository.encontarPlanPorId(gastoDtoReq.getPlanId())
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + gastoDtoReq.getPlanId()));
+        Miembro pagador = miembroRepository.obtenerMiembroPorId(gastoDtoReq.getPagadorId())
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + gastoDtoReq.getPagadorId()));
+
+
+        Gasto gasto = GastoMapper.toEntity(gastoDtoReq, tarea, plan, pagador);
+        gastoRepository.save(gasto);
+        return gasto;*/
+        return null;
+
 
     }
 

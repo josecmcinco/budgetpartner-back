@@ -13,6 +13,6 @@ public interface TareaRepository extends JpaRepository<Tarea, Long> {
                 "JOIN miembro_tarea mt ON t.id = mt.tarea_id " +
                 "JOIN miembro m ON m.id = mt.miembro_id " +
                 "WHERE m.usuario_id = :usuarioId;", nativeQuery = true)
-        Integer contarTareasPorUsuario(@Param("usuarioId") Long usuario_id);
+        Integer contarTareasPorUsuarioId(@Param("usuarioId") Long usuario_id);
 
 }

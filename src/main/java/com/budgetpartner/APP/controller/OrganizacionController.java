@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,37 +24,28 @@ public class OrganizacionController {
 
     @Autowired
     private OrganizacionService organizacionService;
-    @Autowired
-    private PlanService planService;
 
     @Operation(
             summary = "Crear una organización",
-            description = "Crea una organización nueva dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
+            description = "Crea una organización nueva dado una OrganizacionDtoRequest. Devuelve un OK como confirmación.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Organización creada correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )
+                            description = "Organización creada correctamente"
                     )
             }
     )
     @PostMapping
-    public ResponseEntity<OrganizacionDtoResponse> postOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoPostRequest organizacionDtoReq) {
-        Organizacion organizacion = organizacionService.postOrganizacion(organizacionDtoReq);
-        OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
-        return ResponseEntity.ok(organizacionDtoResp);
+    public ResponseEntity<String> postOrganizacion(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                                    @Validated @NotNull @RequestBody OrganizacionDtoPostRequest organizacionDtoReq
+    ) {
+        organizacionService.postOrganizacion(authHeader, organizacionDtoReq);
+        return ResponseEntity.ok("Organización creada correctamente");
     }
 
     @Operation(
             summary = "Obtener una organización por ID",
-            description = "Devuelve una organización existente dado un id.",
+            description = "Devuelve una organización junto con sus miembros, planes, presupuesto estimado y gastos reales dado un id.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -70,18 +62,52 @@ public class OrganizacionController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<OrganizacionDtoResponse> getOrganizacionById(@Validated @NotNull @PathVariable Long id) {
-        OrganizacionDtoResponse organizacionDtoResp = organizacionService.getOrganizacionByIdAndTransform(id);
+    public ResponseEntity<OrganizacionDtoResponse> getOrganizacionById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                                       @Validated @NotNull @PathVariable Long id) {
+        OrganizacionDtoResponse organizacionDtoResp = organizacionService.getOrganizacionDtoById(authHeader, id);
         return ResponseEntity.ok(organizacionDtoResp);
     }
 
     @Operation(
             summary = "Actualizar parcialmente una organización",
-            description = "Actualiza los campos indicados de una organización existente. Devuelve un mensaje de confirmación.",
+            description = "Actualiza los campos 'Nombre'/'Descripción' de una organización existente. Devuelve un mensaje de confirmación.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Organización actualizada correctamente",
+                            description = "Organización actualizada correctamente"
+                    )
+            }
+    )
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> patchOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoUpdateRequest organizacionDtoUpReq) {
+        organizacionService.patchOrganizacion(organizacionDtoUpReq);
+        return ResponseEntity.ok("Organización actualizada correctamente");
+    }
+
+    @Operation(
+            summary = "Eliminar una organización por ID",
+            description = "Elimina una organización existente dado su ID. Devuelve un mensaje de confirmación.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Organización eliminada correctamente"
+                    )
+            }
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteOrganizacionById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                         @Validated @NotNull @PathVariable Long id) {
+        organizacionService.deleteOrganizacionById(authHeader, id);
+        return ResponseEntity.ok("Organización eliminada correctamente");
+    }
+
+    @Operation(
+            summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
+            description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Organizacioes obtenidas correctamente",
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = @ExampleObject(
@@ -93,36 +119,6 @@ public class OrganizacionController {
                     )
             }
     )
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> patchOrganizacionById(@Validated @NotNull @RequestBody OrganizacionDtoUpdateRequest organizacionDtoUpReq) {
-        organizacionService.patchOrganizacion(organizacionDtoUpReq);
-        return ResponseEntity.ok("Organización actualizada correctamente");
-    }
-
-    @Operation(
-            summary = "Eliminar una organización por ID",
-            description = "Elimina una organización existente dado su ID. Devuelve un mensaje de confirmación.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Organización eliminada correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "\"Organización eliminada correctamente\""
-                                    )
-                            )
-                    )
-            }
-    )
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrganizacionById(@Validated @NotNull @PathVariable Long id) {
-        Organizacion organizacion = organizacionService.deleteOrganizacionById(id);
-        OrganizacionDtoResponse organizacionDtoResp = OrganizacionMapper.toDtoResponse(organizacion);
-        return ResponseEntity.ok("Organización eliminada correctamente");
-    }
 
     @GetMapping("/{id}/planes")
     public OrganizacionDtoResponse getPlanesByOrganizacionId(@Validated @NotNull @PathVariable Long id){

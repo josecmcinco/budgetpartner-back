@@ -64,7 +64,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         final UserDetails userDetails = this.userDetailsService.loadUserByUsername(ususarioEmail);
-        final Optional<Usuario> usuario = usuarioRepository.findByEmail(userDetails.getUsername());
+        final Optional<Usuario> usuario = usuarioRepository.obtenerUsuarioPorEmail(userDetails.getUsername());
 
         if(usuario.isEmpty()){
             filterChain.doFilter(request, response);

@@ -13,7 +13,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
             "JOIN organizacion o ON p.organizacion_id = o.id " +
             "JOIN miembro m ON m.organizacion_id = o.id " +
             "WHERE m.usuario_id = :usuarioId ", nativeQuery = true)
-    Integer contarPlanesPorUsuario(@Param("usuarioId") Long usuario_id);
+    Integer contarPlanesPorUsuarioId(@Param("usuarioId") Long usuario_id);
 }
 
 

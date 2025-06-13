@@ -68,7 +68,7 @@ public class TareaController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<TareaDtoResponse> getTareaById(@Validated @NotNull @PathVariable Long id) {
-        TareaDtoResponse tareaDtoResp  = tareaService.getTareaByIdAndTransform(id);
+        TareaDtoResponse tareaDtoResp  = tareaService.getTareaDtoById(id);
         return ResponseEntity.ok(tareaDtoResp);
     }
 

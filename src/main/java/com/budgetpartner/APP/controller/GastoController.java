@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,9 @@ public class GastoController {
                     )}
     )
     @PostMapping
-    public ResponseEntity<GastoDtoResponse> postGasto(@Validated @NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
-        Gasto gasto = gastoService.postGasto(gastoDtoReq);
+    public ResponseEntity<GastoDtoResponse> postGasto(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                      @NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
+        Gasto gasto = gastoService.postGasto(authHeader, gastoDtoReq);
         GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
         return ResponseEntity.ok(gastoDtoResp);
     }
@@ -64,8 +66,9 @@ public class GastoController {
                     )}
     )
     @GetMapping({"/{id}"})
-    public ResponseEntity<GastoDtoResponse> getGastoById(@Validated @NotNull @PathVariable Long id) {
-        GastoDtoResponse gastoDtoResp = gastoService.getGastoByIdAndTransform(id);
+    public ResponseEntity<GastoDtoResponse> getGastoById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
+                                                         @Validated @NotNull @PathVariable Long id) {
+        GastoDtoResponse gastoDtoResp = gastoService.getGastoDtoById(id);
         return ResponseEntity.ok(gastoDtoResp);
     }
 

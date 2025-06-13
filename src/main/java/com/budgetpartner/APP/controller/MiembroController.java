@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
@@ -73,7 +72,7 @@ public class MiembroController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<MiembroDtoResponse> getMiembroById(@Validated @NotNull @PathVariable Long id) {
-        MiembroDtoResponse miembroDtoResp = miembroService.getMiembroByIdAndTransform(id);
+        MiembroDtoResponse miembroDtoResp = miembroService.getMiembroDtoById(id);
         return ResponseEntity.ok(miembroDtoResp);
     }
 

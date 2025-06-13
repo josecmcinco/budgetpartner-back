@@ -1,17 +1,18 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.token.TokenDtoRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
 import com.budgetpartner.APP.dto.token.TokenDtoResponse;
-import com.budgetpartner.APP.entity.Miembro;
+import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Usuario;
-import com.budgetpartner.APP.mapper.MiembroMapper;
+import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
 import com.budgetpartner.APP.service.MiembroService;
+import com.budgetpartner.APP.service.OrganizacionService;
 import com.budgetpartner.APP.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,31 +35,9 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     @Autowired
     private MiembroService miembroService;
+    @Autowired
+    private OrganizacionService organizacionService;
 
-    @Operation(
-            summary = "Crear un usuario",
-            description = "Crea un usuario nuevo dado su PENDIENTE. Devuelve el objeto creado como confirmación.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Usuario creado correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )
-                    )
-            }
-    )
-    @PostMapping
-    public ResponseEntity<UsuarioDtoResponse> postUsuario(@Validated @NotNull @RequestBody UsuarioDtoPostRequest usuarioDtoReq) {
-        Usuario usuario = usuarioService.postUsuario(usuarioDtoReq);
-        UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
-        return ResponseEntity.ok(usuarioDtoResp);
-    }
 
     @Operation(
             summary = "Obtener un usuario por ID",
@@ -80,7 +59,7 @@ public class UsuarioController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDtoResponse> getUsuarioById(@Validated @NotNull @PathVariable Long id) {
-        UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioByIdAndTransform("id");
+        UsuarioDtoResponse usuarioDtoResp = usuarioService.getUsuarioDtoById("id");
         return ResponseEntity.ok(usuarioDtoResp);
     }
 
@@ -133,14 +112,34 @@ public class UsuarioController {
         return ResponseEntity.ok("Usuario eliminado correctamente");
     }
 
-    @GetMapping("/{id}/miembros")
-    public ResponseEntity<List<MiembroDtoResponse>> getMiembrosByUsuarioId(@Validated @NotNull @PathVariable Long id) {
-        List<Miembro> miembros = miembroService.findMiembrosByUsuarioId(id);
-        List<MiembroDtoResponse> miembroDtoRespList = MiembroMapper.toDtoResponseListMiembro(miembros);
-        return ResponseEntity.ok(miembroDtoRespList);
+    @Operation(
+            summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
+            description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Organizacioes obtenidas correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/{id}/organizaciones")
+    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId(@Validated @NotNull @PathVariable Long id) {
+        List<Organizacion> organizacion = organizacionService.getOrganizacionesByUsuarioId(id);
+        List<OrganizacionDtoResponse> organizacionDtoResponses = OrganizacionMapper.toDtoResponseListOrganizacion(organizacion);
+        return ResponseEntity.ok(organizacionDtoResponses);
     }
 
+    //-----------------------------
     //LLAMADAS RELACIONADAS CON JWT
+    //-----------------------------
 
     //NO NECESITA JWT
     @PostMapping("/registro")
