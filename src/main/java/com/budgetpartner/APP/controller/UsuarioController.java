@@ -81,9 +81,8 @@ TODO ELIMINAR
             }
     )
     @PatchMapping
-    public ResponseEntity<String> patchUsuarioById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                   @Validated @NotNull @RequestBody UsuarioDtoUpdateRequest usuarioDtoUpReq) {
-        usuarioService.patchUsuario(authHeader, usuarioDtoUpReq);
+    public ResponseEntity<String> patchUsuarioById(@Validated @NotNull @RequestBody UsuarioDtoUpdateRequest usuarioDtoUpReq) {
+        usuarioService.patchUsuario(usuarioDtoUpReq);
         return ResponseEntity.ok("Usuario actualizado correctamente");
     }
 
@@ -106,8 +105,8 @@ TODO ELIMINAR
             }
     )
     @DeleteMapping
-    public ResponseEntity<String> deleteUsuarioById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
-        Usuario usuario = usuarioService.deleteUsuarioById(authHeader);
+    public ResponseEntity<String> deleteUsuarioById() {
+        Usuario usuario = usuarioService.deleteUsuarioById();
         UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
         return ResponseEntity.ok("Usuario eliminado correctamente");
     }
@@ -130,11 +129,10 @@ TODO ELIMINAR
                     )
             }
     )
-    @GetMapping("/{id}/organizaciones")
-    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                                                      @Validated @NotNull @PathVariable Long id) {
-        List<Organizacion> organizacion = organizacionService.getOrganizacionesByUsuarioId(authHeader, id);
-        List<OrganizacionDtoResponse> organizacionDtoResponses = OrganizacionMapper.toDtoResponseListOrganizacion(organizacion);
+
+    @GetMapping("/organizaciones")
+    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId() {
+        List<OrganizacionDtoResponse> organizacionDtoResponses = organizacionService.getOrganizacionesByUsuarioId();
         return ResponseEntity.ok(organizacionDtoResponses);
     }
 

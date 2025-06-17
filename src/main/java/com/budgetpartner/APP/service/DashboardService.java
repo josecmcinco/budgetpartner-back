@@ -36,11 +36,10 @@ public class DashboardService {
         numeroPlanes : number
         numeroTareas : number
         actividadReciente : array de objetos*/
-    public DashboardDtoResponse getDashboard(String authHeader){
+    public DashboardDtoResponse getDashboard(){
 
         //Validar Token
-        Usuario usuario = usuarioService.validarTokenYDevolverUsuario(authHeader);
-
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
         Long idUsuario = usuario.getId();
 
         Integer numOrganizaciones = miembroRepository.contarMiembrosPorUsuarioId(idUsuario);

@@ -5,14 +5,18 @@ import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
+import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.OrganizacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,14 +26,15 @@ public class OrganizacionService {
     private OrganizacionRepository organizacionRepository;
     @Autowired
     private MiembroRepository miembroRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
     //ENDPOINTS
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Organizacion postOrganizacion(String authHeader, OrganizacionDtoPostRequest organizacionDtoReq) {
+    public Organizacion postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
         //TODO VARIABLES REPETIDAS (NOMBRE, CÓDIGO, ETC. según tu lógica de negocio)
-
 
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
         organizacionRepository.save(organizacion);
@@ -45,7 +50,7 @@ public class OrganizacionService {
         numeroTareas : number
         actividadReciente : array de objetos
     */
-    public OrganizacionDtoResponse getOrganizacionDtoById(String authHeader, Long id) {
+    public OrganizacionDtoResponse getOrganizacionDtoById(Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));;
@@ -55,7 +60,7 @@ public class OrganizacionService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Organizacion deleteOrganizacionById(String authHeader, Long id) {
+    public Organizacion deleteOrganizacionById(Long id) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
@@ -68,7 +73,7 @@ public class OrganizacionService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public OrganizacionDtoResponse patchOrganizacion(String authHeader, OrganizacionDtoUpdateRequest dto) {
+    public OrganizacionDtoResponse patchOrganizacion(OrganizacionDtoUpdateRequest dto) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(dto.getId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + dto.getId()));
@@ -81,16 +86,23 @@ public class OrganizacionService {
     //Llamada para Endpoint
     //Obtiene una lista de Entidades usando el id recibido por el usuario
     /*DEVUELVE:
-        Miembro
-            |-Organizacion
+            |-OrganizacionDto
+                |-numeroMiembros
      */
-    public List<Organizacion> getOrganizacionesByUsuarioId(String authHeader, Long id) {
-        List<Miembro> miembrosDelUsuario =  miembroRepository.obtenerMiembrosPorUsuarioId(id);
+    public List<OrganizacionDtoResponse> getOrganizacionesByUsuarioId() {
 
-        //TODO NUM 15845184
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        //List<Miembro> miembrosDelUsuario = miembroRepository.obtenerMiembrosPorUsuarioId(usuario.getId());
+        List<Organizacion> organizaciones = organizacionRepository.obtenerOrganizacionesPorUsuarioId(usuario.getId());
 
-        return  null;
+        List<OrganizacionDtoResponse> DtosOrganizaciones = OrganizacionMapper.toDtoResponseListOrganizacion(organizaciones);
 
+        //Introducir número de mimebros de cada organización en el DTO correspondiente
+        for (OrganizacionDtoResponse organizacionDto : DtosOrganizaciones) {
+            int numeroMiembros = miembroRepository.contarMiembrosPorOrganizacionId(organizacionDto.getId());
+            organizacionDto.setNumeroMiembros(numeroMiembros);
+        }
+        return  DtosOrganizaciones;
     }
 
     //OTROS MÉTODOS

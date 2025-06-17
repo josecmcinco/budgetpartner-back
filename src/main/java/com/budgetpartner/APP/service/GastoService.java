@@ -39,7 +39,7 @@ public class GastoService {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
         //Validar Token
-        Usuario usuario = usuarioService.validarTokenYDevolverUsuario(authHeader);
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
         //Ver que permisos ok
 
         //Crear

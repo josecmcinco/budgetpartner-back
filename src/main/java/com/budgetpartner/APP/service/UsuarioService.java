@@ -15,6 +15,7 @@ import com.budgetpartner.APP.exceptions.NotFoundException;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,9 +47,9 @@ public class UsuarioService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Usuario deleteUsuarioById(String authHeader){
+    public Usuario deleteUsuarioById(){
 
-        Usuario usuario = validarTokenYDevolverUsuario(authHeader);
+        Usuario usuario = devolverUsuarioAutenticado();
 
         usuarioRepository.delete(usuario);
 
@@ -58,7 +59,7 @@ public class UsuarioService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Usuario patchUsuario(String authHeader, UsuarioDtoUpdateRequest dto) {
+    public Usuario patchUsuario(UsuarioDtoUpdateRequest dto) {
 
         //Obtener ususario usando el id pasado en la llamada
         Usuario usuario = usuarioRepository.findById(dto.getId())
@@ -117,7 +118,7 @@ public class UsuarioService {
     //Llamada para Endpoint
     //Devuelve el token de autentificacion si el de refresco es correcto
     public TokenDtoResponse refreshToken(final String authHeader){
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            if(authHeader == null || !authHeader.startsWith("Bearer ")){
             throw new IllegalArgumentException("Invalid bearer token");
         }
 
@@ -150,8 +151,11 @@ public class UsuarioService {
 
     //USADO ANTES DE GESTIONAR LA PETICIÓN
     //Permite saber si el token es correcto
-    public Usuario validarTokenYDevolverUsuario(String authHeader){
+    public Usuario devolverUsuarioAutenticado(){
 
+        String usuarioEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        /*
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             throw new IllegalArgumentException("Invalid bearer token");
         }
@@ -164,15 +168,16 @@ public class UsuarioService {
         //NUNCA DEBERÍA DE ERRAR
         if(usuarioEmail == null){
             throw new IllegalArgumentException("Invalid refresh token");
-        }
+        }*/
 
         final Usuario usuario = usuarioRepository.obtenerUsuarioPorEmail(usuarioEmail)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + usuarioEmail));
 
         //Conifirmar que el token de refresco es válido
+        /*
         if(!jwtService.isTokenValid(authenticationToken, usuario)){
             throw new IllegalArgumentException("Invalid refresh token");
-        }
+        }*/
         return usuario;
     }
 

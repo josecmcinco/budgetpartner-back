@@ -43,10 +43,9 @@ public class DashboardController {
                     )}
     )
     @GetMapping
-    public ResponseEntity<DashboardDtoResponse> getDashboard(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
-        DashboardDtoResponse dashboardDtoResp = dashboardService.getDashboard(authHeader);
+    public ResponseEntity<DashboardDtoResponse> getDashboard() {
+        DashboardDtoResponse dashboardDtoResp = dashboardService.getDashboard();
         return ResponseEntity.ok(dashboardDtoResp);
-        //return null;
     }
 
 

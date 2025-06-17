@@ -4,9 +4,11 @@ import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizacionDtoResponse {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -22,6 +24,7 @@ TODO IMAGEN
     private String descripcion;
     private List<MiembroDtoResponse> miembros;
     private List<PlanDtoResponse> planes;
+    private int numeroMiembros;
 
     public OrganizacionDtoResponse(Long id, String nombre, String descripcion) {
         this.id = id;
@@ -63,5 +66,13 @@ TODO IMAGEN
 
     public void setPlanes(List<PlanDtoResponse> planes) {
         this.planes = planes;
+    }
+
+    public int getNumeroMiembros() {
+        return numeroMiembros;
+    }
+
+    public void setNumeroMiembros(int numeroMiembros) {
+        this.numeroMiembros = numeroMiembros;
     }
 }
