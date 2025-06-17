@@ -19,4 +19,9 @@ public interface MiembroRepository extends JpaRepository<Miembro, Long> {
     @Query(value = "SELECT COUNT(*) FROM miembro m where m.organizacion_Id = :organizacionId", nativeQuery = true)
     Integer contarMiembrosPorOrganizacionId(@Param("organizacionId") Long organizacionId);
 
+    @Query(value = "SELECT m.* FROM miembro m where m.organizacion_Id = :organizacionId", nativeQuery = true)
+    List<Miembro> obtenerMiembrosPorOrganizacionId(@Param("organizacionId") Long organizacionId);
+
+
+
 }

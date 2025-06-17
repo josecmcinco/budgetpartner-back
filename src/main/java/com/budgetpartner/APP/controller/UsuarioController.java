@@ -37,8 +37,6 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     @Autowired
     private OrganizacionService organizacionService;
-    @Autowired
-    DashboardService dashboardService;
 
 /*
 TODO ELIMINAR
@@ -115,54 +113,7 @@ TODO ELIMINAR
         return ResponseEntity.ok("Usuario eliminado correctamente");
     }
 
-    @Operation(
-            summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
-            description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Organizaciones obtenidas correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )
-                    )
-            }
-    )
 
-    @GetMapping("/organizaciones")
-    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId() {
-        List<OrganizacionDtoResponse> organizacionDtoResponses = organizacionService.getOrganizacionesByUsuarioId();
-        return ResponseEntity.ok(organizacionDtoResponses);
-    }
-
-
-    @Operation(
-            summary = "Devolver la información del dashboard",
-            description = "Devuelve la información del dashboard usando el JWT.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Información devuelta correctamente",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
-                                    )
-                            )//Content
-                    )}
-    )
-    @GetMapping
-    public ResponseEntity<DashboardDtoResponse> getDashboard() {
-        DashboardDtoResponse dashboardDtoResp = dashboardService.getDashboard();
-        return ResponseEntity.ok(dashboardDtoResp);
-    }
 
     //-----------------------------
     //LLAMADAS RELACIONADAS CON JWT

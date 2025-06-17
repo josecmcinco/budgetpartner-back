@@ -3,20 +3,18 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
-import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.service.OrganizacionService;
-import com.budgetpartner.APP.service.PlanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/organizaciones")
@@ -97,6 +95,30 @@ public class OrganizacionController {
         organizacionService.deleteOrganizacionById(id);
         return ResponseEntity.ok("Organización eliminada correctamente");
     }
+
+@Operation(
+        summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
+        description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
+        responses = {
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "Organizaciones obtenidas correctamente",
+                        content = @Content(
+                                mediaType = "application/json",
+                                examples = @ExampleObject(
+                                        name = "MensajeConfirmacion",
+                                        summary = "Mensaje de éxito",
+                                        value = "PENDIENTE"
+                                )
+                        )
+                )
+        }
+)
+@GetMapping("/organizacion")
+public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId() {
+    List<OrganizacionDtoResponse> organizacionDtoResponses = organizacionService.getOrganizacionesDtoByUsuarioId();
+    return ResponseEntity.ok(organizacionDtoResponses);
+}
 
     @Operation(
             summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
