@@ -33,9 +33,8 @@ public class GastoController {
                     )}
     )
     @PostMapping
-    public ResponseEntity<String> postGasto(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                      @NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
-        gastoService.postGasto(authHeader, gastoDtoReq);;
+    public ResponseEntity<String> postGasto(@NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
+        gastoService.postGasto(gastoDtoReq);
         return ResponseEntity.ok("Gasto creado correctamente");
     }
 
@@ -57,9 +56,8 @@ public class GastoController {
                     )}
     )
     @GetMapping({"/{id}"})
-    public ResponseEntity<GastoDtoResponse> getGastoById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                         @Validated @NotNull @PathVariable Long id) {
-        GastoDtoResponse gastoDtoResp = gastoService.getGastoDtoById(authHeader, id);
+    public ResponseEntity<GastoDtoResponse> getGastoById(@Validated @NotNull @PathVariable Long id) {
+        GastoDtoResponse gastoDtoResp = gastoService.getGastoDtoById(id);
         return ResponseEntity.ok(gastoDtoResp);
     }
 
@@ -74,9 +72,8 @@ public class GastoController {
                     )}
     )
     @PatchMapping({"/{id}"})
-    public ResponseEntity<String> patchGastoById(@Validated @NotNull @RequestBody GastoDtoUpdateRequest gastoDtoUpReq,
-                                                 @RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
-        Gasto gasto = gastoService.patchGasto(authHeader,gastoDtoUpReq);
+    public ResponseEntity<String> patchGastoById(@Validated @NotNull @RequestBody GastoDtoUpdateRequest gastoDtoUpReq) {
+        Gasto gasto = gastoService.patchGasto(gastoDtoUpReq);
         return ResponseEntity.ok("Gasto actualizado correctamente");
     }
 
@@ -90,9 +87,8 @@ public class GastoController {
                     )}
     )
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<String> deleteGastoById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                  @Validated @NotNull @PathVariable Long id) {
-        Gasto gasto = gastoService.deleteGastoById(authHeader, id);
+    public ResponseEntity<String> deleteGastoById(@Validated @NotNull @PathVariable Long id) {
+        Gasto gasto = gastoService.deleteGastoById(id);
         GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
         return ResponseEntity.ok("Gasto eliminado correctamente");
     }

@@ -1,7 +1,9 @@
 package com.budgetpartner.APP.dto.dashborard;
 
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DashboardDtoResponse {
 
     private Integer numeroOrganizaciones;

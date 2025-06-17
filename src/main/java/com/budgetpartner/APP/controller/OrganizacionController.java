@@ -119,7 +119,7 @@ public class OrganizacionController {
 
     @GetMapping("/{id}/planes")
     public OrganizacionDtoResponse getPlanesByOrganizacionId(@Validated @NotNull @PathVariable Long id){
-        //List<PlanDtoResponse> planes = planService.findPlanesByOrganizacionId(authHeader, id);
+        //List<PlanDtoResponse> planes = planService.findPlanesByOrganizacionId(id);
         //return ResponseEntity.ok(planes);
         return null;
     }

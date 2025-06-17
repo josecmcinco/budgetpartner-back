@@ -28,7 +28,7 @@ public class MiembroService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Miembro postMiembro(String authHeader, MiembroDtoPostRequest dto){
+    public Miembro postMiembro(MiembroDtoPostRequest dto){
 
         Organizacion organizacion = organizacionRepository.findById(dto.getOrganizacionId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + (dto.getOrganizacionId())));
@@ -45,7 +45,7 @@ public class MiembroService {
     //Obtiene una Entidad usando el id recibido por el usuario
         /*DEVUELVE AL USUARIO:
     */
-    public MiembroDtoResponse getMiembroDtoById(String authHeader, Long id){
+    public MiembroDtoResponse getMiembroDtoById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
@@ -56,7 +56,7 @@ public class MiembroService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Miembro deleteMiembroById(String authHeader, Long id){
+    public Miembro deleteMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
@@ -69,7 +69,7 @@ public class MiembroService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Miembro patchMiembro(String authHeader, MiembroDtoUpdateRequest dto) {
+    public Miembro patchMiembro(MiembroDtoUpdateRequest dto) {
 
         // Obtener miembro usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(dto.getId())

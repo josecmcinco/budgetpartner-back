@@ -35,7 +35,7 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Gasto postGasto(String authHeader, GastoDtoPostRequest gastoDtoReq) {
+    public Gasto postGasto(GastoDtoPostRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
         //Validar Token
@@ -61,7 +61,7 @@ public class GastoService {
     /*DEVUELVE AL USUARIO:
 
      */
-    public GastoDtoResponse getGastoDtoById(String authHeader, Long id) {
+    public GastoDtoResponse getGastoDtoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -73,7 +73,7 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Gasto deleteGastoById(String authHeader, Long id) {
+    public Gasto deleteGastoById(Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
@@ -86,7 +86,7 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Gasto patchGasto(String authHeader, GastoDtoUpdateRequest dto) {
+    public Gasto patchGasto(GastoDtoUpdateRequest dto) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(dto.getId())
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + dto.getId()));

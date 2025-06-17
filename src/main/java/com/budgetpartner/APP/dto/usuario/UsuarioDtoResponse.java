@@ -1,9 +1,11 @@
 package com.budgetpartner.APP.dto.usuario;
 
 import com.budgetpartner.APP.entity.Miembro;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsuarioDtoResponse {
 
     /*

@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.controller;
 
 
+import com.budgetpartner.APP.dto.dashborard.DashboardDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.token.TokenDtoRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
@@ -11,6 +12,7 @@ import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.mapper.OrganizacionMapper;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
+import com.budgetpartner.APP.service.DashboardService;
 import com.budgetpartner.APP.service.MiembroService;
 import com.budgetpartner.APP.service.OrganizacionService;
 import com.budgetpartner.APP.service.UsuarioService;
@@ -35,6 +37,8 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     @Autowired
     private OrganizacionService organizacionService;
+    @Autowired
+    DashboardService dashboardService;
 
 /*
 TODO ELIMINAR
@@ -134,6 +138,30 @@ TODO ELIMINAR
     public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId() {
         List<OrganizacionDtoResponse> organizacionDtoResponses = organizacionService.getOrganizacionesByUsuarioId();
         return ResponseEntity.ok(organizacionDtoResponses);
+    }
+
+
+    @Operation(
+            summary = "Devolver la información del dashboard",
+            description = "Devuelve la información del dashboard usando el JWT.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Información devuelta correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )//Content
+                    )}
+    )
+    @GetMapping
+    public ResponseEntity<DashboardDtoResponse> getDashboard() {
+        DashboardDtoResponse dashboardDtoResp = dashboardService.getDashboard();
+        return ResponseEntity.ok(dashboardDtoResp);
     }
 
     //-----------------------------

@@ -43,9 +43,8 @@ public class TareaController {
             }
     )
     @PostMapping
-    public ResponseEntity<TareaDtoResponse> postTarea(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                      @Validated @NotNull @RequestBody TareaDtoPostRequest tareaDtoReq) {
-        Tarea tarea = tareaService.postTarea(authHeader, tareaDtoReq);
+    public ResponseEntity<TareaDtoResponse> postTarea(@Validated @NotNull @RequestBody TareaDtoPostRequest tareaDtoReq) {
+        Tarea tarea = tareaService.postTarea(tareaDtoReq);
         TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
         return ResponseEntity.ok(tareaDtoResp);
     }
@@ -69,9 +68,8 @@ public class TareaController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<TareaDtoResponse> getTareaById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                         @Validated @NotNull @PathVariable Long id) {
-        TareaDtoResponse tareaDtoResp  = tareaService.getTareaDtoById(authHeader, id);
+    public ResponseEntity<TareaDtoResponse> getTareaById(@Validated @NotNull @PathVariable Long id) {
+        TareaDtoResponse tareaDtoResp  = tareaService.getTareaDtoById(id);
         return ResponseEntity.ok(tareaDtoResp);
     }
 
@@ -94,9 +92,8 @@ public class TareaController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchTareaById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                 @Validated @NotNull @RequestBody TareaDtoUpdateRequest tareaDtoUpReq) {
-        tareaService.patchTarea(authHeader, tareaDtoUpReq);
+    public ResponseEntity<String> patchTareaById(@Validated @NotNull @RequestBody TareaDtoUpdateRequest tareaDtoUpReq) {
+        tareaService.patchTarea(tareaDtoUpReq);
         return ResponseEntity.ok("Tarea actualizada correctamente");
     }
 
@@ -119,9 +116,8 @@ public class TareaController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTareaById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                  @Validated @NotNull @PathVariable Long id) {
-        Tarea tarea = tareaService.deleteTareaById(authHeader, id);
+    public ResponseEntity<String> deleteTareaById(@Validated @NotNull @PathVariable Long id) {
+        Tarea tarea = tareaService.deleteTareaById(id);
         TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
         return ResponseEntity.ok("Tarea eliminada correctamente");
     }

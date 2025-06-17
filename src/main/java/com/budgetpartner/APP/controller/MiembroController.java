@@ -40,9 +40,8 @@ public class MiembroController {
             }
     )
     @PostMapping
-    public ResponseEntity<MiembroDtoResponse> postMiembro(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                          @Validated @NotNull @RequestBody MiembroDtoPostRequest miembroDtoReq) {
-        Miembro miembro = miembroService.postMiembro(authHeader, miembroDtoReq);
+    public ResponseEntity<MiembroDtoResponse> postMiembro(@Validated @NotNull @RequestBody MiembroDtoPostRequest miembroDtoReq) {
+        Miembro miembro = miembroService.postMiembro(miembroDtoReq);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
         return ResponseEntity.ok(miembroDtoResp);
     }
@@ -66,9 +65,8 @@ public class MiembroController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<MiembroDtoResponse> getMiembroById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                             @Validated @NotNull @PathVariable Long id) {
-        MiembroDtoResponse miembroDtoResp = miembroService.getMiembroDtoById(authHeader,id);
+    public ResponseEntity<MiembroDtoResponse> getMiembroById(@Validated @NotNull @PathVariable Long id) {
+        MiembroDtoResponse miembroDtoResp = miembroService.getMiembroDtoById(id);
         return ResponseEntity.ok(miembroDtoResp);
     }
 
@@ -83,9 +81,8 @@ public class MiembroController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchMiembroById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                   @Validated @NotNull @RequestBody MiembroDtoUpdateRequest miembroDtoUpReq) {
-        miembroService.patchMiembro(authHeader,miembroDtoUpReq);
+    public ResponseEntity<String> patchMiembroById(@Validated @NotNull @RequestBody MiembroDtoUpdateRequest miembroDtoUpReq) {
+        miembroService.patchMiembro(miembroDtoUpReq);
         return ResponseEntity.ok("Miembro actualizado correctamente");
     }
 
@@ -100,9 +97,8 @@ public class MiembroController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMiembroById(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader,
-                                                    @Validated @NotNull @PathVariable Long id) {
-        Miembro miembro = miembroService.deleteMiembroById(authHeader, id);
+    public ResponseEntity<String> deleteMiembroById(@Validated @NotNull @PathVariable Long id) {
+        Miembro miembro = miembroService.deleteMiembroById(id);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
         return ResponseEntity.ok("Miembro eliminado correctamente");
     }

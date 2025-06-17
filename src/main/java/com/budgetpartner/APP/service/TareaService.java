@@ -28,7 +28,7 @@ public class TareaService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Tarea postTarea(String authHeader, TareaDtoPostRequest dto) {
+    public Tarea postTarea(TareaDtoPostRequest dto) {
 
         //TODO VALIDAR CAMPOS REPETIDOS (título, descripción, fechas, estado, etc.)
         Plan plan = planRepository.findById(dto.getPlanId())
@@ -48,7 +48,7 @@ public class TareaService {
         numeroTareas : number
         actividadReciente : array de objetos
     */
-    public TareaDtoResponse getTareaDtoById(String authHeader, Long id) {
+    public TareaDtoResponse getTareaDtoById(Long id) {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
         TareaDtoResponse dto = TareaMapper.toDtoResponse(tarea);
@@ -57,7 +57,7 @@ public class TareaService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Tarea deleteTareaById(String authHeader, Long id) {
+    public Tarea deleteTareaById(Long id) {
         //Obtener tarea usando el id pasado en la llamada
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
@@ -70,7 +70,7 @@ public class TareaService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Tarea patchTarea(String authHeader, TareaDtoUpdateRequest dto) {
+    public Tarea patchTarea(TareaDtoUpdateRequest dto) {
         //Obtener tarea usando el id pasado en la llamada
         Tarea tarea = tareaRepository.findById(dto.getId())
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + dto.getId()));
