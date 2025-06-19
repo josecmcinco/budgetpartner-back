@@ -70,8 +70,9 @@ public class EstimacionController {
                     )}
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchEstimacionById(@Validated @NotNull @RequestBody EstimacionDtoUpdateRequest estimacionDtoUpReq) {
-        estimacionService.patchEstimacion(estimacionDtoUpReq);
+    public ResponseEntity<String> patchEstimacionById(@Validated @NotNull @RequestBody EstimacionDtoUpdateRequest estimacionDtoUpReq,
+                                                      @Validated @NotNull @PathVariable Long id) {
+        estimacionService.patchEstimacion(estimacionDtoUpReq, id);
         return ResponseEntity.ok("Estimación actualizada correctamente");
     }
 

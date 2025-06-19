@@ -35,18 +35,6 @@ public class OrganizacionMapper {
         );
     }
 
-    //Obtener Entity desde OrganizacionDtoUpdateRequest
-    //No se hacen llamadas al servicio desde aquí
-    public static Organizacion toEntity(OrganizacionDtoUpdateRequest dto, LocalDateTime creadoEn) {
-        if (dto == null) return null;
-
-        return new Organizacion(
-                dto.getId(),
-                dto.getNombre(),
-                dto.getDescripcion(),
-                creadoEn,//TODO ARREGLAR
-                creadoEn);
-    }
 
     // Actualiza entidad existente con los valores del DTO
     public static void updateEntityFromDtoRes(OrganizacionDtoUpdateRequest dto, Organizacion organizacion) {

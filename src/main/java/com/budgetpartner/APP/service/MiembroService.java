@@ -69,11 +69,11 @@ public class MiembroService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Miembro patchMiembro(MiembroDtoUpdateRequest dto) {
+    public Miembro patchMiembro(MiembroDtoUpdateRequest dto, Long id) {
 
         // Obtener miembro usando el id pasado en la llamada
-        Miembro miembro = miembroRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + dto.getId()));
+        Miembro miembro = miembroRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
         MiembroMapper.updateEntityFromDtoRes(dto, miembro);
         miembroRepository.save(miembro);

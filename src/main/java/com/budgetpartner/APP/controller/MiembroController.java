@@ -81,8 +81,9 @@ public class MiembroController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchMiembroById(@Validated @NotNull @RequestBody MiembroDtoUpdateRequest miembroDtoUpReq) {
-        miembroService.patchMiembro(miembroDtoUpReq);
+    public ResponseEntity<String> patchMiembroById(@Validated @NotNull @RequestBody MiembroDtoUpdateRequest miembroDtoUpReq,
+                                                   @Validated @NotNull @PathVariable Long id) {
+        miembroService.patchMiembro(miembroDtoUpReq, id);
         return ResponseEntity.ok("Miembro actualizado correctamente");
     }
 

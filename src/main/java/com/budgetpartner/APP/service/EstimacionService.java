@@ -11,7 +11,7 @@ public class EstimacionService {
     public void deleteEstimacionById(Long id) {
     }
 
-    public void patchEstimacion(EstimacionDtoUpdateRequest estimacionDtoUpReq) {
+    public void patchEstimacion(EstimacionDtoUpdateRequest estimacionDtoUpReq, Long id) {
     }
 
     public EstimacionDtoResponse getEstimacionDtoById(Long id) {

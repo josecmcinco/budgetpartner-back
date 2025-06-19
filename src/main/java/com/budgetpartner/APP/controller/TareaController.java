@@ -92,8 +92,9 @@ public class TareaController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchTareaById(@Validated @NotNull @RequestBody TareaDtoUpdateRequest tareaDtoUpReq) {
-        tareaService.patchTarea(tareaDtoUpReq);
+    public ResponseEntity<String> patchTareaById(@Validated @NotNull @RequestBody TareaDtoUpdateRequest tareaDtoUpReq,
+                                                 @Validated @NotNull @PathVariable Long id) {
+        tareaService.patchTarea(tareaDtoUpReq, id);
         return ResponseEntity.ok("Tarea actualizada correctamente");
     }
 

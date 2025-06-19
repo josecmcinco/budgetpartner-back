@@ -10,21 +10,17 @@ public class GastoDtoUpdateRequest {
     miembrosDelUsuario
      */
 //TODO solo parte como endeudados(lista) o siempre todos???
-    private Long id;
     private double cantidad;
     private String nombre;
     private Long pagadorId;
     private String descripcion;
 
-    public GastoDtoUpdateRequest(Long id, double cantidad, String nombre, Long pagadorId, String descripcion) {
-        this.id = id;
+    public GastoDtoUpdateRequest(double cantidad, String nombre, Long pagadorId, String descripcion) {
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.pagadorId = pagadorId;
         this.descripcion = descripcion;
     }
-
-    public Long getId() {return id;}
 
     public double getCantidad() {
         return cantidad;

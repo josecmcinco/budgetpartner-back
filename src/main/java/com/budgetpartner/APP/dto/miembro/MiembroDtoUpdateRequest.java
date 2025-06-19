@@ -5,22 +5,16 @@ public class MiembroDtoUpdateRequest {
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn
     */
-    private Long id;
     private Long usuarioId;
     private Long rolId;
     private String nick;
     private boolean isActivo;
 
-    public MiembroDtoUpdateRequest(Long id, Long usuarioId, Long rolId, String nick, boolean isActivo) {
-        this.id = id;
+    public MiembroDtoUpdateRequest(Long usuarioId, Long rolId, String nick, boolean isActivo) {
         this.usuarioId = usuarioId;
         this.rolId = rolId;
         this.nick = nick;
         this.isActivo = isActivo;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public Long getUsuarioId() {

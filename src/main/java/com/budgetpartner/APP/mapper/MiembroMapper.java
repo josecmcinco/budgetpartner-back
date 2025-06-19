@@ -43,23 +43,6 @@ public class MiembroMapper {
         );
     }
 
-    // Convierte MiembroDtoUpdateRequest to Miembro
-    //No se hacen llamadas al servicio desde aquí
-    public static Miembro toEntity(MiembroDtoUpdateRequest dto, Usuario usuario, Organizacion organizacion, Rol rol) {
-        if (dto == null) return null;
-
-        return new Miembro(
-                dto.getId(),
-                usuario,
-                organizacion,
-                rol,
-                dto.getNick(),
-                LocalDateTime.now(),
-                dto.getIsActivo(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
-    }
 
     // Actualiza entidad existente con los valores del DTO
     public static void updateEntityFromDtoRes(MiembroDtoUpdateRequest dto, Miembro miembro) {

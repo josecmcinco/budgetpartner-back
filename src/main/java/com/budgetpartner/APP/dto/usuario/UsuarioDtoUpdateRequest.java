@@ -9,23 +9,18 @@ public class UsuarioDtoUpdateRequest {
     miembrosDelUsuario
      */
 
-    private Long id;
     private String email;
     private String nombre;
     private String apellido;
     private String contraseña;
 
-    public UsuarioDtoUpdateRequest(Long id, String email, String nombre, String apellido, String contraseña) {
-        this.id = id;
+    public UsuarioDtoUpdateRequest(String email, String nombre, String apellido, String contraseña) {
         this.email = email;
         this.nombre = nombre;
         this.apellido = apellido;
         this.contraseña = contraseña;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getEmail() {
         return email;

@@ -38,6 +38,7 @@ public class UsuarioMapper {
 
     //Obtener Entity desde GastoDtoUpdateRequest
     //No se hacen llamadas al servicio desde aquí
+    /*
     public static Usuario toEntity(UsuarioDtoUpdateRequest dto) {
         if (dto == null) return null;
 
@@ -50,7 +51,7 @@ public class UsuarioMapper {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
-    }
+    }*/
 
     //Actualiza entidad existente con los valores del DTO
     public static void updateEntityFromDtoRes(UsuarioDtoUpdateRequest dto, Usuario usuario) {

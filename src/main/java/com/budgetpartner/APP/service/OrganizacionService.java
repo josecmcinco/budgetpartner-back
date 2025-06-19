@@ -123,10 +123,10 @@ public class OrganizacionService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public OrganizacionDtoResponse patchOrganizacion(OrganizacionDtoUpdateRequest dto) {
+    public OrganizacionDtoResponse patchOrganizacion(OrganizacionDtoUpdateRequest dto, Long id) {
         //Obtener organización usando el id pasado en la llamada
-        Organizacion organizacion = organizacionRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + dto.getId()));
+        Organizacion organizacion = organizacionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
         OrganizacionMapper.updateEntityFromDtoRes(dto, organizacion);
         organizacionRepository.save(organizacion);

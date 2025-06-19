@@ -61,9 +61,7 @@ public class UsuarioService {
     //Actualiza una Entidad usando el id recibido por el usuario
     public Usuario patchUsuario(UsuarioDtoUpdateRequest dto) {
 
-        //Obtener ususario usando el id pasado en la llamada
-        Usuario usuario = usuarioRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + dto.getId()));
+        Usuario usuario = devolverUsuarioAutenticado();
 
         UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
         usuarioRepository.save(usuario);

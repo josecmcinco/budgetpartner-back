@@ -86,10 +86,10 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Gasto patchGasto(GastoDtoUpdateRequest dto) {
+    public Gasto patchGasto(GastoDtoUpdateRequest dto, Long id) {
         //Obtener gasto usando el id pasado en la llamada
-        Gasto gasto = gastoRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + dto.getId()));
+        Gasto gasto = gastoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
         GastoMapper.updateEntityFromDtoRes(dto, gasto);
         gastoRepository.save(gasto);

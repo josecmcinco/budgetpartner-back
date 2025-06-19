@@ -12,7 +12,7 @@ public class EstimacionDtoUpdateRequest {
     pagador y gasto ahora llevan un Long en vez del Entity
      */
 
-    private  Long id;
+
     private double cantidad;
     private TipoEstimacion tipoEstimacion;
     private MonedasDisponibles tipoMoneda;
@@ -20,8 +20,7 @@ public class EstimacionDtoUpdateRequest {
     private Long pagadorId;
     private Long gastoId;
 
-    public EstimacionDtoUpdateRequest(Long id, double cantidad, TipoEstimacion tipoEstimacion, MonedasDisponibles tipoMoneda, String descripcion, Long pagadorId, Long gastoId) {
-        this.id = id;
+    public EstimacionDtoUpdateRequest(double cantidad, TipoEstimacion tipoEstimacion, MonedasDisponibles tipoMoneda, String descripcion, Long pagadorId, Long gastoId) {
         this.cantidad = cantidad;
         this.tipoEstimacion = tipoEstimacion;
         this.tipoMoneda = tipoMoneda;
@@ -30,9 +29,6 @@ public class EstimacionDtoUpdateRequest {
         this.gastoId = gastoId;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public double getCantidad() {
         return cantidad;

@@ -46,26 +46,6 @@ public class EstimacionMapper {
         );
     }
 
-    // DTO de actualización a Entity (usado cuando reemplazas completamente)
-    public static Estimacion toEntity(EstimacionDtoUpdateRequest dto, Tarea tarea, Plan plan, Miembro creador, Miembro pagador, Gasto gasto) {
-        if (dto == null) return null;
-
-        return new Estimacion(
-                dto.getId(),
-                plan,
-                tarea,
-                creador,
-                dto.getCantidad(),
-                dto.getTipoEstimacion(),
-                dto.getTipoMoneda(),
-                dto.getDescripcion(),
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                pagador,
-                gasto
-        );
-    }
-
     // Actualiza una entidad existente con campos del DTO
     public static void updateEntityFromDto(EstimacionDtoUpdateRequest dto, Estimacion estimacion, Miembro pagador, Gasto gasto) {
         if (dto == null || estimacion == null) return;

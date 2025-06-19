@@ -75,8 +75,10 @@ public class OrganizacionController {
             }
     )
     @PatchMapping("/{id}")
-    public ResponseEntity<String> patchOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoUpdateRequest organizacionDtoUpReq) {
-        organizacionService.patchOrganizacion(organizacionDtoUpReq);
+    public ResponseEntity<String> patchOrganizacion(@RequestBody OrganizacionDtoUpdateRequest organizacionDtoUpReq,
+                @Validated @NotNull @PathVariable Long id) {
+
+        organizacionService.patchOrganizacion(organizacionDtoUpReq, id);
         return ResponseEntity.ok("Organización actualizada correctamente");
     }
 
@@ -98,7 +100,7 @@ public class OrganizacionController {
 
     @Operation(
             summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
-            description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
+            description = "Devuelve una organización junto con planes, presupuesto estimado y del usuario solicitante.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",

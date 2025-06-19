@@ -31,7 +31,7 @@ public class TareaMapper {
         );
     }
 
-    // Convierte TareaDtoRequest en Tarea
+    // Convierte TareaDtoPostRequest en Tarea
     public static Tarea toEntity(TareaDtoPostRequest dto, Plan plan) {
         if (dto == null) return null;
 

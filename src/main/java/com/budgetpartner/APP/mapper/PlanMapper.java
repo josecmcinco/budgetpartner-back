@@ -47,24 +47,6 @@ public class PlanMapper {
         );
     }
 
-    //Obtener Entity desde GastoDtoUpdateRequest
-    //No se hacen llamadas al servicio desde aquí
-    public static Plan toEntity(PlanDtoUpdateRequest dto, Organizacion organizacion) {
-        if (dto == null) return null;
-
-        return new Plan(
-                dto.getId(),
-                organizacion,
-                dto.getNombre(),
-                dto.getDescripcion(),
-                dto.getFechaInicio(),
-                dto.getFechaFin(),
-                dto.getModoPlan(),
-                LocalDateTime.now(), //TODO
-                LocalDateTime.now()
-        );
-    }
-
     // Actualiza entidad existente con los valores del DTO
     public static void updateEntityFromDtoRes(PlanDtoUpdateRequest dto, Plan plan) {
         if (dto == null || plan == null) return;

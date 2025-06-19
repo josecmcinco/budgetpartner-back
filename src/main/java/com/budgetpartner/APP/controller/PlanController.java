@@ -77,7 +77,7 @@ public class PlanController {
     @PatchMapping("/{id}")
     public ResponseEntity<String> patchPlanById(@Validated @NotNull @RequestBody PlanDtoUpdateRequest planDtoUpReq,
                                                 @PathVariable Long id) {
-        planService.patchPlan(planDtoUpReq);
+        planService.patchPlan(planDtoUpReq, id);
         return ResponseEntity.ok("Plan actualizado correctamente");
     }
 

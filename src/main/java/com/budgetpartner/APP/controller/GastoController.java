@@ -72,8 +72,9 @@ public class GastoController {
                     )}
     )
     @PatchMapping({"/{id}"})
-    public ResponseEntity<String> patchGastoById(@Validated @NotNull @RequestBody GastoDtoUpdateRequest gastoDtoUpReq) {
-        Gasto gasto = gastoService.patchGasto(gastoDtoUpReq);
+    public ResponseEntity<String> patchGastoById(@Validated @NotNull @RequestBody GastoDtoUpdateRequest gastoDtoUpReq,
+                                                 @Validated @NotNull @PathVariable Long id) {
+        Gasto gasto = gastoService.patchGasto(gastoDtoUpReq, id);
         return ResponseEntity.ok("Gasto actualizado correctamente");
     }
 

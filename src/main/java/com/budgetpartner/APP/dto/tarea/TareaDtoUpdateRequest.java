@@ -18,18 +18,13 @@ public class TareaDtoUpdateRequest {
     private double costeEstimado;
     private String moneda;
 
-    public TareaDtoUpdateRequest(Long id, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
-        this.id = id;
+    public TareaDtoUpdateRequest(String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.estado = estado;
         this.costeEstimado = costeEstimado;
         this.moneda = moneda;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitulo() {

@@ -52,24 +52,6 @@ public class GastoMapper {
 
     }
 
-    //Obtener Entity desde GastoDtoUpdateRequest
-    //No se hacen llamadas al servicio desde aquí
-    public static Gasto toEntity(GastoDtoUpdateRequest dto, Tarea tarea, Plan plan, Miembro pagador) {
-        if (dto == null) return null;
-
-        return new Gasto(
-                dto.getId(),
-                tarea,
-                plan,
-                dto.getCantidad(),
-                dto.getNombre(),
-                pagador,
-                dto.getDescripcion(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
-
-    }
 
     // Actualiza entidad existente con los valores del DTO
     public static void updateEntityFromDtoRes(GastoDtoUpdateRequest dto, Gasto gasto) {

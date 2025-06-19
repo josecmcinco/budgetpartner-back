@@ -64,10 +64,10 @@ public class PlanService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Plan patchPlan(PlanDtoUpdateRequest dto) {
+    public Plan patchPlan(PlanDtoUpdateRequest dto, Long id) {
         //Obtener plan usando el id pasado en la llamada
-        Plan plan = planRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + dto.getId()));
+        Plan plan = planRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
         PlanMapper.updateEntityFromDtoRes(dto, plan);
         planRepository.save(plan);

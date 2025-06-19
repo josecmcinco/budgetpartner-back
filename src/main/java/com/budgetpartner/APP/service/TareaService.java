@@ -70,10 +70,10 @@ public class TareaService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Tarea patchTarea(TareaDtoUpdateRequest dto) {
+    public Tarea patchTarea(TareaDtoUpdateRequest dto, Long id) {
         //Obtener tarea usando el id pasado en la llamada
-        Tarea tarea = tareaRepository.findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + dto.getId()));
+        Tarea tarea = tareaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
         TareaMapper.updateEntityFromDtoRes(dto, tarea);
         tareaRepository.save(tarea);
