@@ -3,10 +3,12 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
+import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
 import com.budgetpartner.APP.entity.Usuario;
+import com.budgetpartner.APP.enums.NombreRol;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -76,7 +78,7 @@ public class MiembroMapper {
     }
 
     public static List<MiembroDtoResponse> toDtoResponseListMiembro(List<Miembro> miembros) {
-        ArrayList<MiembroDtoResponse> listaMiembrosDtoResp = new ArrayList<MiembroDtoResponse>();
+        ArrayList<MiembroDtoResponse> listaMiembrosDtoResp = new ArrayList<>();
         if (miembros.isEmpty()) {
             return Collections.emptyList();
         } else {

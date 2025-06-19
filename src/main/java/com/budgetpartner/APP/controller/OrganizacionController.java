@@ -96,30 +96,31 @@ public class OrganizacionController {
         return ResponseEntity.ok("Organización eliminada correctamente");
     }
 
-@Operation(
-        summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
-        description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
-        responses = {
-                @ApiResponse(
-                        responseCode = "200",
-                        description = "Organizaciones obtenidas correctamente",
-                        content = @Content(
-                                mediaType = "application/json",
-                                examples = @ExampleObject(
-                                        name = "MensajeConfirmacion",
-                                        summary = "Mensaje de éxito",
-                                        value = "PENDIENTE"
-                                )
-                        )
-                )
-        }
-)
-@GetMapping("/organizacion")
-public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId() {
-    List<OrganizacionDtoResponse> organizacionDtoResponses = organizacionService.getOrganizacionesDtoByUsuarioId();
-    return ResponseEntity.ok(organizacionDtoResponses);
-}
+    @Operation(
+            summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
+            description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Organizaciones obtenidas correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/organizacion")
+    public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioId() {
+        List<OrganizacionDtoResponse> organizacionDtoResponses = organizacionService.getOrganizacionesDtoByUsuarioId();
+        return ResponseEntity.ok(organizacionDtoResponses);
+    }
 
+/*
     @Operation(
             summary = "Obtener todas las organizaciones junto con sus miembros dado el id de un miembro",
             description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
@@ -139,11 +140,12 @@ public ResponseEntity<List<OrganizacionDtoResponse>> getOrganizacionesByUsuarioI
             }
     )
 
+
     @GetMapping("/{id}/planes")
     public OrganizacionDtoResponse getPlanesByOrganizacionId(@Validated @NotNull @PathVariable Long id){
         //List<PlanDtoResponse> planes = planService.findPlanesByOrganizacionId(id);
         //return ResponseEntity.ok(planes);
         return null;
-    }
+    }*/
 
 }

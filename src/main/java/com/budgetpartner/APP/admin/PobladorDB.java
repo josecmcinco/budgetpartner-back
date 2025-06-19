@@ -48,12 +48,13 @@ public class PobladorDB {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    EstimacionRepository estimacionRepository;
+    private EstimacionRepository estimacionRepository;
 
 
 
     public void borrarTodo(){
         // Borrar entidades dependientes primero
+        estimacionRepository.deleteAll();
         gastoRepository.deleteAll();
         tareaRepository.deleteAll();
         miembroRepository.deleteAll();

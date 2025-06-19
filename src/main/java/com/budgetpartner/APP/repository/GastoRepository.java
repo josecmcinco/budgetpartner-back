@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface GastoRepository extends JpaRepository<Gasto, Long> {
 
     @Query("SELECT g FROM Gasto g WHERE g.plan.id = :plan_id")
-    List<Gasto> obtenerGastoPorPlanId(@Param("plan_id") Long plan_id);
+    List<Gasto> obtenerGastosPorPlanId(@Param("plan_id") Long plan_id);
 
     @Query("SELECT g FROM Gasto g WHERE g.tarea.id = :tarea_id")
     List<Gasto> obtenerGastosPorTareaId(@Param("tarea_id") Long tarea_id);

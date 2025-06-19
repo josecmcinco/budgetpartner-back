@@ -30,8 +30,8 @@ public class OrganizacionMapper {
         if (dto == null) return null;
 
         return new Organizacion(
-                dto.getNombre(),
-                dto.getDescripcion()
+                dto.getNombreOrganizacion(),
+                dto.getDescripcionOrganizacion()
         );
     }
 

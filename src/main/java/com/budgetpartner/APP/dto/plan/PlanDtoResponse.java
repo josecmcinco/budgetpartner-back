@@ -3,6 +3,7 @@ package com.budgetpartner.APP.dto.plan;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
+import com.budgetpartner.APP.entity.Estimacion;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.enums.ModoPlan;
@@ -26,6 +27,7 @@ public class PlanDtoResponse {
     private LocalDateTime fechaFin;
     private List<TareaDtoResponse> tareas;
     private List<GastoDtoResponse> gastos;
+    private List<Estimacion> estimaciones;
     private ModoPlan modoPlan;
 
 
@@ -105,5 +107,13 @@ public class PlanDtoResponse {
 
     public void setModoPlan(ModoPlan modoPlan) {
         this.modoPlan = modoPlan;
+    }
+
+    public List<Estimacion> getEstimaciones() {
+        return estimaciones;
+    }
+
+    public void setEstimaciones(List<Estimacion> estimaciones) {
+        this.estimaciones = estimaciones;
     }
 }

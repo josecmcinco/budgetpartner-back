@@ -5,28 +5,35 @@ public class OrganizacionDtoPostRequest {
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn
     */
-    private String nombre;
-    private String descripcion;
+    private String nombreOrganizacion;
+    private String descripcionOrganizacion;
+    private String nickMiembroCreador;
 
 
-    public OrganizacionDtoPostRequest(String nombre, String descripcion) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
+    public OrganizacionDtoPostRequest(String nombreOrganizacion, String descripcionOrganizacion, String nickMiembroCreador) {
+        this.nombreOrganizacion = nombreOrganizacion;
+        this.descripcionOrganizacion = descripcionOrganizacion;
+        this.nickMiembroCreador = nickMiembroCreador;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreOrganizacion() {
+        return nombreOrganizacion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreOrganizacion(String nombreOrganizacion) {
+        this.nombreOrganizacion = nombreOrganizacion;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescripcionOrganizacion() {
+        return descripcionOrganizacion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescripcionOrganizacion(String descripcionOrganizacion) {
+        this.descripcionOrganizacion = descripcionOrganizacion;
     }
+
+    public String getNickMiembroCreador() {
+        return nickMiembroCreador;
+    }
+
 }

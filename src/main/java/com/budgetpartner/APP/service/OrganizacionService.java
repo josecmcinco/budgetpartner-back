@@ -35,6 +35,8 @@ public class OrganizacionService {
     private TareaRepository tareaRepository;
     @Autowired
     private PlanRepository planRepository;
+    @Autowired
+    private RolRepository rolRepository;
 
 
     //ENDPOINTS
@@ -46,6 +48,24 @@ public class OrganizacionService {
 
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
         organizacionRepository.save(organizacion);
+
+        //Obtener el rol para poder meter el Miembro en la DB
+        //Rol rol = rolRepository.obtenerRolPorNombre(" ROLE_ADMIN")
+        //        .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
+
+        Rol rol = rolRepository.findById(1L)
+                .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
+
+
+        Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador(), true);
+
+        //Asociar el usuario al miembro
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        miembro.asociarUsuario(usuario);
+
+        //Guardar miembro en la DB recién creada
+        miembroRepository.save(miembro);
+
         return organizacion;
     }
 
@@ -62,7 +82,6 @@ public class OrganizacionService {
         //Transformación de Entity a DtoResponse
         OrganizacionDtoResponse organizacionDto = OrganizacionMapper.toDtoResponse(organizacion);
 
-        System.out.println("aaaaaa");
 
         //Se añade a OrganizacionDtoResponse la lista de miembros como Dtos
         List<Miembro> miembros = miembroRepository.obtenerMiembrosPorOrganizacionId(organizacionDto.getId());
@@ -70,30 +89,18 @@ public class OrganizacionService {
         organizacionDto.setMiembros(ListMiembroDto);
 
 
-        System.out.println("bbbbb");
-
         //Se añade a OrganizacionDtoResponse la lista de Planes como Dtos (antes hay que meter los gastos en los planes)
         List<Plan> planes = planRepository.obtenerPlanesPorOrganizacionId(organizacionDto.getId());
         List<PlanDtoResponse> ListPlanDto = PlanMapper.toDtoResponseListPlan(planes);
 
 
-        System.out.println("cccccc");
-
         //Se añade a PlanDtoResponse la lista de gastos como Dtos para cada gasto
         for ( PlanDtoResponse planDto: ListPlanDto) {
-            System.out.println("dddddddd");
 
-            List<Gasto> gastos = gastoRepository.obtenerGastoPorPlanId(planDto.getId());
-            System.out.println("dedededdeedee");
+            List<Gasto> gastos = gastoRepository.obtenerGastosPorPlanId(planDto.getId());
             List<GastoDtoResponse> ListGastoDto = GastoMapper.toDtoResponseListGasto(gastos);
             planDto.setGastos(ListGastoDto);
         }
-
-        System.out.println("ddddd");
-
-        //Crear y meter las estimaciones
-        //TODO
-        //Pues eso...
 
         organizacionDto.setPlanes(ListPlanDto);
 
