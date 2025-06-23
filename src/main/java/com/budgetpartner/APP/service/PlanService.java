@@ -82,11 +82,11 @@ public class PlanService {
         List<Tarea> tareas = tareaRepository.obtenerTareasPorPlanId(planDto.getId());
         List<TareaDtoResponse> ListTareaDto = TareaMapper.toDtoResponseListTarea(tareas);
         planDto.setTareas(ListTareaDto);
-/*
+
+        //Enviar las estimaciones como dto en planDto
         List<Estimacion> estimaciones = estimacionRepository.obtenerEstimacionesPorPlanId(planDto.getId());
         List<EstimacionDtoResponse> ListEstimacionDto = EstimacionMapper.toDtoResponseListEstimacion(estimaciones);
         planDto.setEstimaciones(ListEstimacionDto);
-*/
 
         return planDto;
     }
