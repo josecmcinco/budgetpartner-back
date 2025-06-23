@@ -60,7 +60,7 @@ public class EstimacionMapper {
         estimacion.setActualizadoEn(LocalDateTime.now());
     }
 
-    public static List<EstimacionDtoResponse> toDtoResponseList(List<Estimacion> estimaciones) {
+    public static List<EstimacionDtoResponse> toDtoResponseListEstimacion(List<Estimacion> estimaciones) {
         if (estimaciones == null || estimaciones.isEmpty()) {
             return Collections.emptyList();
         }

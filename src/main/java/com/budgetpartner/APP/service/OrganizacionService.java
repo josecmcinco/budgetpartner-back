@@ -45,7 +45,6 @@ public class OrganizacionService {
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
     public Organizacion postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
-        //TODO VARIABLES REPETIDAS (NOMBRE, CÓDIGO, ETC. según tu lógica de negocio)
 
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
         organizacionRepository.save(organizacion);
@@ -85,7 +84,6 @@ public class OrganizacionService {
         List<Miembro> miembros = miembroRepository.obtenerMiembrosPorOrganizacionId(organizacionDto.getId());
         List<MiembroDtoResponse> ListMiembroDto = MiembroMapper.toDtoResponseListMiembro(miembros);
         organizacionDto.setMiembros(ListMiembroDto);
-
 
         //Se añade a OrganizacionDtoResponse la lista de Planes como Dtos (antes hay que meter los gastos en los planes)
         List<Plan> planes = planRepository.obtenerPlanesPorOrganizacionId(organizacionDto.getId());

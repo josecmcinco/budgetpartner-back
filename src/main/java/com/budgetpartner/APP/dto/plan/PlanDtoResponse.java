@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.dto.plan;
 
+import com.budgetpartner.APP.dto.estimacion.EstimacionDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
@@ -20,20 +21,20 @@ public class PlanDtoResponse {
     */
 
     private Long id;
-    private OrganizacionDtoResponse organizacion;
+    private OrganizacionDtoResponse organizacionDtoResponse;
     private String nombre;
     private String descripcion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private List<TareaDtoResponse> tareas;
     private List<GastoDtoResponse> gastos;
-    private List<Estimacion> estimaciones;
+    private List<EstimacionDtoResponse> estimaciones;
     private ModoPlan modoPlan;
 
 
-    public PlanDtoResponse(Long id, OrganizacionDtoResponse organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin,  ModoPlan modoPlan) {
+    public PlanDtoResponse(Long id, OrganizacionDtoResponse organizacionDtoResponse, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin,  ModoPlan modoPlan) {
         this.id = id;
-        this.organizacion = organizacion;
+        this.organizacionDtoResponse = organizacionDtoResponse;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -45,12 +46,12 @@ public class PlanDtoResponse {
         return id;
     }
 
-    public OrganizacionDtoResponse getOrganizacion() {
-        return organizacion;
+    public OrganizacionDtoResponse getOrganizacionDtoResponse() {
+        return organizacionDtoResponse;
     }
 
-    public void setOrganizacion(OrganizacionDtoResponse organizacion) {
-        this.organizacion = organizacion;
+    public void setOrganizacionDtoResponse(OrganizacionDtoResponse organizacionDtoResponse) {
+        this.organizacionDtoResponse = organizacionDtoResponse;
     }
 
     public String getNombre() {
@@ -109,11 +110,11 @@ public class PlanDtoResponse {
         this.modoPlan = modoPlan;
     }
 
-    public List<Estimacion> getEstimaciones() {
+    public List<EstimacionDtoResponse> getEstimaciones() {
         return estimaciones;
     }
 
-    public void setEstimaciones(List<Estimacion> estimaciones) {
+    public void setEstimaciones(List<EstimacionDtoResponse> estimaciones) {
         this.estimaciones = estimaciones;
     }
 }

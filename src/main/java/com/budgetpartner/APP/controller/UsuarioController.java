@@ -161,8 +161,21 @@ TODO ELIMINAR
                                     )
                             )
                     )
-            }
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    name = "Credenciales",
+                                    summary = "Usuario y contraseña válidos",
+                                    value = "{\n  \"email\": \"carlos.martinez@mail.com\",\n  \"contraseña\": \"contraseña789\"\n}"
+                            )
+                    )
+            )
+
     )
+
     @PostMapping("/login")
     public ResponseEntity<TokenDtoResponse> authenticate(@RequestBody TokenDtoRequest request) {
         final TokenDtoResponse token = usuarioService.login(request);
