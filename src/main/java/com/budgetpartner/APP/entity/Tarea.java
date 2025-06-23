@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.entity;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.budgetpartner.APP.enums.EstadoTarea;
@@ -16,6 +17,12 @@ public class Tarea {
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
+
+    @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gasto> gastos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estimacion> estimaciones = new ArrayList<>();
 
     @Column
     private String titulo;

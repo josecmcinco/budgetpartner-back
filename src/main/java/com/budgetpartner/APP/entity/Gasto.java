@@ -3,6 +3,8 @@ package com.budgetpartner.APP.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -18,6 +20,9 @@ public class Gasto {
     @ManyToOne
     @JoinColumn(name = "plan_id")
     private Plan plan;
+
+    @OneToMany(mappedBy = "gasto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estimacion> estimaciones = new ArrayList<>();
 
     @Column
     private double cantidad;

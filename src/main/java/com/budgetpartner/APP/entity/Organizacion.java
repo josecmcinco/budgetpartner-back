@@ -3,6 +3,8 @@ package com.budgetpartner.APP.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -17,6 +19,12 @@ public class Organizacion {
     @Column
     private String descripcion;
 
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Plan> planes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Miembro> miembros = new ArrayList<>();
     /*
     TODO IMAGEN
      */

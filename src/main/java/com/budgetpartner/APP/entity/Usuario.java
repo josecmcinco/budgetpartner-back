@@ -2,6 +2,7 @@ package com.budgetpartner.APP.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +25,9 @@ public class Usuario {
 
     @Column
     private String contraseña;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Miembro> miembros = new ArrayList<>();
 
     @Column
     private LocalDateTime creadoEn;

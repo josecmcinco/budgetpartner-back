@@ -4,6 +4,8 @@ import com.budgetpartner.APP.enums.ModoPlan;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -15,6 +17,15 @@ public class Plan {
     @ManyToOne
     @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tarea> tarea = new ArrayList<>();
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gasto> gastos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Estimacion> estimaciones = new ArrayList<>();
 
     @Column
     private String nombre;
