@@ -78,9 +78,9 @@ public class GastoService {
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
+        //Elimina el gasto en cascada
         gastoRepository.delete(gasto);
 
-        //TODO AJUSTAR DEPENDENCIAS DE BORRADO SI EXISTEN (referencias desde otras entidades)
         return gasto;
     }
 

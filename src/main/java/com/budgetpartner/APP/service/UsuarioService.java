@@ -51,9 +51,9 @@ public class UsuarioService {
 
         Usuario usuario = devolverUsuarioAutenticado();
 
+        //Eliminar usuario. Quita los valores de sus claves ajenas
         usuarioRepository.delete(usuario);
 
-        //TODO AJSUTAR DEPENDENCIAS DE BORRADO
         return usuario;
     }
 

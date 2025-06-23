@@ -62,9 +62,9 @@ public class TareaService {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
+        //Borra tarea en cascada
         tareaRepository.delete(tarea);
 
-        //TODO AJUSTAR DEPENDENCIAS DE BORRADO (comentarios, asignaciones, etc.)
         return tarea;
     }
 

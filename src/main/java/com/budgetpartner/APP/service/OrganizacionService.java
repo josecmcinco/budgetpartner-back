@@ -7,6 +7,7 @@ import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.entity.*;
+import com.budgetpartner.APP.enums.NombreRol;
 import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.mapper.MiembroMapper;
 import com.budgetpartner.APP.mapper.OrganizacionMapper;
@@ -50,12 +51,9 @@ public class OrganizacionService {
         organizacionRepository.save(organizacion);
 
         //Obtener el rol para poder meter el Miembro en la DB
-        //Rol rol = rolRepository.obtenerRolPorNombre(" ROLE_ADMIN")
-        //        .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
 
-        Rol rol = rolRepository.findById(1L)
+        Rol rol = rolRepository.obtenerRolPorNombre(NombreRol.ROLE_ADMIN)
                 .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
-
 
         Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador(), true);
 
@@ -115,9 +113,8 @@ public class OrganizacionService {
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
+        //Borrado en cascada de organizaciones
         organizacionRepository.delete(organizacion);
-
-        //TODO AJUSTAR DEPENDENCIAS DE BORRADO (por ejemplo, planes, miembros, tareas relacionadas)
         return organizacion;
     }
 

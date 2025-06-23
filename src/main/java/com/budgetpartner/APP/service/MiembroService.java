@@ -61,9 +61,9 @@ public class MiembroService {
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
+        //Elimina miembro. Quita los valores de sus claves ajenas
         miembroRepository.delete(miembro);
 
-        //TODO AJSUTAR DEPENDENCIAS DE BORRADO
         return miembro;
     }
 

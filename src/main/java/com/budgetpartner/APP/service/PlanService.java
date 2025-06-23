@@ -44,7 +44,8 @@ public class PlanService {
 
     */
     public PlanDtoResponse getPlanByIdAndTrasnform(Long id) {
-        Plan plan = encontarPlanPorId(id);
+        Plan plan = planRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
         PlanDtoResponse dto = PlanMapper.toDtoResponse(plan);
         return dto;
     }
@@ -56,9 +57,9 @@ public class PlanService {
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
+        //Borra el plan en cascada
         planRepository.delete(plan);
 
-        //TODO AJUSTAR DEPENDENCIAS DE BORRADO (tareas, miembros asignados, etc.)
         return plan;
     }
 
@@ -75,15 +76,5 @@ public class PlanService {
     }
 
     //OTROS MÉTODOS
-    public Plan encontarPlanPorId(Long id) {
-        //Obtener plan usando el id pasado en la llamada
-        Plan plan = planRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
-        return plan;
-    }
-
-    public Integer contarPlanesPorUsuarioId(Long id){
-        return planRepository.contarPlanesPorUsuarioId(id);
-    }
 }
