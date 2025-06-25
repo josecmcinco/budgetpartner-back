@@ -4,14 +4,16 @@ import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
 import com.budgetpartner.APP.entity.*;
+import com.budgetpartner.APP.enums.ModoPlan;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.GastoMapper;
-import com.budgetpartner.APP.repository.GastoRepository;
-import com.budgetpartner.APP.repository.MiembroRepository;
-import com.budgetpartner.APP.repository.PlanRepository;
-import com.budgetpartner.APP.repository.TareaRepository;
+import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class GastoService {
@@ -20,13 +22,14 @@ public class GastoService {
     private GastoRepository gastoRepository;
     @Autowired
     private UsuarioService usuarioService;
-
     @Autowired
-    TareaRepository tareaRepository;
+    private TareaRepository tareaRepository;
     @Autowired
-    PlanRepository planRepository;
+    private PlanRepository planRepository;
     @Autowired
-    MiembroRepository miembroRepository;
+    private MiembroRepository miembroRepository;
+    @Autowired
+    private RepartoRepository repartoRepository;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -35,24 +38,44 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
+    @Transactional
     public Gasto postGasto(GastoDtoPostRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
         //Validar Token
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();
         //Ver que permisos ok
+        //TODO
 
-        //Crear
+        //Obtener elementos necesiarios para insertar el gasto
+        //Algunos campos pueden venir como nulos -> Evitar antes de hacer llamada a la DB
 
-        Tarea tarea = tareaRepository.findById(gastoDtoReq.getPlanId())
-                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + gastoDtoReq.getPlanId()));
         Plan plan = planRepository.findById(gastoDtoReq.getPlanId())
-                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + gastoDtoReq.getPlanId()));;
+                .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + gastoDtoReq.getPlanId()));
+
+        //Valor por defecto de la tarea asignada
+        Tarea tarea = null;
+
+        if(plan.getModoPlan().equals(ModoPlan.simple) && gastoDtoReq.getPlanId() != null){
+            throw new NotFoundException("Se está tratando de asignar una tarea a un gasto en un plan simple");
+        }
+
+        else if(gastoDtoReq.getPlanId() != null){
+            tarea = tareaRepository.findById(gastoDtoReq.getPlanId())
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + gastoDtoReq.getPlanId()));
+        }
+
         Miembro pagador = miembroRepository.findById(gastoDtoReq.getPagadorId())
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + gastoDtoReq.getPlanId()));;
 
+        //Crea el gasto
         Gasto gasto = GastoMapper.toEntity(gastoDtoReq, tarea, plan, pagador);
         gastoRepository.save(gasto);
+
+        //Crea las deudas de cada miembro en base al gasto
+        List<Long> idEndeudadosList = gastoDtoReq.getListaMiembrosEndeudados();
+        postRepartoGastos(idEndeudadosList, gasto, pagador);
+
         return gasto;
     }
 
@@ -65,6 +88,9 @@ public class GastoService {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
+
+        List<Miembro> miembrosEndeudados = gastoRepository.findMiembrosByGastoId(id);
+        System.out.println(miembrosEndeudados);
 
         GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
         return gastoDtoResp;
@@ -80,24 +106,58 @@ public class GastoService {
 
         //Elimina el gasto en cascada
         gastoRepository.delete(gasto);
-
         return gasto;
     }
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
-    public Gasto patchGasto(GastoDtoUpdateRequest dto, Long id) {
+    public Gasto patchGasto(GastoDtoUpdateRequest gastoDtoResp, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
-        GastoMapper.updateEntityFromDtoRes(dto, gasto);
+        GastoMapper.updateEntityFromDtoRes(gastoDtoResp, gasto);
         gastoRepository.save(gasto);
+
+        //Crea las deudas de cada miembro en base al gasto
+        List<Long> idEndeudadosList = gastoDtoResp.getListaMiembrosEndeudados();
+        postRepartoGastos(idEndeudadosList, gasto, gasto.getPagador());
+
         return gasto;
     }
 
 
     //OTROS MÉTODOS
 
+    //Crea las deudas de cada miembro en base al gasto
+    public void postRepartoGastos(List<Long> idEndeudadosList, Gasto gasto, Miembro pagador){
+
+        //Obtener deuda como double con dos decimales
+        int prepDeudaSinDecimales = (int) gasto.getCantidad() * 100 / idEndeudadosList.size();
+        double deudaPorPersona = (double) prepDeudaSinDecimales / 100 ;
+
+        //Preparar la parte indivisible del gasto para cobrarsela al que hace el gasto
+        double picoDelGasto = gasto.getCantidad() - deudaPorPersona * idEndeudadosList.size();
+
+        //Crear un elemento repartoDeuda por cada endeudado y meterlo en la DB
+        for (Long idEndeudado: idEndeudadosList){
+            Miembro miembro = miembroRepository.findById(idEndeudado)
+                    .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + idEndeudado));
+
+
+            RepartoGasto reparto = new RepartoGasto();
+            reparto.setGasto(gasto);
+            reparto.setMiembro(miembro);
+
+            //Asignar gasto de pico al pagador
+            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(deudaPorPersona + picoDelGasto);}
+            else{reparto.setCantidad(deudaPorPersona);}
+
+            reparto.setId(new RepartoGastoId(gasto.getId(), miembro.getId()));
+
+            repartoRepository.save(reparto);
+        }
+
+    }
 
 }

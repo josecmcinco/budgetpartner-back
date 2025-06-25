@@ -2,6 +2,7 @@ package com.budgetpartner.APP.entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.budgetpartner.APP.enums.EstadoTarea;
 import jakarta.persistence.*;
@@ -48,26 +49,20 @@ public class Tarea {
     @Column
     private LocalDateTime actualizadoEn;
 
-
-    @ManyToMany
-    @JoinTable(name = "miembro_tarea",
-            joinColumns = @JoinColumn(name = "tarea_id"),
-            inverseJoinColumns = @JoinColumn(name = "miembro_id")
-    )
-    private List<Miembro> miembros;
+    @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MiembroTarea> miembroTareas = new ArrayList<>();
 
     //Constructor vacío para Hibernate
     public Tarea(){}
 
     //Creación de Tarea desde 0
-    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, String moneda, List<Miembro> miembros) {
+    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, String moneda) {
         this.plan = plan;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.costeEstimado = costeEstimado;
         this.moneda = moneda;
-        this.miembros = miembros;
 
         //Generado automáticamente
         this.actualizadoEn = LocalDateTime.now();
@@ -76,7 +71,11 @@ public class Tarea {
     }
 
     //Extracción de tarea de la DB
-    public Tarea(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda, LocalDateTime creadoEn, LocalDateTime actualizadoEn, List<Miembro> miembros) {
+    public Tarea(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin,
+                 EstadoTarea estado, double costeEstimado, String moneda,
+                 LocalDateTime creadoEn, LocalDateTime actualizadoEn,
+                 List<Miembro> miembros) {
+
         this.id = id;
         this.plan = plan;
         this.titulo = titulo;
@@ -87,7 +86,15 @@ public class Tarea {
         this.moneda = moneda;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
-        this.miembros = miembros;
+
+        this.miembroTareas = new ArrayList<>();
+        for (Miembro miembro : miembros) {
+            MiembroTarea mt = new MiembroTarea(miembro, this);
+            this.miembroTareas.add(mt);
+
+            //SOLO si se quiere la relación bidireccional
+            //miembro.getMiembroTareas().add(mt);
+        }
     }
 
     public Long getId() {
@@ -130,17 +137,10 @@ public class Tarea {
         return actualizadoEn;
     }
 
-    public List<Miembro> getMiembros() {
-        return miembros;
-    }
+
 
     public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
-        this.actualizadoEn = LocalDateTime.now();
-    }
-
-    public void setMiembros(List<Miembro> miembros) {
-        this.miembros = miembros;
         this.actualizadoEn = LocalDateTime.now();
     }
 
@@ -168,5 +168,23 @@ public class Tarea {
     public void setMoneda(String moneda) {
         this.moneda = moneda;
         this.actualizadoEn = LocalDateTime.now();
+    }
+
+    public List<Miembro> getMiembros() {
+        return miembroTareas.stream()
+                .map(MiembroTarea::getMiembro)
+                .collect(Collectors.toList());
+    }
+
+    public void setMiembros(List<Miembro> miembros) {
+        this.miembroTareas.clear();
+        for (Miembro miembro : miembros) {
+            MiembroTarea mp = new MiembroTarea(miembro, this);
+            this.miembroTareas.add(mp);
+        }
+    }
+
+    public List<MiembroTarea> getMiembroTarea() {
+        return miembroTareas;
     }
 }

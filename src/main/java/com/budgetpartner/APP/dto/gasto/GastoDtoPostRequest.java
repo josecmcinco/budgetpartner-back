@@ -3,6 +3,8 @@ package com.budgetpartner.APP.dto.gasto;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 
+import java.util.List;
+
 public class GastoDtoPostRequest {
         /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -18,14 +20,16 @@ public class GastoDtoPostRequest {
         private String nombre;
         private Long pagadorId;
         private String descripcion;
+        private List<Long> listaMiembrosEndeudados;
 
-    public GastoDtoPostRequest(Long tareaId, Long planId, double cantidad, String nombre, Long pagadorId, String descripcion) {
+    public GastoDtoPostRequest(Long tareaId, Long planId, double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
         this.tareaId = tareaId;
         this.planId = planId;
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.pagadorId = pagadorId;
         this.descripcion = descripcion;
+        this.listaMiembrosEndeudados = listaMiembrosEndeudados;
     }
 
     public Long getPlanId() {
@@ -65,5 +69,13 @@ public class GastoDtoPostRequest {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<Long> getListaMiembrosEndeudados() {
+        return listaMiembrosEndeudados;
+    }
+
+    public void setListaMiembrosEndeudados(List<Long> listaMiembrosEndeudados) {
+        this.listaMiembrosEndeudados = listaMiembrosEndeudados;
     }
 }

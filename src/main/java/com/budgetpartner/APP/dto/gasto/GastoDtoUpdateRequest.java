@@ -2,6 +2,8 @@ package com.budgetpartner.APP.dto.gasto;
 
 import com.budgetpartner.APP.entity.Plan;
 
+import java.util.List;
+
 public class GastoDtoUpdateRequest {
     /*
     SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
@@ -14,12 +16,14 @@ public class GastoDtoUpdateRequest {
     private String nombre;
     private Long pagadorId;
     private String descripcion;
+    List<Long> listaMiembrosEndeudados;
 
-    public GastoDtoUpdateRequest(double cantidad, String nombre, Long pagadorId, String descripcion) {
+    public GastoDtoUpdateRequest(double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.pagadorId = pagadorId;
         this.descripcion = descripcion;
+        this.listaMiembrosEndeudados = listaMiembrosEndeudados;
     }
 
     public double getCantidad() {
@@ -50,5 +54,12 @@ public class GastoDtoUpdateRequest {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public List<Long> getListaMiembrosEndeudados() {
+        return listaMiembrosEndeudados;
+    }
+
+    public void setListaMiembrosEndeudados(List<Long> listaMiembrosEndeudados) {
+        this.listaMiembrosEndeudados = listaMiembrosEndeudados;
     }
 }

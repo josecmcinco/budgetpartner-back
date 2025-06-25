@@ -2,6 +2,8 @@ package com.budgetpartner.APP.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -37,6 +39,13 @@ public class Miembro {
 
     @Column
     private LocalDateTime actualizadoEn;
+
+    @OneToMany(mappedBy = "miembro")
+    private List<RepartoGasto> repartos = new ArrayList<>();
+
+    //@OneToMany(mappedBy = "miembro", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "miembro", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<MiembroTarea> miembroTareas = new ArrayList<>();
 
     //Constructor vacío para Hibernate
     public Miembro(){}

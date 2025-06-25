@@ -26,13 +26,19 @@ public class GastoMapper {
     public static GastoDtoResponse toDtoResponse(Gasto gasto) {
         if (gasto == null) return null;
 
+        Long tareaId = null;
+        if(gasto.getTarea() == null){
+            tareaId = gasto.getPlan().getId();
+        }
+
         return new GastoDtoResponse(
                 gasto.id,
-                TareaMapper.toDtoResponse(gasto.getTarea()),
-                PlanMapper.toDtoResponse(gasto.getPlan()),
+                tareaId,
+                gasto.getPlan().getId(),
                 gasto.getCantidad(),
                 gasto.getNombre(),
-                gasto.getDescripcion()
+                gasto.getDescripcion(),
+                MiembroMapper.toDtoResponseListMiembro(gasto.getMiembrosEndeudados())
         );
     }
 

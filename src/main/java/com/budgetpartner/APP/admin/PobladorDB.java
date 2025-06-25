@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class PobladorDB {
         System.out.println("Identificadores reseteados con éxito.");
     }
 
+    @Transactional
     public void poblarTodo(){
 
         //PARA EL CORRECTO POBLADO DE LA DB ES NECESARIO CREAR
@@ -109,7 +111,7 @@ public class PobladorDB {
         List<Estimacion> estimaciones = poblarEstimaciones(planes, tareas, miembros, gastos);
     }
 
-    public  List poblarEstimaciones(List<Plan> planes, List<Tarea> tareas, List<Miembro> miembros, List<Gasto> gastos){
+    public  List<Estimacion> poblarEstimaciones(List<Plan> planes, List<Tarea> tareas, List<Miembro> miembros, List<Gasto> gastos){
 
         //Estimacion1 estima a gasto1
         //Estimacion3 estima a gasto11
@@ -145,7 +147,7 @@ public class PobladorDB {
                 new Estimacion(plan3, null, miembro7, 219.99, TipoEstimacion.ESTIMACION_GASTO, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", miembro2, gasto1)
         );
 
-        estimacionRepository.saveAll(estimaciones);
+        estimaciones = estimacionRepository.saveAll(estimaciones);
 
         System.out.println("Estimaciones creadas");
 
@@ -172,28 +174,49 @@ public class PobladorDB {
         Miembro miembro6= miembros.get(5);
         Miembro miembro7= miembros.get(6);
 
+        List<Miembro> listaEndeudados1 = Arrays.asList(miembro1, miembro2, miembro3);
+        List<Miembro> listaEndeudados2 = Arrays.asList(miembro1, miembro2, miembro3, miembro5);
+
+        List<Miembro> listaEndeudados3 = Arrays.asList(miembro4, miembro6);
+
+
+        //Los gastos de plan1 y plan3 no lleva tarea
+
 
         List<Gasto> gastos = Arrays.asList(
-                new Gasto(tarea1, plan1, 50.0, "Desayuno", miembro1, "Desayuno en cafetería"),
-                new Gasto(tarea1, plan1, 120.0, "Transporte", miembro2, "Taxi ida y vuelta"),
-                new Gasto(tarea1, plan1, 75.5, "Materiales", miembro3, "Compra de materiales de oficina"),
-                new Gasto(tarea1, plan1, 30.0, "Estacionamiento", miembro6, "Pago de estacionamiento"),
+                new Gasto(null, plan1, 50.0, "Desayuno", miembro1, "Desayuno en cafetería"),
+                new Gasto(null, plan1, 120.0, "Transporte", miembro2, "Taxi ida y vuelta"),
+                new Gasto(null, plan1, 75.5, "Materiales", miembro3, "Compra de materiales de oficina"),
+                new Gasto(null, plan1, 200.0, "Almuerzo", miembro5, "Comida para el equipo"),
+                new Gasto(null, plan1, 45.0, "Bebidas", miembro1, "Compra de botellas de agua"),
 
-                new Gasto(tarea2, plan1, 200.0, "Almuerzo", miembro5, "Comida para el equipo"),
-                new Gasto(tarea2, plan1, 45.0, "Bebidas", miembro1, "Compra de botellas de agua"),
+                new Gasto(null, plan2, 60.0, "Papelería", miembro2, "Útiles varios"),
+                new Gasto(null, plan2, 90.0, "Publicidad", miembro3, "Anuncio en redes sociales"),
+                new Gasto(tarea1, plan2, 150.0, "Servicio técnico", miembro4, "Reparación de laptop"),
+                new Gasto(tarea2, plan2, 80.0, "Cena", miembro5, "Cena de cierre del proyecto"),
+                new Gasto(tarea3, plan2, 20.0, "Postre", miembro1, "Helados para el equipo"),
 
-                new Gasto(tarea3, plan1, 60.0, "Papelería", miembro2, "Útiles varios"),
-                new Gasto(tarea3, plan1, 90.0, "Publicidad", miembro3, "Anuncio en redes sociales"),
-                new Gasto(tarea3, plan1, 150.0, "Servicio técnico", miembro4, "Reparación de laptop"),
-
-                new Gasto(tarea4, plan2, 80.0, "Cena", miembro5, "Cena de cierre del proyecto"),
-                new Gasto(tarea4, plan2, 20.0, "Postre", miembro1, "Helados para el equipo"),
-
-                new Gasto(tarea4, plan3, 100.0, "Obsequios", miembro7, "Regalos para los participantes")
+                new Gasto(tarea4, plan3, 100.0, "Obsequios", miembro7, "Regalos para los participantes"),
+                new Gasto(null, plan3, 30.0, "Estacionamiento", miembro4, "Pago de estacionamiento")
 
         );
 
-        gastoRepository.saveAll(gastos);
+        gastos.get(0).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(1).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(2).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(3).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(4).setMiembrosEndeudados(listaEndeudados1);
+
+        gastos.get(5).setMiembrosEndeudados(listaEndeudados2);
+        gastos.get(6).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(7).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(8).setMiembrosEndeudados(listaEndeudados1);
+        gastos.get(9).setMiembrosEndeudados(listaEndeudados2);
+
+        gastos.get(10).setMiembrosEndeudados(listaEndeudados3);
+        gastos.get(11).setMiembrosEndeudados(listaEndeudados3);
+
+        gastos = gastoRepository.saveAll(gastos);
 
         System.out.println("Gatos creados");
 
@@ -242,7 +265,7 @@ public class PobladorDB {
 
         // Usuarios 4 y 5 → sin miembros
 
-        miembroRepository.saveAll(miembros);
+        miembros = miembroRepository.saveAll(miembros);
 
         System.out.println("Miembros creados");
 
@@ -255,7 +278,7 @@ public class PobladorDB {
             new Organizacion("BudgetCorp", "Gestión de presupuestos familiares."),
             new Organizacion("FinanceFlow", "Automatización de flujos financieros personales.")
         );
-        organizacionRepository.saveAll(organizaciones);
+        organizaciones = organizacionRepository.saveAll(organizaciones);
         System.out.println("Organizaciones creadas");
 
         return organizaciones;
@@ -291,11 +314,11 @@ public class PobladorDB {
                         "Descripción del Plan único de la Organización 2. PLAN SIMPLE",
                         LocalDateTime.of(2025, 6, 1, 10, 0),
                         LocalDateTime.of(2025, 6, 15, 10, 0),
-                        ModoPlan.simple
+                        ModoPlan.estructurado
                 )
         );
 
-        planRepository.saveAll(planes);
+        planes = planRepository.saveAll(planes);
         System.out.println("Planes creados");
 
         return planes;
@@ -307,7 +330,7 @@ public class PobladorDB {
         new Rol(NombreRol.ROLE_ADMIN),
         new Rol(NombreRol.ROLE_MEMBER)
         );
-        rolRepository.saveAll(roles);
+        roles = rolRepository.saveAll(roles);
         System.out.println("Roles creados");
         return roles;
 
@@ -315,42 +338,44 @@ public class PobladorDB {
 
 
     public List<Tarea> poblarTareas(List<Plan> planes, List<Miembro> miembros) {
-        //Creación de tres tareas
-        //Tarea1 tiene plan = 1
-        //Tarea2 tiene plan = 1
-        //Tarea3 tiene plan = 2
-        //Tarea4 tiene plan = 3
+
+        //Plan 1 es simple -> no tiene tareas
+
+        //Tareas de Plan 2
+        //Tarea1
+        //Tarea2
+        //Tarea3
+
+        //Tareas de Plan 3
+        //Tarea4
 
         Plan plan1 = planes.get(0);
         Plan plan2 = planes.get(1);
         Plan plan3 = planes.get(2);
 
-        List<Miembro> listaMiembro1 = miembros;
-        List<Miembro> listaMiembro2 = miembros;
-        List<Miembro> listaMiembro3 = miembros;
-        List<Miembro> listaMiembro4 = miembros;
-
+        List<Miembro> listaMiembro1 = Arrays.asList(miembros.get(0));
+        List<Miembro> listaMiembro2 = Arrays.asList(miembros.get(0), miembros.get(3));
+        List<Miembro> listaMiembro3 = Arrays.asList(miembros.get(0), miembros.get(1));
+        List<Miembro> listaMiembro4 = Arrays.asList(miembros.get(3), miembros.get(5));
 
         List<Tarea> tareas = Arrays.asList(
             new Tarea(
-                    plan1,
+                    plan2,
                     "Comprar comida semanal",
                     "Ir al supermercado y comprar alimentos para la semana.",
                     LocalDateTime.of(2025, 5, 18, 18, 0),
                     120.0,
-                    "EUR",
-                    listaMiembro1
+                    "EUR"
             ),
 
 
          new Tarea(
-                 plan1,
+                 plan2,
                 "Pagar factura de electricidad",
                 "Realizar el pago mensual del servicio eléctrico antes de la fecha límite.",
                 LocalDateTime.of(2025, 5, 20, 17, 0),
                 75.0,
-                "EUR",
-                 listaMiembro2
+                "EUR"
         ),
 
 
@@ -360,8 +385,7 @@ public class PobladorDB {
                 "Llenar el depósito del coche familiar para los desplazamientos semanales.",
                 LocalDateTime.of(2025, 5, 16, 16, 0),
                 60.0,
-                "EUR",
-                 listaMiembro3
+                "EUR"
         ),
         new Tarea(
                 plan3,
@@ -369,14 +393,20 @@ public class PobladorDB {
                 "Realizar el pago mensual del servicio de internet del hogar.",
                 LocalDateTime.of(2025, 5, 19, 12, 0),
                 50.0,
-                "EUR",
-                listaMiembro4
+                "EUR"
         )
         );
-        tareaRepository.saveAll(tareas);
+
+        tareas.get(0).setMiembros(listaMiembro1);
+        tareas.get(1).setMiembros(listaMiembro2);
+        tareas.get(2).setMiembros(listaMiembro3);
+        tareas.get(3).setMiembros(listaMiembro4);
+
+        tareas = tareaRepository.saveAll(tareas);
 
         System.out.println("Tareas creadas");
         return tareas;
+
     }//poblarTareas
 
     public List<Usuario> poblarUsuarios() {
@@ -388,7 +418,7 @@ public class PobladorDB {
                 new Usuario("luis.fernandez@mail.com", "Luis", "Fernández", passwordEncoder.encode("contraseña345"))
         );
 
-        usuarioRepository.saveAll(usuarios);
+        usuarios = usuarioRepository.saveAll(usuarios);
         System.out.println("Usuarios creados");
         return usuarios;
     }//poblarUsuarios

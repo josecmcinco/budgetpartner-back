@@ -8,6 +8,8 @@ import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GastoDtoResponse {
         /*
@@ -18,20 +20,23 @@ public class GastoDtoResponse {
          */
 
         private Long id;
-        private TareaDtoResponse tarea;
-        private PlanDtoResponse plan;
+        private Long tareaId;
+        private Long planId;
         private double cantidad;
         private String nombre;
         private MiembroDtoResponse pagador;
         private String descripcion;
+        private List<MiembroDtoResponse> miembrosEndeudadosDtoRes;
 
-    public GastoDtoResponse(Long id, TareaDtoResponse tarea, PlanDtoResponse plan, double cantidad, String nombre, String descripcion) {
+    public GastoDtoResponse(Long id, Long tareaId, Long planId, double cantidad, String nombre, String descripcion, List<MiembroDtoResponse> miembrosEndeudadosDtoRes) {
         this.id = id;
-        this.tarea = tarea;
-        this.plan = plan;
+        this.tareaId = tareaId;
+        this.planId = planId;
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.miembrosEndeudadosDtoRes = miembrosEndeudadosDtoRes;
+
     }
 
     public Long getId() {
@@ -42,20 +47,20 @@ public class GastoDtoResponse {
         this.id = id;
     }
 
-    public TareaDtoResponse getTarea() {
-        return tarea;
+    public Long getTareaId() {
+        return tareaId;
     }
 
-    public void setTarea(TareaDtoResponse tarea) {
-        this.tarea = tarea;
+    public void setTareaId(Long tareaId) {
+        this.tareaId = tareaId;
     }
 
-    public PlanDtoResponse getPlan() {
-        return plan;
+    public Long getPlanId() {
+        return planId;
     }
 
-    public void setPlan(PlanDtoResponse plan) {
-        this.plan = plan;
+    public void setPlanId(Long planId) {
+        this.planId = planId;
     }
 
     public double getCantidad() {
@@ -88,5 +93,13 @@ public class GastoDtoResponse {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<MiembroDtoResponse> getMiembrosEndeudadosDtoRes() {
+        return miembrosEndeudadosDtoRes;
+    }
+
+    public void setMiembrosEndeudadosDtoRes(List<MiembroDtoResponse> miembrosEndeudadosDtoRes) {
+        this.miembrosEndeudadosDtoRes = miembrosEndeudadosDtoRes;
     }
 }

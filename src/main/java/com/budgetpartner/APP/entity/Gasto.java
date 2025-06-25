@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
@@ -21,6 +22,7 @@ public class Gasto {
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
+
     @OneToMany(mappedBy = "gasto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Estimacion> estimaciones = new ArrayList<>();
 
@@ -33,6 +35,9 @@ public class Gasto {
     @ManyToOne
     @JoinColumn(name= "miembro_pagador_id")
     private Miembro pagador;
+
+    @OneToMany(mappedBy = "gasto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RepartoGasto> repartos = new ArrayList<>();
 
     @Column
     private String descripcion;
@@ -47,7 +52,6 @@ public class Gasto {
     public Gasto(){}
 
     //Creacion de Gasto desde 0
-
     public Gasto(Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
         this.tarea = tarea;
         this.plan = plan;
@@ -63,7 +67,7 @@ public class Gasto {
 
     //Extraer Pago de la DB
 
-    public Gasto(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Gasto(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion, List<RepartoGasto> repartos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.tarea = tarea;
         this.plan = plan;
@@ -71,6 +75,7 @@ public class Gasto {
         this.nombre = nombre;
         this.pagador = pagador;
         this.descripcion = descripcion;
+        this.repartos = repartos;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
     }
@@ -125,5 +130,23 @@ public class Gasto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
         this.actualizadoEn = LocalDateTime.now();
+    }
+
+    public List<Miembro> getMiembrosEndeudados() {
+        return repartos.stream()
+                .map(RepartoGasto::getMiembro)
+                .collect(Collectors.toList());
+    }
+
+
+    public void setMiembrosEndeudados(List<Miembro> miembros) {
+        this.repartos.clear();
+        for (Miembro miembro : miembros) {
+            RepartoGasto mp = new RepartoGasto(this, miembro, getCantidad());
+            this.repartos.add(mp);
+
+            //Usar SOLO si tienes relación bidireccional
+            //miembro.getMiembroTarea().add(mp);
+        }
     }
 }

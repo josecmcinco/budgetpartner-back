@@ -23,7 +23,7 @@ public class Organizacion {
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Plan> planes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Miembro> miembros = new ArrayList<>();
     /*
     TODO IMAGEN

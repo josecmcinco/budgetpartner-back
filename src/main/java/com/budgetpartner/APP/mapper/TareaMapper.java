@@ -41,9 +41,7 @@ public class TareaMapper {
                 dto.getDescripcion(),
                 dto.getFechaFin(),
                 dto.getCosteEstimado(),
-                dto.getMoneda(),
-                //dto.getMiembros()
-                null//TODO
+                dto.getMoneda()
         );
     }
 
