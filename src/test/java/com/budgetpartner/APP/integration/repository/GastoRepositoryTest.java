@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.repository;
+package com.budgetpartner.APP.integration.repository;
 
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.entity.Gasto;

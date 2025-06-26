@@ -1,6 +1,7 @@
-package com.budgetpartner.APP.repository;
+package com.budgetpartner.APP.integration.repository;
 
 import com.budgetpartner.APP.entity.Organizacion;
+import com.budgetpartner.APP.repository.OrganizacionRepository;
 import com.budgetpartner.config.PobladorTestConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 

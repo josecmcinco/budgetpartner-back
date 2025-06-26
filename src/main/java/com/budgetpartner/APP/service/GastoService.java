@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
 import com.budgetpartner.APP.entity.*;
 import com.budgetpartner.APP.enums.ModoPlan;
+import com.budgetpartner.APP.exceptions.BadRequestException;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.repository.*;
@@ -57,7 +58,7 @@ public class GastoService {
         Tarea tarea = null;
 
         if(plan.getModoPlan().equals(ModoPlan.simple) && gastoDtoReq.getPlanId() != null){
-            throw new NotFoundException("Se está tratando de asignar una tarea a un gasto en un plan simple");
+            throw new BadRequestException("Se está tratando de asignar una tarea a un gasto en un plan simple");
         }
 
         else if(gastoDtoReq.getPlanId() != null){

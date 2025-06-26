@@ -1,8 +1,9 @@
-package com.budgetpartner.APP.repository;
+package com.budgetpartner.APP.integration.repository;
 
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.repository.GastoRepository;
+import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.config.PobladorTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

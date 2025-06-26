@@ -16,8 +16,13 @@ public class EstimacionMapper {
     public static EstimacionDtoResponse toDtoResponse(Estimacion estimacion) {
         if (estimacion == null) return null;
 
+        Long tareaId = null;
+        if(estimacion.getTarea() == null){
+            tareaId = estimacion.getPlan().getId();
+        }
+
         return new EstimacionDtoResponse(
-                estimacion.getTarea().getId(),
+                tareaId,
                 estimacion.getPlan().getId(),
                 estimacion.getCreador().getId(),
                 estimacion.getCantidad(),

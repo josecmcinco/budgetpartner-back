@@ -7,7 +7,6 @@ import com.budgetpartner.APP.enums.NombreRol;
 import com.budgetpartner.APP.enums.TipoEstimacion;
 import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -82,6 +81,7 @@ public class PobladorDB {
         jdbc.execute("ALTER SEQUENCE rol_seq RESTART WITH 1");
         jdbc.execute("ALTER SEQUENCE tarea_seq RESTART WITH 1");
         jdbc.execute("ALTER SEQUENCE gasto_seq RESTART WITH 1");
+        jdbc.execute("ALTER SEQUENCE estimacion_seq RESTART WITH 1");
 
         System.out.println("Identificadores reseteados con éxito.");
     }
@@ -144,7 +144,7 @@ public class PobladorDB {
 
                 new Estimacion(plan2, tarea4, miembro3, 56.80, TipoEstimacion.ESTIMACION_TAREA, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", null, gasto1),
 
-                new Estimacion(plan3, null, miembro7, 219.99, TipoEstimacion.ESTIMACION_GASTO, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", miembro2, gasto1)
+                new Estimacion(plan3, null, miembro7, 219.99, TipoEstimacion.ESTIMACION_PLAN, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", miembro2, gasto1)
         );
 
         estimaciones = estimacionRepository.saveAll(estimaciones);

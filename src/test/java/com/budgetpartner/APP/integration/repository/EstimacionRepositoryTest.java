@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.repository;
+package com.budgetpartner.APP.integration.repository;
 
 import com.budgetpartner.config.PobladorTestConfig;
 import org.springframework.boot.test.context.SpringBootTest;
