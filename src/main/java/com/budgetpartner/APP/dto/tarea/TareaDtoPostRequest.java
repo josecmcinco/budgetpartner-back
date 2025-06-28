@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.dto.tarea;
 
 import com.budgetpartner.APP.enums.EstadoTarea;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 
 import java.time.LocalDateTime;
 
@@ -16,9 +17,9 @@ public class TareaDtoPostRequest {
     private LocalDateTime fechaFin;
     private EstadoTarea estado;
     private double costeEstimado;
-    private String moneda;
+    private MonedasDisponibles moneda;
 
-    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
+    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda) {
         this.planId = planId;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -73,11 +74,11 @@ public class TareaDtoPostRequest {
         this.costeEstimado = costeEstimado;
     }
 
-    public String getMoneda() {
+    public MonedasDisponibles getMoneda() {
         return moneda;
     }
 
-    public void setMoneda(String moneda) {
+    public void setMoneda(MonedasDisponibles moneda) {
         this.moneda = moneda;
     }
 }

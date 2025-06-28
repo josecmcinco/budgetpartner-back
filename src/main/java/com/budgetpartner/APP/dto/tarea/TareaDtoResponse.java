@@ -3,6 +3,7 @@ package com.budgetpartner.APP.dto.tarea;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.enums.EstadoTarea;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
@@ -21,9 +22,9 @@ public class TareaDtoResponse {
     private LocalDateTime fechaFin;
     private EstadoTarea estado;
     private double costeEstimado;
-    private String moneda;
+    private MonedasDisponibles moneda;
 
-    public TareaDtoResponse(Long id, PlanDtoResponse plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, String moneda) {
+    public TareaDtoResponse(Long id, PlanDtoResponse plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda) {
         this.id = id;
         this.plan = plan;
         this.titulo = titulo;
@@ -86,11 +87,11 @@ public class TareaDtoResponse {
         this.costeEstimado = costeEstimado;
     }
 
-    public String getMoneda() {
+    public MonedasDisponibles getMoneda() {
         return moneda;
     }
 
-    public void setMoneda(String moneda) {
+    public void setMoneda(MonedasDisponibles moneda) {
         this.moneda = moneda;
     }
 }

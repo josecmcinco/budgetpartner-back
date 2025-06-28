@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.budgetpartner.APP.enums.EstadoTarea;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.persistence.*;
 
 @Entity
@@ -40,8 +41,8 @@ public class Tarea {
     @Column
     private double costeEstimado;
 
-    @Column
-    private String moneda;
+    @Enumerated(EnumType.STRING)
+    private MonedasDisponibles moneda;
 
     @Column
     private LocalDateTime creadoEn;
@@ -56,7 +57,7 @@ public class Tarea {
     public Tarea(){}
 
     //Creación de Tarea desde 0
-    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, String moneda) {
+    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, MonedasDisponibles moneda) {
         this.plan = plan;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -72,7 +73,7 @@ public class Tarea {
 
     //Extracción de tarea de la DB
     public Tarea(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin,
-                 EstadoTarea estado, double costeEstimado, String moneda,
+                 EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda,
                  LocalDateTime creadoEn, LocalDateTime actualizadoEn,
                  List<Miembro> miembros) {
 
@@ -125,7 +126,7 @@ public class Tarea {
         return costeEstimado;
     }
 
-    public String getMoneda() {
+    public MonedasDisponibles getMoneda() {
         return moneda;
     }
 
@@ -165,7 +166,7 @@ public class Tarea {
         this.actualizadoEn = LocalDateTime.now();
     }
 
-    public void setMoneda(String moneda) {
+    public void setMoneda(MonedasDisponibles moneda) {
         this.moneda = moneda;
         this.actualizadoEn = LocalDateTime.now();
     }

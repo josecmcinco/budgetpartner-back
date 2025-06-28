@@ -365,7 +365,7 @@ public class PobladorDB {
                     "Ir al supermercado y comprar alimentos para la semana.",
                     LocalDateTime.of(2025, 5, 18, 18, 0),
                     120.0,
-                    "EUR"
+                    MonedasDisponibles.EUR
             ),
 
 
@@ -375,7 +375,7 @@ public class PobladorDB {
                 "Realizar el pago mensual del servicio eléctrico antes de la fecha límite.",
                 LocalDateTime.of(2025, 5, 20, 17, 0),
                 75.0,
-                "EUR"
+                 MonedasDisponibles.EUR
         ),
 
 
@@ -385,7 +385,7 @@ public class PobladorDB {
                 "Llenar el depósito del coche familiar para los desplazamientos semanales.",
                 LocalDateTime.of(2025, 5, 16, 16, 0),
                 60.0,
-                "EUR"
+                 MonedasDisponibles.EUR
         ),
         new Tarea(
                 plan3,
@@ -393,7 +393,7 @@ public class PobladorDB {
                 "Realizar el pago mensual del servicio de internet del hogar.",
                 LocalDateTime.of(2025, 5, 19, 12, 0),
                 50.0,
-                "EUR"
+                MonedasDisponibles.EUR
         )
         );
 

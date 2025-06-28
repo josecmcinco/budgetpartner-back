@@ -24,11 +24,11 @@ public class MiembroDtoPostRequest {
     public void setOrganizacionId(Long organizacionId) {
         this.organizacionId = organizacionId;}
 
-    public Long getRolMiembro() {
+    public Long getRolId() {
         return rolId;
     }
 
-    public void setRolMiembro(Long rolMiembro) {
+    public void setRolId(Long rolId) {
         this.rolId = rolId;
     }
 

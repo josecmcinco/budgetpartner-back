@@ -3,10 +3,10 @@ package com.budgetpartner.APP.dto.token;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record TokenDtoResponse(
-        @JsonProperty("access_token")
+        @JsonProperty("accessToken")
         String accessToken,
 
-        @JsonProperty("refresh_token")
+        @JsonProperty("refreshToken")
         String refreshToken
 ) {
 }

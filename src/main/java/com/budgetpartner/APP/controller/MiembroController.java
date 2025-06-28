@@ -40,10 +40,10 @@ public class MiembroController {
             }
     )
     @PostMapping
-    public ResponseEntity<MiembroDtoResponse> postMiembro(@Validated @NotNull @RequestBody MiembroDtoPostRequest miembroDtoReq) {
+    public ResponseEntity<String> postMiembro(@Validated @NotNull @RequestBody MiembroDtoPostRequest miembroDtoReq) {
         Miembro miembro = miembroService.postMiembro(miembroDtoReq);
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
-        return ResponseEntity.ok(miembroDtoResp);
+        return ResponseEntity.ok("Miembro creado correctamente");
     }
 
     @Operation(

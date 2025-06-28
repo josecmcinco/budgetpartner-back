@@ -3,14 +3,10 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
-import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
-import com.budgetpartner.APP.entity.Usuario;
-import com.budgetpartner.APP.enums.NombreRol;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,12 +41,12 @@ public class MiembroMapper {
 
 
     // Actualiza entidad existente con los valores del DTO
-    public static void updateEntityFromDtoRes(MiembroDtoUpdateRequest dto, Miembro miembro) {
+    public static void updateEntityFromDtoRes(MiembroDtoUpdateRequest dto, Miembro miembro, Rol rol) {
         if (dto == null || miembro == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:
         //OrganizacionOrigen
-        if (dto.getRolMiembro() != null) miembro.setRol(new Rol()); //TODO
+        if (dto.getRolId() != null) miembro.setRol(rol);
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 
         //TODO para cuando sepa como se invita a un usuario

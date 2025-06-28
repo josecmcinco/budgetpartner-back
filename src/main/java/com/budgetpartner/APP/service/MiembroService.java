@@ -33,8 +33,10 @@ public class MiembroService {
         Organizacion organizacion = organizacionRepository.findById(dto.getOrganizacionId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + (dto.getOrganizacionId())));
 
-        Rol rol = rolRepository.findById(dto.getRolMiembro())
-                .orElseThrow(() -> new NotFoundException("Rol no encontrada con id: " + (dto.getRolMiembro())));
+        System.out.println(dto.getRolId());
+
+        Rol rol = rolRepository.findById(dto.getRolId())
+                .orElseThrow(() -> new NotFoundException("Rol no encontrada con id: " + (dto.getRolId())));
 
         Miembro miembro = MiembroMapper.toEntity(dto, organizacion, rol);
         miembroRepository.save(miembro);
@@ -75,7 +77,13 @@ public class MiembroService {
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
-        MiembroMapper.updateEntityFromDtoRes(dto, miembro);
+        Rol rol = null;
+        if (dto.getRolId() != null) {
+            rol = rolRepository.findById(dto.getRolId())
+                    .orElseThrow(() -> new NotFoundException("Rol no encontrada con id: " + (dto.getRolId())));
+        }
+
+        MiembroMapper.updateEntityFromDtoRes(dto, miembro, rol);
         miembroRepository.save(miembro);
         return miembro;
     }

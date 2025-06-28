@@ -25,11 +25,11 @@ public class MiembroDtoUpdateRequest {
         this.usuarioId = usuarioId;
     }
 
-    public Long getRolMiembro() {
+    public Long getRolId() {
         return rolId;
     }
 
-    public void setRolMiembro(Long rolId) {
+    public void setRolId(Long rolId) {
         this.rolId = rolId;
     }
 
