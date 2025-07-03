@@ -102,5 +102,39 @@ public class MiembroController {
         MiembroDtoResponse miembroDtoResp = MiembroMapper.toDtoResponse(miembro);
         return ResponseEntity.ok("Miembro eliminado correctamente");
     }
+
+    @Operation(
+            summary = "Asociar un miembro a un usario",
+            description = "Asocia un miembro al usuario que envía la petición. Devuelve el miembro asociado",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro asociado correctamente"
+                    )
+            }
+    )
+    @PostMapping("/{id}")
+    public ResponseEntity<MiembroDtoResponse> associateMiembro(@Validated @NotNull @PathVariable Long id) {
+        MiembroDtoResponse miembroDtoResp  = miembroService.associateMiembro(id);
+        return ResponseEntity.ok(miembroDtoResp);
+    }
+
+    @Operation(
+            summary = "Dessociar un miembro a un usario",
+            description = "Dessocia un miembro al usuario que envía la petición. Devuelve un string de confirmación",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro desasociado correctamente"
+                    )
+            }
+    )
+    @PostMapping("/{id}")
+    public ResponseEntity<String> dissociateMember(@Validated @NotNull @PathVariable Long id) {
+        MiembroDtoResponse miembroDtoResp  = miembroService.dissociateMember(id);
+        return ResponseEntity.ok("Miembro desasociado correctamente");
+    }
+
+
 }
 

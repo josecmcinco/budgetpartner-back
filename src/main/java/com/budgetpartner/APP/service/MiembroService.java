@@ -97,7 +97,7 @@ public class MiembroService {
 
     //Asociación de un miembro a un Usuario de la DB
     //TODO SOLO si la variable usuario está vacía
-    public MiembroDtoResponse asociarUsuario(Long miembroId) {
+    public MiembroDtoResponse associateMiembro(Long miembroId) {
 
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();
         Miembro miembro = miembroRepository.findById(miembroId)
@@ -113,15 +113,15 @@ public class MiembroService {
         return MiembroMapper.toDtoResponse(miembro);
     }
 
-    public MiembroDtoResponse desasociarUsuario(Long miembroId) {
+    public MiembroDtoResponse dissociateMember(Long miembroId) {
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();
         Miembro miembro = miembroRepository.findById(miembroId)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + miembroId));
 
 
-        miembro.setUsuario(usuario);
-        miembro.setActivo(true);
-        miembro.setFechaIngreso(LocalDateTime.now());
+        miembro.setUsuario(null);
+        miembro.setActivo(false);
+        miembro.setFechaIngreso(null);
 
         miembroRepository.save(miembro);
 
