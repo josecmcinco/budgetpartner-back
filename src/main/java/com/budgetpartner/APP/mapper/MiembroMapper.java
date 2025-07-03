@@ -49,10 +49,6 @@ public class MiembroMapper {
         if (dto.getRolId() != null) miembro.setRol(rol);
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 
-        //TODO para cuando sepa como se invita a un usuario
-        //Asociación del usuario de origen
-        if(dto.getIsActivo() && !miembro.getIsActivo()){miembro.asociarUsuario(null);}
-        else if(!dto.getIsActivo() && miembro.getIsActivo()){miembro.desasociarUsuario();}
 
     }
 

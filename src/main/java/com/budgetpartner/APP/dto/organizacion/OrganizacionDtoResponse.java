@@ -25,6 +25,7 @@ TODO IMAGEN
     private List<MiembroDtoResponse> miembros;
     private List<PlanDtoResponse> planes;
     private int numeroMiembros;
+    private Long idCreador;
 
     public OrganizacionDtoResponse(Long id, String nombre, String descripcion) {
         this.id = id;
@@ -75,4 +76,9 @@ TODO IMAGEN
     public void setNumeroMiembros(int numeroMiembros) {
         this.numeroMiembros = numeroMiembros;
     }
+
+    public void setMiembroCreador(Long idCreador) {
+        this.idCreador = idCreador;
+    }
+
 }

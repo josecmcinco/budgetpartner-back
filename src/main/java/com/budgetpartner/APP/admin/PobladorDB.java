@@ -234,23 +234,36 @@ public class PobladorDB {
 
         List<Miembro> miembros = new ArrayList<>();
 
-        // Usuario 1 → org1, admin
+        // Usuario 1 -> org1, admin
         Miembro m1 = new Miembro(org1, rolAdmin, "jperez", false);
-        m1.asociarUsuario(usuarios.get(0));
+        m1.setUsuario(usuarios.get(0));
+        m1.setActivo(true);
+        m1.setFechaIngreso(LocalDateTime.now());
+
         miembros.add(m1);
 
-        // Usuario 2 → org1, miembro
+        // Usuario 2 -> org1, miembro
         Miembro m2 = new Miembro(org1, rolMiembro, "mgomez", false);
-        m2.asociarUsuario(usuarios.get(1));
+        m1.setUsuario(usuarios.get(1));
+        m1.setActivo(true);
+        m1.setFechaIngreso(LocalDateTime.now());
+
         miembros.add(m2);
 
-        // Usuario 3 → org1 y org2, admin
+        // Usuario 3 -> org1 y org2, admin
         Miembro m3 = new Miembro(org1, rolAdmin, "cmartinez1", false);
-        m3.asociarUsuario(usuarios.get(2));
+        m1.setUsuario(usuarios.get(2));
+        m1.setActivo(true);
+        m1.setFechaIngreso(LocalDateTime.now());
+
         miembros.add(m3);
 
+
         Miembro m4 = new Miembro(org2, rolAdmin, "cmartinez2", false);
-        m4.asociarUsuario(usuarios.get(2));
+        m1.setUsuario(usuarios.get(2));
+        m1.setActivo(true);
+        m1.setFechaIngreso(LocalDateTime.now());
+
         miembros.add(m4);
 
         // Miembros sin usuario en org1
@@ -263,7 +276,7 @@ public class PobladorDB {
         Miembro m7 = new Miembro(org2, rolMiembro, "org2_invitado", false);
         miembros.add(m7);
 
-        // Usuarios 4 y 5 → sin miembros
+        // Usuarios 4 y 5 sin miembros
 
         miembros = miembroRepository.saveAll(miembros);
 

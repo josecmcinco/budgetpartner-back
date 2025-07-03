@@ -40,7 +40,7 @@ public class GastoService {
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
     @Transactional
-    public Gasto postGasto(GastoDtoPostRequest gastoDtoReq) {
+    public GastoDtoResponse postGasto(GastoDtoPostRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
         //Validar Token
@@ -77,7 +77,7 @@ public class GastoService {
         List<Long> idEndeudadosList = gastoDtoReq.getListaMiembrosEndeudados();
         postRepartoGastos(idEndeudadosList, gasto, pagador);
 
-        return gasto;
+        return GastoMapper.toDtoResponse(gasto);
     }
 
     //Llamada para Endpoint

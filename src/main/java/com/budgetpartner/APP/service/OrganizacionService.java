@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,31 +40,34 @@ public class OrganizacionService {
     @Autowired
     private RolRepository rolRepository;
 
-
     //ENDPOINTS
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Organizacion postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
+    public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
 
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
         organizacionRepository.save(organizacion);
 
         //Obtener el rol para poder meter el Miembro en la DB
-
         Rol rol = rolRepository.obtenerRolPorNombre(NombreRol.ROLE_ADMIN)
                 .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
 
         Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador(), true);
 
-        //Asociar el usuario al miembro
+        //Autenticar el miembro
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();
-        miembro.asociarUsuario(usuario);
+        miembro.setUsuario(usuario);
+        miembro.setActivo(true);
+        miembro.setFechaIngreso(LocalDateTime.now());
 
         //Guardar miembro en la DB recién creada
         miembroRepository.save(miembro);
 
-        return organizacion;
+        OrganizacionDtoResponse organizacionDtoResp =  OrganizacionMapper.toDtoResponse(organizacion);
+        organizacionDtoResp.setMiembroCreador(miembro.getId());
+
+        return organizacionDtoResp;
     }
 
     //Llamada para Endpoint

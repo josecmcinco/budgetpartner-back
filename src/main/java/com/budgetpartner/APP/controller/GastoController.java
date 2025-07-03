@@ -33,9 +33,9 @@ public class GastoController {
                     )}
     )
     @PostMapping
-    public ResponseEntity<String> postGasto(@NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
-        gastoService.postGasto(gastoDtoReq);
-        return ResponseEntity.ok("Gasto creado correctamente");
+    public ResponseEntity<GastoDtoResponse> postGasto(@NotNull @RequestBody GastoDtoPostRequest gastoDtoReq) {
+        GastoDtoResponse gastoDtoResp = gastoService.postGasto(gastoDtoReq);
+        return ResponseEntity.ok(gastoDtoResp);
     }
 
     @Operation(
@@ -89,8 +89,7 @@ public class GastoController {
     )
     @DeleteMapping({"/{id}"})
     public ResponseEntity<String> deleteGastoById(@Validated @NotNull @PathVariable Long id) {
-        Gasto gasto = gastoService.deleteGastoById(id);
-        GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
+        gastoService.deleteGastoById(id);
         return ResponseEntity.ok("Gasto eliminado correctamente");
     }
 

@@ -35,8 +35,7 @@ public class PlanController {
     )
     @PostMapping
     public ResponseEntity<PlanDtoResponse> postPlan(@Validated @NotNull @RequestBody PlanDtoPostRequest planDtoReq) {
-        Plan plan = planService.postPlan(planDtoReq);
-        PlanDtoResponse planDtoResp = PlanMapper.toDtoResponse(plan);
+        PlanDtoResponse planDtoResp =  planService.postPlan(planDtoReq);
         return ResponseEntity.ok(planDtoResp);
     }
 

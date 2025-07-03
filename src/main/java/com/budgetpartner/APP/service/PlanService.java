@@ -40,7 +40,7 @@ public class PlanService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Plan postPlan(PlanDtoPostRequest planDtoReq) {
+    public PlanDtoResponse postPlan(PlanDtoPostRequest planDtoReq) {
 
         Organizacion organizacion= organizacionRepository.findById(planDtoReq.getOrganizacionId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + planDtoReq.getOrganizacionId()));
@@ -48,7 +48,7 @@ public class PlanService {
         //TODO VALIDAR CAMPOS REPETIDOS (nombre, fechas, organización, etc.)
         Plan plan = PlanMapper.toEntity(planDtoReq, organizacion);
         planRepository.save(plan);
-        return plan;
+        return PlanMapper.toDtoResponse(plan);
     }
 
     //Llamada para Endpoint

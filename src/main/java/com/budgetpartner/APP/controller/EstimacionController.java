@@ -32,9 +32,9 @@ public class EstimacionController {
                     )}
     )
     @PostMapping
-    public ResponseEntity<String> postEstimacion(@NotNull @RequestBody EstimacionDtoPostRequest estimacionDtoReq) {
-        estimacionService.postEstimacion(estimacionDtoReq);
-        return ResponseEntity.ok("Estimación creada correctamente");
+    public ResponseEntity<EstimacionDtoResponse> postEstimacion(@NotNull @RequestBody EstimacionDtoPostRequest estimacionDtoReq) {
+        EstimacionDtoResponse estimacionDtoResp = estimacionService.postEstimacion(estimacionDtoReq);
+        return ResponseEntity.ok(estimacionDtoResp);
     }
 
     @Operation(
@@ -88,7 +88,6 @@ public class EstimacionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEstimacionById(@Validated @NotNull @PathVariable Long id) {
        estimacionService.deleteEstimacionById(id);
-        // Puedes mapearlo a DTO si lo necesitas
         return ResponseEntity.ok("Estimación eliminada correctamente");
     }
 }

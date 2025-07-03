@@ -36,7 +36,7 @@ public class OrganizacionController {
     @PostMapping
     public ResponseEntity<String> postOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoPostRequest organizacionDtoReq
     ) {
-        organizacionService.postOrganizacion(organizacionDtoReq);
+        OrganizacionDtoResponse organizacionDtoRes = organizacionService.postOrganizacion(organizacionDtoReq);
         return ResponseEntity.ok("Organización creada correctamente");
     }
 

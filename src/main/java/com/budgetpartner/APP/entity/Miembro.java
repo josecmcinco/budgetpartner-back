@@ -77,25 +77,6 @@ public class Miembro {
         this.actualizadoEn = actualizadoEn;
     }
 
-    //Asociación de un miembro a un Usuario de la DB
-    //TODO SOLO si la variable usuario está vacía
-    public void asociarUsuario(Usuario usuarioOrigen) {
-        this.usuario = usuarioOrigen;
-        this.isActivo = true;
-        this.fechaIngreso = LocalDateTime.now();
-        this.actualizadoEn = LocalDateTime.now();
-    }
-
-    public void desasociarUsuario() {
-        this.usuario = null;
-        this.isActivo = false;
-        this.fechaIngreso = null;
-        this.actualizadoEn = LocalDateTime.now();
-    }
-
-
-    //TODO eliminar usuario del miembro si no tiene miembro
-
     //Getters y Setters
     public Long getId() {
         return id;
@@ -141,5 +122,21 @@ public class Miembro {
     public void setNick(String nick) {
         this.nick = nick;
         this.actualizadoEn = LocalDateTime.now();
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setFechaIngreso(LocalDateTime fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public boolean isActivo() {
+        return isActivo;
+    }
+
+    public void setActivo(boolean activo) {
+        isActivo = activo;
     }
 }

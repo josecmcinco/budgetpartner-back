@@ -6,6 +6,7 @@ import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
+import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.MiembroMapper;
 import com.budgetpartner.APP.repository.MiembroRepository;
@@ -13,6 +14,8 @@ import com.budgetpartner.APP.repository.OrganizacionRepository;
 import com.budgetpartner.APP.repository.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class MiembroService {
@@ -23,12 +26,14 @@ public class MiembroService {
     private OrganizacionRepository organizacionRepository;
     @Autowired
     private RolRepository rolRepository;
+    @Autowired
+    private  UsuarioService usuarioService;
 
     //ENDPOINTS
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public Miembro postMiembro(MiembroDtoPostRequest dto){
+    public MiembroDtoResponse postMiembro(MiembroDtoPostRequest dto){
 
         Organizacion organizacion = organizacionRepository.findById(dto.getOrganizacionId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + (dto.getOrganizacionId())));
@@ -40,7 +45,7 @@ public class MiembroService {
 
         Miembro miembro = MiembroMapper.toEntity(dto, organizacion, rol);
         miembroRepository.save(miembro);
-        return miembro;
+        return MiembroMapper.toDtoResponse(miembro);
     }
 
     //Llamada para Endpoint
@@ -89,5 +94,38 @@ public class MiembroService {
     }
 
     //OTROS MÉTODOS
+
+    //Asociación de un miembro a un Usuario de la DB
+    //TODO SOLO si la variable usuario está vacía
+    public MiembroDtoResponse asociarUsuario(Long miembroId) {
+
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        Miembro miembro = miembroRepository.findById(miembroId)
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + miembroId));
+
+
+        miembro.setUsuario(usuario);
+        miembro.setActivo(true);
+        miembro.setFechaIngreso(LocalDateTime.now());
+
+        miembroRepository.save(miembro);
+
+        return MiembroMapper.toDtoResponse(miembro);
+    }
+
+    public MiembroDtoResponse desasociarUsuario(Long miembroId) {
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        Miembro miembro = miembroRepository.findById(miembroId)
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + miembroId));
+
+
+        miembro.setUsuario(usuario);
+        miembro.setActivo(true);
+        miembro.setFechaIngreso(LocalDateTime.now());
+
+        miembroRepository.save(miembro);
+
+        return MiembroMapper.toDtoResponse(miembro);
+    }
 
 }
