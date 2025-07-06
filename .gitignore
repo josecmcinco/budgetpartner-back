@@ -34,3 +34,5 @@ Thumbs.db
 
 # Archivos de configuración personal
 .mvn/timing.properties
+
+#Archivo de variables sensibles
