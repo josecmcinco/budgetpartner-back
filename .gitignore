@@ -36,3 +36,4 @@ Thumbs.db
 .mvn/timing.properties
 
 #Archivo de variables sensibles
+.env
