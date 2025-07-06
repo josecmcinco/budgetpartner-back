@@ -50,14 +50,25 @@ public class PobladorDB {
     @Autowired
     private EstimacionRepository estimacionRepository;
 
+    @Autowired
+    private RepartoGastoRepository repartoGastoRepository;
+
+    @Autowired
+    private  RepartoTareaRepository repartoTareaRepository;
 
 
+    @Transactional
     public void borrarTodo(){
-        // Borrar entidades dependientes primero
+        //Empezar con las tablas que representan las relaciones muchos a muchos
+        repartoTareaRepository.deleteAll();
+        repartoGastoRepository.deleteAll();
+
+        // Borrar entidades dependientes después
         estimacionRepository.deleteAll();
+        miembroRepository.deleteAll();
         gastoRepository.deleteAll();
         tareaRepository.deleteAll();
-        miembroRepository.deleteAll();
+
 
         // Luego las entidades principales
         usuarioRepository.deleteAll();
@@ -65,6 +76,8 @@ public class PobladorDB {
 
         rolRepository.deleteAll();
         organizacionRepository.deleteAll();
+
+
 
         System.out.println("Base de datos limpiada con éxito.");
 
@@ -244,25 +257,25 @@ public class PobladorDB {
 
         // Usuario 2 -> org1, miembro
         Miembro m2 = new Miembro(org1, rolMiembro, "mgomez", false);
-        m1.setUsuario(usuarios.get(1));
-        m1.setActivo(true);
-        m1.setFechaIngreso(LocalDateTime.now());
+        m2.setUsuario(usuarios.get(1));
+        m2.setActivo(true);
+        m2.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m2);
 
         // Usuario 3 -> org1 y org2, admin
         Miembro m3 = new Miembro(org1, rolAdmin, "cmartinez1", false);
-        m1.setUsuario(usuarios.get(2));
-        m1.setActivo(true);
-        m1.setFechaIngreso(LocalDateTime.now());
+        m3.setUsuario(usuarios.get(2));
+        m3.setActivo(true);
+        m3.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m3);
 
 
         Miembro m4 = new Miembro(org2, rolAdmin, "cmartinez2", false);
-        m1.setUsuario(usuarios.get(2));
-        m1.setActivo(true);
-        m1.setFechaIngreso(LocalDateTime.now());
+        m4.setUsuario(usuarios.get(2));
+        m4.setActivo(true);
+        m4.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m4);
 
@@ -362,12 +375,11 @@ public class PobladorDB {
         //Tareas de Plan 3
         //Tarea4
 
-        Plan plan1 = planes.get(0);
         Plan plan2 = planes.get(1);
         Plan plan3 = planes.get(2);
 
         List<Miembro> listaMiembro1 = Arrays.asList(miembros.get(0));
-        List<Miembro> listaMiembro2 = Arrays.asList(miembros.get(0), miembros.get(3));
+        List<Miembro> listaMiembro2 = Arrays.asList(miembros.get(1), miembros.get(2));
         List<Miembro> listaMiembro3 = Arrays.asList(miembros.get(0), miembros.get(1));
         List<Miembro> listaMiembro4 = Arrays.asList(miembros.get(3), miembros.get(5));
 

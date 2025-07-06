@@ -2,6 +2,7 @@ package com.budgetpartner.APP.integration.controller;
 
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
@@ -11,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -52,6 +56,7 @@ class MiembroControllerIntegrationTest {
     private PobladorDB pobladorDB;
 
     private static String token;
+    private static String token2;
 
     @BeforeAll
     static void init(@Autowired UsuarioRepository usuarioRepository,
@@ -65,33 +70,40 @@ class MiembroControllerIntegrationTest {
                 .orElseThrow(() -> new RuntimeException("Usuario para tests no encontrado"));
 
         token = jwtService.generateToken(usuario);
+
+
+        //Token usado para asicar y desasociar usuario porque el usuario no está en la org2
+        var usuario2 = usuarioRepository
+                .obtenerUsuarioPorEmail("carlos.martinez@mail.com")
+                .orElseThrow(() -> new RuntimeException("Usuario para tests no encontrado"));
+
+        token2 = jwtService.generateToken(usuario2);
     }
 
     @Test
     @Order(1)
     void crearMiembro() throws Exception {
-        // Preparamos petición
+        // Preparación petición
         MiembroDtoPostRequest req = new MiembroDtoPostRequest(
                 1L,
                 2L,
-                "nuevo_nick",
-                true
+                "cmartinez10",
+                false
         );
 
-        //System.out.println(req.getRolId());
 
         mockMvc.perform(post("/miembros")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Miembro creado correctamente"));
+                .andExpect(jsonPath("$.nick").value("cmartinez10"))
+                .andExpect(jsonPath("$.isActivo").value(false));
     }
 
     @Test
     @Order(2)
     void obtenerMiembroPorId() throws Exception {
-        // Leemos el miembro que acabamos de crear, que tendrá id = última posición (8)
         mockMvc.perform(get("/miembros/{id}", 3L)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
@@ -117,15 +129,51 @@ class MiembroControllerIntegrationTest {
                 .andExpect(content().string("Miembro actualizado correctamente"));
     }
 
-    /*
-    TODO NI IDEA DE QUE DEBERÍA DE HACER
+
+    //TODO NI IDEA DE QUE DEBERÍA DE HACER
 
     @Test
     @Order(4)
+    void asociarMiembro() throws Exception {
+
+        Long idMiembroAsociado = 5L;
+
+        mockMvc.perform(patch("/miembros/{id}/associate", idMiembroAsociado)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nick").value("org1_invitado"))
+                .andExpect(jsonPath("$.isActivo").value(true));
+    }
+
+    @Test
+    @Order(5)
+    void desasociarMiembro() throws Exception {
+        Long idMiembroAsociado = 5L;
+
+        mockMvc.perform(patch("/miembros/{id}/dissociate", idMiembroAsociado)
+                        .header("Authorization", "Bearer " + token2))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Miembro desasociado correctamente"));
+    }
+
+    @Test
+    @Order(6)
+    void obtenerMiembroConUsuarioYOrgId() throws Exception {
+        Long idOrganizacion = 2L;
+        mockMvc.perform(get("/miembros/organizacion/{organizacionId}", idOrganizacion)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nick").value("cmartinez2"))
+                .andExpect(jsonPath("$.isActivo").value(true));
+    }
+
+    @Test
+    @Order(7)
     void eliminarMiembro() throws Exception {
         mockMvc.perform(delete("/miembros/{id}", 3L)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Miembro eliminado correctamente"));
-    }*/
+    }
 }

@@ -4,6 +4,7 @@ import com.budgetpartner.APP.enums.EstadoTarea;
 import com.budgetpartner.APP.enums.MonedasDisponibles;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TareaDtoPostRequest {
 
@@ -18,8 +19,9 @@ public class TareaDtoPostRequest {
     private EstadoTarea estado;
     private double costeEstimado;
     private MonedasDisponibles moneda;
+    private List<Long> listaAtareados;
 
-    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda) {
+    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda, List<Long> listaAtareados) {
         this.planId = planId;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -27,6 +29,7 @@ public class TareaDtoPostRequest {
         this.estado = estado;
         this.costeEstimado = costeEstimado;
         this.moneda = moneda;
+        this.listaAtareados = listaAtareados;
     }
 
 
@@ -80,5 +83,13 @@ public class TareaDtoPostRequest {
 
     public void setMoneda(MonedasDisponibles moneda) {
         this.moneda = moneda;
+    }
+
+    public List<Long> getListaAtareados() {
+        return listaAtareados;
+    }
+
+    public void setListaAtareados(List<Long> listaAtareados) {
+        this.listaAtareados = listaAtareados;
     }
 }

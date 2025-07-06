@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,6 +40,8 @@ public class OrganizacionService {
     private PlanRepository planRepository;
     @Autowired
     private RolRepository rolRepository;
+    @Autowired
+    private RepartoGastoRepository repartoGastoRepository;
 
     //ENDPOINTS
 
@@ -110,10 +113,20 @@ public class OrganizacionService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
-    public Organizacion deleteOrganizacionById(Long id) {
+    @Transactional //Implica interactuar con el muchos a muchos de repartoGastos y repartoTareas
+    public Organizacion deleteOrganizacionById(Long organizacionId) {
         //Obtener organización usando el id pasado en la llamada
-        Organizacion organizacion = organizacionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
+        Organizacion organizacion = organizacionRepository.findById(organizacionId)
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + organizacionId));
+
+        //El propósito de esta linea es hacer una llamada que devuelva los planes para que el gestor
+        // de la DB tenga una instancia de ellos antes del delete
+        List<Plan> listaPlanes = planRepository.obtenerPlanesPorOrganizacionId(organizacionId);
+
+        for (Plan plan : listaPlanes){
+            planRepository.delete(plan);
+        }
+
 
         //Borrado en cascada de organizaciones
         organizacionRepository.delete(organizacion);

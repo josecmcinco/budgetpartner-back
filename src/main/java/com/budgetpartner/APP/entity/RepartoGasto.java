@@ -9,7 +9,7 @@ public class RepartoGasto {
     @EmbeddedId
     private RepartoGastoId id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("gastoId")  // Mapea gastoId del ID compuesto
     @JoinColumn(name = "gasto_id")
     private Gasto gasto;

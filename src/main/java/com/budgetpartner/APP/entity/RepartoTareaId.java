@@ -6,14 +6,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class MiembroTareaId implements Serializable {
+public class RepartoTareaId implements Serializable {
 
     private Long miembroId;
     private Long tareaId;
 
-    public MiembroTareaId() {}
+    public RepartoTareaId() {}
 
-    public MiembroTareaId(Long miembroId, Long tareaId) {
+    public RepartoTareaId(Long miembroId, Long tareaId) {
         this.miembroId = miembroId;
         this.tareaId = tareaId;
     }
@@ -21,8 +21,8 @@ public class MiembroTareaId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MiembroTareaId)) return false;
-        MiembroTareaId that = (MiembroTareaId) o;
+        if (!(o instanceof RepartoTareaId)) return false;
+        RepartoTareaId that = (RepartoTareaId) o;
         return Objects.equals(miembroId, that.miembroId) &&
                 Objects.equals(tareaId, that.tareaId);
     }

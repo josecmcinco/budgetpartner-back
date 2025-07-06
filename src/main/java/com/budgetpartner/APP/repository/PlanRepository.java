@@ -22,6 +22,11 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
         "WHERE p.organizacion_id = :organizacionId ", nativeQuery = true)
     List<Plan> obtenerPlanesPorOrganizacionId(@Param("organizacionId") Long organizacion_id);
 
+    @Query(value = "SELECT p.ID " +
+            "FROM plan p " +
+            "WHERE p.organizacion_id = :organizacionId ", nativeQuery = true)
+    List<Long> obtenerPlanesIdPorOrganizacionId(@Param("organizacionId") Long organizacion_id);
+
 }
 
 

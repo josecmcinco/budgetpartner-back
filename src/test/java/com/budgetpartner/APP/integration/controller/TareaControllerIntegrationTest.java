@@ -24,6 +24,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -87,8 +89,9 @@ class TareaControllerIntegrationTest {
         EstadoTarea estado = EstadoTarea.PENDIENTE; // Ajustar según enum o validación
         double costeEstimado = 100.00;
         MonedasDisponibles moneda = MonedasDisponibles.EUR;
+        List<Long> listaAtareados = Arrays.asList(1L, 2L);
 
-        TareaDtoPostRequest request = new TareaDtoPostRequest(planId, titulo, descripcion, fechaFin, estado, costeEstimado, moneda);
+        TareaDtoPostRequest request = new TareaDtoPostRequest(planId, titulo, descripcion, fechaFin, estado, costeEstimado, moneda, listaAtareados);
 
         mockMvc.perform(post("/tareas")
                         .header("Authorization", "Bearer " + token)
@@ -99,7 +102,7 @@ class TareaControllerIntegrationTest {
                 .andExpect(jsonPath("$.descripcion").value("Descripción tarea prueba"))
                 .andExpect(jsonPath("$.estado").value("PENDIENTE"))
                 .andExpect(jsonPath("$.costeEstimado").value(100.00))
-                .andExpect(jsonPath("$.moneda").value("EUR"));
+                .andExpect(jsonPath("$.moneda").value(MonedasDisponibles.EUR.toString()));
     }
 
     @Test
@@ -111,7 +114,7 @@ class TareaControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.titulo").value("Comprar comida semanal"))
                 .andExpect(jsonPath("$.descripcion").value("Ir al supermercado y comprar alimentos para la semana."))
-                .andExpect(jsonPath("$.moneda").value(MonedasDisponibles.EUR));
+                .andExpect(jsonPath("$.moneda").value(MonedasDisponibles.EUR.toString()));
     }
 
     @Test
@@ -124,8 +127,9 @@ class TareaControllerIntegrationTest {
         EstadoTarea estado = EstadoTarea.PENDIENTE;
         double costeEstimado = 120.00;
         MonedasDisponibles moneda = MonedasDisponibles.EUR;
+        List<Long> listaAtareados = Arrays.asList(2L, 3L);
 
-        TareaDtoUpdateRequest request = new TareaDtoUpdateRequest(titulo, descripcion, fecha, estado, costeEstimado, moneda);
+        TareaDtoUpdateRequest request = new TareaDtoUpdateRequest(titulo, descripcion, fecha, estado, costeEstimado, moneda, listaAtareados);
 
         mockMvc.perform(patch("/tareas/1")
                         .header("Authorization", "Bearer " + token)

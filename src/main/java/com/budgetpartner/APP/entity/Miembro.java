@@ -40,12 +40,12 @@ public class Miembro {
     @Column
     private LocalDateTime actualizadoEn;
 
-    @OneToMany(mappedBy = "miembro")
+    @OneToMany(mappedBy = "miembro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RepartoGasto> repartos = new ArrayList<>();
 
-    //@OneToMany(mappedBy = "miembro", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @OneToMany(mappedBy = "miembro", cascade = CascadeType.MERGE, orphanRemoval = true)
-    private List<MiembroTarea> miembroTareas = new ArrayList<>();
+    @OneToMany(mappedBy = "miembro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RepartoTarea> miembroTareas = new ArrayList<>();
+
 
     //Constructor vacío para Hibernate
     public Miembro(){}
@@ -139,4 +139,12 @@ public class Miembro {
     public void setActivo(boolean activo) {
         isActivo = activo;
     }
+/*
+    public List<Gasto> getGastosPagados() {
+        return gastosPagados;
+    }
+
+    public void setGastosPagados(List<Gasto> gastosPagados) {
+        this.gastosPagados = gastosPagados;
+    }*/
 }

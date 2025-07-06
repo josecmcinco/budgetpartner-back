@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.integration.repository;
 
 import com.budgetpartner.APP.entity.Miembro;
+import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.config.PobladorTestConfig;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Import;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @SpringBootTest
@@ -55,4 +57,20 @@ public class MiembroRepositoryTest {
         assertThat(miembros).hasSize(2);
         assertThat(miembros).allMatch(m -> m.getOrganizacion().getId().equals(organizacionId));
     }
+
+    @Test
+    public void testObtenerMiembroConIdOrganizacionYUsuario(){
+        Long usuarioId = 3L;
+        Long organizacionId = 1L;
+
+        Optional<Miembro> miembroOpt = miembroRepository.obtenerMiembroPorUsuarioYOrgId(usuarioId, organizacionId);
+        assertThat(miembroOpt).isPresent();
+        Miembro miembro = miembroOpt.get();
+
+        assertThat(miembro.getUsuario().getId()).isEqualTo(usuarioId);
+        assertThat(miembro.getOrganizacion().getId()).isEqualTo(organizacionId);
+
+    }
+
+
 }

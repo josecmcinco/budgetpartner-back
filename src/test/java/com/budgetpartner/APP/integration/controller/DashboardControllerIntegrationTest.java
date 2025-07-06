@@ -17,6 +17,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.mockito.internal.matchers.text.ValuePrinter.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -64,6 +65,7 @@ class DashboardControllerIntegrationTest {
 
         var usuario = usuarioRepository.obtenerUsuarioPorEmail("carlos.martinez@mail.com")
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado. No se pueden empezar tests"));
+        print(usuario.getId());
 
         token = jwtService.generateToken(usuario);
     }

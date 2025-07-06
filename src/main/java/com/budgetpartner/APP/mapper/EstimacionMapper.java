@@ -17,7 +17,7 @@ public class EstimacionMapper {
         if (estimacion == null) return null;
 
         Long tareaId = null;
-        if(estimacion.getTarea() == null){
+        if(estimacion.getTarea() != null){
             tareaId = estimacion.getPlan().getId();
         }
 

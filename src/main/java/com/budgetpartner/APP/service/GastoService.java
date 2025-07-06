@@ -30,7 +30,7 @@ public class GastoService {
     @Autowired
     private MiembroRepository miembroRepository;
     @Autowired
-    private RepartoRepository repartoRepository;
+    private RepartoGastoRepository repartoGastoRepository;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -39,7 +39,7 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    @Transactional
+    @Transactional //Interacción con un many to many
     public GastoDtoResponse postGasto(GastoDtoPostRequest gastoDtoReq) {
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
@@ -49,7 +49,7 @@ public class GastoService {
         //TODO
 
         //Obtener elementos necesiarios para insertar el gasto
-        //Algunos campos pueden venir como nulos -> Evitar antes de hacer llamada a la DB
+
 
         Plan plan = planRepository.findById(gastoDtoReq.getPlanId())
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + gastoDtoReq.getPlanId()));
@@ -57,14 +57,14 @@ public class GastoService {
         //Valor por defecto de la tarea asignada
         Tarea tarea = null;
 
+        //Gestión de los planes por tipo
         if(plan.getModoPlan().equals(ModoPlan.simple) && gastoDtoReq.getPlanId() != null){
-            throw new BadRequestException("Se está tratando de asignar una tarea a un gasto en un plan simple");
-        }
+            throw new BadRequestException("Se está tratando de asignar una tarea a un gasto en un plan simple");}
 
         else if(gastoDtoReq.getPlanId() != null){
-            tarea = tareaRepository.findById(gastoDtoReq.getPlanId())
-                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + gastoDtoReq.getPlanId()));
-        }
+            tarea = tareaRepository.findById(gastoDtoReq.getTareaId())
+                .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + gastoDtoReq.getPlanId()));}
+
 
         Miembro pagador = miembroRepository.findById(gastoDtoReq.getPagadorId())
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + gastoDtoReq.getPlanId()));;
@@ -105,6 +105,9 @@ public class GastoService {
         Gasto gasto = gastoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
+        //Elimina primero la relación muchos a muchos con Miembro
+        repartoGastoRepository.eliminarRepartoGastoPorGastoId(id);
+
         //Elimina el gasto en cascada
         gastoRepository.delete(gasto);
         return gasto;
@@ -112,6 +115,7 @@ public class GastoService {
 
     //Llamada para Endpoint
     //Actualiza una Entidad usando el id recibido por el usuario
+    @Transactional //Interacción con un many to many
     public Gasto patchGasto(GastoDtoUpdateRequest gastoDtoResp, Long id) {
         //Obtener gasto usando el id pasado en la llamada
         Gasto gasto = gastoRepository.findById(id)
@@ -121,8 +125,14 @@ public class GastoService {
         gastoRepository.save(gasto);
 
         //Crea las deudas de cada miembro en base al gasto
-        List<Long> idEndeudadosList = gastoDtoResp.getListaMiembrosEndeudados();
-        postRepartoGastos(idEndeudadosList, gasto, gasto.getPagador());
+        if(gastoDtoResp.getListaMiembrosEndeudados() != null){
+            //Eliminar las reparticiones previas
+            repartoGastoRepository.eliminarRepartoGastoPorGastoId(id);
+
+            //Añadir reparticiones nuevas
+            List<Long> idEndeudadosList = gastoDtoResp.getListaMiembrosEndeudados();
+            postRepartoGastos(idEndeudadosList, gasto, gasto.getPagador());
+        }
 
         return gasto;
     }
@@ -151,12 +161,12 @@ public class GastoService {
             reparto.setMiembro(miembro);
 
             //Asignar gasto de pico al pagador
-            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(deudaPorPersona + picoDelGasto);}
-            else{reparto.setCantidad(deudaPorPersona);}
+            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(gasto.getCantidad() - deudaPorPersona + picoDelGasto);}
+            else{reparto.setCantidad(-deudaPorPersona);}
 
             reparto.setId(new RepartoGastoId(gasto.getId(), miembro.getId()));
 
-            repartoRepository.save(reparto);
+            repartoGastoRepository.save(reparto);
         }
 
     }

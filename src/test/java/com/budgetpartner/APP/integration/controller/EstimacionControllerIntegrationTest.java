@@ -85,7 +85,7 @@ class EstimacionControllerIntegrationTest {
         double cantidad = 150.75;
         TipoEstimacion tipoEstimacion = TipoEstimacion.ESTIMACION_PLAN;
         MonedasDisponibles tipoMoneda = MonedasDisponibles.EUR;
-        String descripcion = "Estimación inicial para la tarea";
+        String descripcion = "Estimación de plan para la tarea";
         Long pagadorId = 4L;
         Long gastoId = 5L;
 
@@ -108,7 +108,15 @@ class EstimacionControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Estimación creada correctamente"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.tareaId").exists())
+                .andExpect(jsonPath("$.creadorId").value(creadorId))
+                .andExpect(jsonPath("$.cantidad").value(cantidad))
+                .andExpect(jsonPath("$.tipoEstimacion").value(TipoEstimacion.ESTIMACION_PLAN.toString()))
+                .andExpect(jsonPath("$.tipoMoneda").value("EUR"))
+                .andExpect(jsonPath("$.descripcion").value(descripcion))
+                .andExpect(jsonPath("$.pagadorId").value(pagadorId))
+                .andExpect(jsonPath("$.gastoId").value(gastoId));
     }
 
     @Test
@@ -145,7 +153,14 @@ class EstimacionControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Estimación creada correctamente"));
+                .andExpect(jsonPath("$.tareaId").value(tareaId))
+                .andExpect(jsonPath("$.creadorId").value(creadorId))
+                .andExpect(jsonPath("$.cantidad").value(cantidad))
+                .andExpect(jsonPath("$.tipoEstimacion").value(TipoEstimacion.ESTIMACION_TAREA.toString()))
+                .andExpect(jsonPath("$.tipoMoneda").value("EUR"))
+                .andExpect(jsonPath("$.descripcion").value(descripcion))
+                .andExpect(jsonPath("$.pagadorId").value(pagadorId))
+                .andExpect(jsonPath("$.gastoId").value(gastoId));
     }
 
     @Test
@@ -155,9 +170,15 @@ class EstimacionControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                // Ajusta según el DTO de respuesta esperado
+                .andExpect(jsonPath("$.planId").value(2))
+                .andExpect(jsonPath("$.tareaId").value(2))
+                .andExpect(jsonPath("$.creadorId").value(1))
                 .andExpect(jsonPath("$.cantidad").value(24.52))
-                .andExpect(jsonPath("$.descripcion").value("Estimacion de tipo Tarea con pagador"));
+                .andExpect(jsonPath("$.tipoEstimacion").value(TipoEstimacion.ESTIMACION_TAREA.toString()))
+                .andExpect(jsonPath("$.tipoMoneda").value("EUR"))
+                .andExpect(jsonPath("$.descripcion").value("Estimacion de tipo Tarea con pagador"))
+                .andExpect(jsonPath("$.pagadorId").value(2))
+                .andExpect(jsonPath("$.gastoId").value(1));
     }
 
     @Test

@@ -51,7 +51,7 @@ public class Tarea {
     private LocalDateTime actualizadoEn;
 
     @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MiembroTarea> miembroTareas = new ArrayList<>();
+    private List<RepartoTarea> miembroTareas = new ArrayList<>();
 
     //Constructor vacío para Hibernate
     public Tarea(){}
@@ -90,7 +90,7 @@ public class Tarea {
 
         this.miembroTareas = new ArrayList<>();
         for (Miembro miembro : miembros) {
-            MiembroTarea mt = new MiembroTarea(miembro, this);
+            RepartoTarea mt = new RepartoTarea(miembro, this);
             this.miembroTareas.add(mt);
 
             //SOLO si se quiere la relación bidireccional
@@ -173,19 +173,19 @@ public class Tarea {
 
     public List<Miembro> getMiembros() {
         return miembroTareas.stream()
-                .map(MiembroTarea::getMiembro)
+                .map(RepartoTarea::getMiembro)
                 .collect(Collectors.toList());
     }
 
     public void setMiembros(List<Miembro> miembros) {
         this.miembroTareas.clear();
         for (Miembro miembro : miembros) {
-            MiembroTarea mp = new MiembroTarea(miembro, this);
+            RepartoTarea mp = new RepartoTarea(miembro, this);
             this.miembroTareas.add(mp);
         }
     }
 
-    public List<MiembroTarea> getMiembroTarea() {
+    public List<RepartoTarea> getMiembroTarea() {
         return miembroTareas;
     }
 }

@@ -27,8 +27,8 @@ public class GastoMapper {
         if (gasto == null) return null;
 
         Long tareaId = null;
-        if(gasto.getTarea() == null){
-            tareaId = gasto.getPlan().getId();
+        if(gasto.getTarea() != null){
+            tareaId = gasto.getTarea().getId();
         }
 
         return new GastoDtoResponse(

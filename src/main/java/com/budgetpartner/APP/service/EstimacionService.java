@@ -36,7 +36,6 @@ public class EstimacionService {
         else if (estimacionDtoReq.getTipoEstimacion() == TipoEstimacion.ESTIMACION_TAREA && estimacionDtoReq.getTareaId() == null) {
             throw new BadRequestException("Debe proporcionar una tarea para una estimación de tipo tarea");
         }
-
         else if (estimacionDtoReq.getTipoEstimacion() == TipoEstimacion.ESTIMACION_TAREA && estimacionDtoReq.getTareaId() != null){
             tarea = tareaRepository.findById(estimacionDtoReq.getTareaId())
                     .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + estimacionDtoReq.getTareaId()));

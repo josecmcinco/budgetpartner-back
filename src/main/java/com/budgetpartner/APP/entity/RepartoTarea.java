@@ -5,35 +5,35 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "miembro_tarea")
-public class MiembroTarea implements Serializable {
+@Table(name = "reparto_tarea")
+public class RepartoTarea implements Serializable {
 
     @EmbeddedId
-    private MiembroTareaId id;
+    private RepartoTareaId id;
 
-    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @MapsId("miembroId")
     @JoinColumn(name = "miembro_id", nullable = false)
     private Miembro miembro;
 
-    @ManyToOne(cascade = CascadeType.MERGE, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @MapsId("tareaId")
     @JoinColumn(name = "tarea_id", nullable = false)
     private Tarea tarea;
 
-    public MiembroTarea() {}
+    public RepartoTarea() {}
 
-    public MiembroTarea(Miembro miembro, Tarea tarea) {
+    public RepartoTarea(Miembro miembro, Tarea tarea) {
         this.miembro = miembro;
         this.tarea = tarea;
-        this.id = new MiembroTareaId(miembro.getId(), tarea.getId());
+        this.id = new RepartoTareaId(miembro.getId(), tarea.getId());
     }
 
-    public MiembroTareaId getId() {
+    public RepartoTareaId getId() {
         return id;
     }
 
-    public void setId(MiembroTareaId id) {
+    public void setId(RepartoTareaId id) {
         this.id = id;
     }
 
@@ -48,7 +48,7 @@ public class MiembroTarea implements Serializable {
     public void setMiembro(Miembro miembro) {
         this.miembro = miembro;
         if (this.id == null) {
-            this.id = new MiembroTareaId();
+            this.id = new RepartoTareaId();
         }
         this.id.setMiembroId(miembro.getId());
     }
@@ -56,7 +56,7 @@ public class MiembroTarea implements Serializable {
     public void setTarea(Tarea tarea) {
         this.tarea = tarea;
         if (this.id == null) {
-            this.id = new MiembroTareaId();
+            this.id = new RepartoTareaId();
         }
         this.id.setTareaId(tarea.getId());
     }

@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.controller;
 
 
-import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -113,7 +111,7 @@ public class MiembroController {
                     )
             }
     )
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}/associate")
     public ResponseEntity<MiembroDtoResponse> associateMiembro(@Validated @NotNull @PathVariable Long id) {
         MiembroDtoResponse miembroDtoResp  = miembroService.associateMiembro(id);
         return ResponseEntity.ok(miembroDtoResp);
@@ -129,10 +127,17 @@ public class MiembroController {
                     )
             }
     )
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}/dissociate")
     public ResponseEntity<String> dissociateMember(@Validated @NotNull @PathVariable Long id) {
         MiembroDtoResponse miembroDtoResp  = miembroService.dissociateMember(id);
         return ResponseEntity.ok("Miembro desasociado correctamente");
+    }
+
+    @GetMapping("/organizacion/{organizacionId}")
+    public ResponseEntity<MiembroDtoResponse> getMiembroPorUsuarioYOrgID(@PathVariable Long organizacionId) {
+        System.out.println("No tan ole");
+        MiembroDtoResponse miembro = miembroService.getMiembroPorUsernameYOrganizacion(organizacionId);
+        return ResponseEntity.ok(miembro);
     }
 
 

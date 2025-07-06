@@ -97,7 +97,10 @@ class GastoControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Gasto creado correctamente"));
+                .andExpect(jsonPath("$.tareaId").value(1L))
+                .andExpect(jsonPath("$.planId").value(2L))
+                .andExpect(jsonPath("$.nombre").value("Comida"))
+                .andExpect(jsonPath("$.cantidad").value(100.0));
     }
 
     @Test

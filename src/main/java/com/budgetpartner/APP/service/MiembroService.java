@@ -14,6 +14,7 @@ import com.budgetpartner.APP.repository.OrganizacionRepository;
 import com.budgetpartner.APP.repository.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -63,12 +64,13 @@ public class MiembroService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
+    @Transactional //Implica usar el muchos a muchos
     public Miembro deleteMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
-        //Elimina miembro. Quita los valores de sus claves ajenas
+
         miembroRepository.delete(miembro);
 
         return miembro;
@@ -126,6 +128,16 @@ public class MiembroService {
         miembroRepository.save(miembro);
 
         return MiembroMapper.toDtoResponse(miembro);
+    }
+
+    public MiembroDtoResponse getMiembroPorUsernameYOrganizacion(Long organizacionId){
+
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+
+        Miembro miembro = miembroRepository.obtenerMiembroPorUsuarioYOrgId(usuario.getId(), organizacionId)
+                .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + usuario.getId()));
+
+        return  MiembroMapper.toDtoResponse(miembro);
     }
 
 }
