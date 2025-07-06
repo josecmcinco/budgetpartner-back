@@ -18,13 +18,15 @@ public class MiembroDtoResponse {
     private Rol rol;
     private String nick;
     private LocalDateTime fechaIngreso;
+    private boolean isAsociado;
     private boolean isActivo;
 
-    public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isActivo) {
+    public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isAsociado, boolean isActivo) {
         this.id = id;
         this.rol = rol;
         this.nick = nick;
         this.fechaIngreso = fechaIngreso;
+        this.isAsociado = isAsociado;
         this.isActivo = isActivo;
     }
 
@@ -63,11 +65,19 @@ public class MiembroDtoResponse {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public boolean getIsActivo() {
+    public boolean getIsAsociado() {
+        return isAsociado;
+    }
+
+    public void setIsAsociado(boolean asociado) {
+        isAsociado = asociado;
+    }
+
+    public boolean isActivo() {
         return isActivo;
     }
 
-    public void setIsActivo(boolean activo) {
+    public void setActivo(boolean activo) {
         isActivo = activo;
     }
 }

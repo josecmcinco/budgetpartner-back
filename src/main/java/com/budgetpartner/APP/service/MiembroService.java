@@ -64,14 +64,20 @@ public class MiembroService {
 
     //Llamada para Endpoint
     //Elimina una Entidad usando el id recibido por el usuario
+    //NO LA ELIMINA. SOLO PASA EL ATRIBUTO ISACTIVO A FALSE
     @Transactional //Implica usar el muchos a muchos
     public Miembro deleteMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
+
+
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
+        miembro.setActivo(false);
+        miembroRepository.save(miembro);
 
-        miembroRepository.delete(miembro);
+        //Codigo de borrado de la DB
+        //miembroRepository.delete(miembro);
 
         return miembro;
     }
@@ -107,7 +113,7 @@ public class MiembroService {
 
 
         miembro.setUsuario(usuario);
-        miembro.setActivo(true);
+        miembro.setAsociado(true);
         miembro.setFechaIngreso(LocalDateTime.now());
 
         miembroRepository.save(miembro);
@@ -122,7 +128,7 @@ public class MiembroService {
 
 
         miembro.setUsuario(null);
-        miembro.setActivo(false);
+        miembro.setAsociado(false);
         miembro.setFechaIngreso(null);
 
         miembroRepository.save(miembro);

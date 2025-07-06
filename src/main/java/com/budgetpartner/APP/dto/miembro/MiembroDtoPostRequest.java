@@ -8,13 +8,11 @@ public class MiembroDtoPostRequest {
     private Long organizacionId;
     private Long rolId;
     private String nick;
-    private boolean isActivo;
 
-    public MiembroDtoPostRequest(Long organizacionId, Long rolId, String nick, boolean isActivo) {
+    public MiembroDtoPostRequest(Long organizacionId, Long rolId, String nick) {
         this.organizacionId = organizacionId;
         this.rolId = rolId;
         this.nick = nick;
-        this.isActivo = isActivo;
     }
 
     public Long getOrganizacionId() {
@@ -40,11 +38,4 @@ public class MiembroDtoPostRequest {
         this.nick = nick;
     }
 
-    public boolean getIsActivo() {
-        return isActivo;
-    }
-
-    public void setIsActivo(boolean activo) {
-        isActivo = activo;
-    }
 }

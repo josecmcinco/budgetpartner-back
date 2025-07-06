@@ -22,7 +22,8 @@ public class MiembroMapper {
                 miembro.getRol(),
                 miembro.getNick(),
                 miembro.getFechaIngreso(),
-                miembro.getIsActivo()
+                miembro.isAsociado(),
+                miembro.isActivo()
         );
     }
 
@@ -34,8 +35,7 @@ public class MiembroMapper {
         return new Miembro(
                 organizacion,
                 rol,
-                dto.getNick(),
-                dto.getIsActivo()
+                dto.getNick()
         );
     }
 
@@ -45,7 +45,7 @@ public class MiembroMapper {
         if (dto == null || miembro == null) return;
 
         //NO SE PERMITE MODIFICAR DESDE EL DTO:
-        //OrganizacionOrigen
+        //OrganizacionOrigen-isActivo-isAsignado
         if (dto.getRolId() != null) miembro.setRol(rol);
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 

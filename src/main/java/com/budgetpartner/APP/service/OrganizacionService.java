@@ -56,7 +56,7 @@ public class OrganizacionService {
         Rol rol = rolRepository.obtenerRolPorNombre(NombreRol.ROLE_ADMIN)
                 .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
 
-        Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador(), true);
+        Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador());
 
         //Autenticar el miembro
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();

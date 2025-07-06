@@ -35,6 +35,9 @@ public class Miembro {
     private boolean isActivo;
 
     @Column
+    private boolean isAsociado;
+
+    @Column
     private LocalDateTime creadoEn;
 
     @Column
@@ -52,11 +55,11 @@ public class Miembro {
 
     //Creación de Miembro desde 0
     //POR DEFECTO NO TIENE USUARIO ADJUNTO
-    public Miembro(Organizacion organizacion, Rol rol, String nick, boolean isActivo) {
+    public Miembro(Organizacion organizacion, Rol rol, String nick) {
         this.organizacion = organizacion;
         this.rol = rol;
         this.nick = nick;
-        this.isActivo = isActivo;
+        //this.isActivo = isActivo;
 
         //Generado automáticamente
         this.actualizadoEn = LocalDateTime.now();
@@ -102,10 +105,6 @@ public class Miembro {
         return fechaIngreso;
     }
 
-    public boolean getIsActivo() {
-        return isActivo;
-    }
-
     public LocalDateTime getCreadoEn() {
         return creadoEn;
     }
@@ -125,10 +124,13 @@ public class Miembro {
     }
 
     public void setUsuario(Usuario usuario) {
+        this.actualizadoEn = LocalDateTime.now();
         this.usuario = usuario;
     }
 
     public void setFechaIngreso(LocalDateTime fechaIngreso) {
+
+        this.actualizadoEn = LocalDateTime.now();
         this.fechaIngreso = fechaIngreso;
     }
 
@@ -137,14 +139,16 @@ public class Miembro {
     }
 
     public void setActivo(boolean activo) {
+
+        this.actualizadoEn = LocalDateTime.now();
         isActivo = activo;
     }
-/*
-    public List<Gasto> getGastosPagados() {
-        return gastosPagados;
+
+    public boolean isAsociado() {
+        return isAsociado;
     }
 
-    public void setGastosPagados(List<Gasto> gastosPagados) {
-        this.gastosPagados = gastosPagados;
-    }*/
+    public void setAsociado(boolean asociado) {
+        isAsociado = asociado;
+    }
 }

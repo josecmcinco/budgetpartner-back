@@ -8,13 +8,11 @@ public class MiembroDtoUpdateRequest {
     private Long usuarioId;
     private Long rolId;
     private String nick;
-    private boolean isActivo;
 
-    public MiembroDtoUpdateRequest(Long usuarioId, Long rolId, String nick, boolean isActivo) {
+    public MiembroDtoUpdateRequest(Long usuarioId, Long rolId, String nick) {
         this.usuarioId = usuarioId;
         this.rolId = rolId;
         this.nick = nick;
-        this.isActivo = isActivo;
     }
 
     public Long getUsuarioId() {
@@ -41,11 +39,5 @@ public class MiembroDtoUpdateRequest {
         this.nick = nick;
     }
 
-    public boolean getIsActivo() {
-        return isActivo;
-    }
 
-    public void setIsActivo(boolean activo) {
-        isActivo = activo;
-    }
 }

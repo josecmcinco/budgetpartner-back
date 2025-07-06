@@ -248,45 +248,45 @@ public class PobladorDB {
         List<Miembro> miembros = new ArrayList<>();
 
         // Usuario 1 -> org1, admin
-        Miembro m1 = new Miembro(org1, rolAdmin, "jperez", false);
+        Miembro m1 = new Miembro(org1, rolAdmin, "jperez");
         m1.setUsuario(usuarios.get(0));
-        m1.setActivo(true);
+        m1.setAsociado(true);
         m1.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m1);
 
         // Usuario 2 -> org1, miembro
-        Miembro m2 = new Miembro(org1, rolMiembro, "mgomez", false);
+        Miembro m2 = new Miembro(org1, rolMiembro, "mgomez");
         m2.setUsuario(usuarios.get(1));
-        m2.setActivo(true);
+        m2.setAsociado(true);
         m2.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m2);
 
         // Usuario 3 -> org1 y org2, admin
-        Miembro m3 = new Miembro(org1, rolAdmin, "cmartinez1", false);
+        Miembro m3 = new Miembro(org1, rolAdmin, "cmartinez1");
         m3.setUsuario(usuarios.get(2));
-        m3.setActivo(true);
+        m3.setAsociado(true);
         m3.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m3);
 
 
-        Miembro m4 = new Miembro(org2, rolAdmin, "cmartinez2", false);
+        Miembro m4 = new Miembro(org2, rolAdmin, "cmartinez2");
         m4.setUsuario(usuarios.get(2));
-        m4.setActivo(true);
+        m4.setAsociado(true);
         m4.setFechaIngreso(LocalDateTime.now());
 
         miembros.add(m4);
 
         // Miembros sin usuario en org1
-        Miembro m5 = new Miembro(org1, rolMiembro, "org1_invitado", false);
+        Miembro m5 = new Miembro(org1, rolMiembro, "org1_invitado");
         miembros.add(m5);
-        Miembro m6 = new Miembro(org1, rolMiembro, "org1_invitado2", false);
+        Miembro m6 = new Miembro(org1, rolMiembro, "org1_invitado2");
         miembros.add(m6);
 
         // Miembro sin usuario en org2
-        Miembro m7 = new Miembro(org2, rolMiembro, "org2_invitado", false);
+        Miembro m7 = new Miembro(org2, rolMiembro, "org2_invitado");
         miembros.add(m7);
 
         // Usuarios 4 y 5 sin miembros

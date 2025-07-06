@@ -87,8 +87,7 @@ class MiembroControllerIntegrationTest {
         MiembroDtoPostRequest req = new MiembroDtoPostRequest(
                 1L,
                 2L,
-                "cmartinez10",
-                false
+                "cmartinez10"
         );
 
 
@@ -98,7 +97,7 @@ class MiembroControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nick").value("cmartinez10"))
-                .andExpect(jsonPath("$.isActivo").value(false));
+                .andExpect(jsonPath("$.isAsociado").value(false));
     }
 
     @Test
@@ -108,7 +107,7 @@ class MiembroControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nick").value("cmartinez1"))
-                .andExpect(jsonPath("$.isActivo").value(true));
+                .andExpect(jsonPath("$.isAsociado").value(true));
     }
 
     @Test
@@ -117,8 +116,7 @@ class MiembroControllerIntegrationTest {
         MiembroDtoUpdateRequest update = new MiembroDtoUpdateRequest(
                 3L,
                 2L,
-                "nick_editado",
-                false// desactivar
+                "nick_editado"
         );
 
         mockMvc.perform(patch("/miembros/{id}", 3L)
@@ -129,8 +127,6 @@ class MiembroControllerIntegrationTest {
                 .andExpect(content().string("Miembro actualizado correctamente"));
     }
 
-
-    //TODO NI IDEA DE QUE DEBERÍA DE HACER
 
     @Test
     @Order(4)
@@ -143,7 +139,7 @@ class MiembroControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nick").value("org1_invitado"))
-                .andExpect(jsonPath("$.isActivo").value(true));
+                .andExpect(jsonPath("$.isAsociado").value(true));
     }
 
     @Test
@@ -165,7 +161,7 @@ class MiembroControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nick").value("cmartinez2"))
-                .andExpect(jsonPath("$.isActivo").value(true));
+                .andExpect(jsonPath("$.isAsociado").value(true));
     }
 
     @Test
