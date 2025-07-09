@@ -15,9 +15,6 @@ public class AppBugdgetPartnerApplication {
 		System.setProperty("OPENAI_API_KEY", dotenv.get("OPENAI_API_KEY"));//Key de OpenAI
 		System.setProperty("DEEPSEEK_API_KEY",dotenv.get("DEEPSEEK_API_KEY"));//Key de Deepseek
 
-		System.out.println("key OpenAI: " + System.getProperty("OPENAI_API_KEY"));
-		System.out.println("key deepseek: " + System.getProperty("DEEPSEEK_API_KEY"));
-
 		SpringApplication.run(AppBugdgetPartnerApplication.class, args);
 	}
 }

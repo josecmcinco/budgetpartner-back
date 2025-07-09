@@ -5,6 +5,7 @@ import com.budgetpartner.APP.dto.api.ChatResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,12 +17,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 
 @Service
 public class ChatbotService {
 
     @Autowired
     private OpenAiChatModel openAIChatModel;
+    @Autowired
+    private OllamaChatModel localChatbotService;
 
 
     private static final String DEEPSEEK_API_KEY = System.getProperty("DEEPSEEK_API_KEY");
@@ -42,6 +46,11 @@ public class ChatbotService {
                     result = mensajeDeepseek(message);}
                 catch(Exception e){
                     System.out.println("Error: " + e);}
+                break;
+
+            case "local":
+
+                result = mensajeLocal(message);
                 break;
 
             default:
@@ -104,5 +113,10 @@ public class ChatbotService {
         System.out.println(responseBody);
 
         return responseBody;
+    }
+
+    public String mensajeLocal(String message){
+
+        return this.localChatbotService.call(message);
     }
 }
