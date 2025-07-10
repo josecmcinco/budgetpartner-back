@@ -98,6 +98,7 @@ class TareaControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.titulo").value("Tarea de prueba"))
                 .andExpect(jsonPath("$.descripcion").value("Descripción tarea prueba"))
                 .andExpect(jsonPath("$.estado").value("PENDIENTE"))

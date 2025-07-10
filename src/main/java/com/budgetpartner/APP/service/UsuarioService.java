@@ -64,7 +64,7 @@ public class UsuarioService {
         Usuario usuario = devolverUsuarioAutenticado();
 
         UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
-        usuarioRepository.save(usuario);
+        usuario = usuarioRepository.save(usuario);
         return usuario;
     }
 

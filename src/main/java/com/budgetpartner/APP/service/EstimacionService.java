@@ -54,8 +54,9 @@ public class EstimacionService {
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + estimacionDtoReq.getGastoId()));
 
         Estimacion estimacion = EstimacionMapper.toEntity(estimacionDtoReq, tarea, plan, creador, pagador, gasto);
-        estimacionRepository.save(estimacion);
 
+        //Enviar elemento insertado en la db porque tiene el id
+        estimacion = estimacionRepository.save(estimacion);
         return EstimacionMapper.toDtoResponse(estimacion);
 
     }

@@ -45,7 +45,9 @@ public class TareaService {
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + dto.getPlanId()));
 
         Tarea tarea = TareaMapper.toEntity(dto, plan);
-        tareaRepository.save(tarea);
+
+        //Usar elemento insertado en la db porque tiene el id
+        tarea = tareaRepository.save(tarea);
 
         //Crea las deudas de cada miembro en base al gasto
         List<Long> idAtareadosList = dto.getListaAtareados();

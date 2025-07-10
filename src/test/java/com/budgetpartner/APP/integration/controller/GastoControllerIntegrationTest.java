@@ -97,6 +97,7 @@ class GastoControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.tareaId").value(1L))
                 .andExpect(jsonPath("$.planId").value(2L))
                 .andExpect(jsonPath("$.nombre").value("Comida"))

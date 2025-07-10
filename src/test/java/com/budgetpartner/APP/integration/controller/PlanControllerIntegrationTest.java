@@ -90,6 +90,7 @@ class PlanControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.nombre").value("Plan de prueba"))
                 .andExpect(jsonPath("$.descripcion").value("Descripción del plan de prueba"));
     }

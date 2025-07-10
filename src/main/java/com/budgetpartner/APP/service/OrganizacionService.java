@@ -20,6 +20,7 @@ import com.budgetpartner.APP.exceptions.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -49,8 +50,11 @@ public class OrganizacionService {
     //Crea una Entidad usando el DTO recibido por el usuario
     public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
 
+        //Autenticar el miembro
+        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
-        organizacionRepository.save(organizacion);
+        organizacion = organizacionRepository.save(organizacion);
 
         //Obtener el rol para poder meter el Miembro en la DB
         Rol rol = rolRepository.obtenerRolPorNombre(NombreRol.ROLE_ADMIN)
@@ -58,16 +62,20 @@ public class OrganizacionService {
 
         Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador());
 
-        //Autenticar el miembro
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        //Configurar valores por defecto del miembor creador
         miembro.setUsuario(usuario);
-        miembro.setActivo(true);
+        miembro.setAsociado(true);
         miembro.setFechaIngreso(LocalDateTime.now());
 
         //Guardar miembro en la DB recién creada
-        miembroRepository.save(miembro);
+        //Enviar elemento insertado en la db porque tiene el id
+        miembro = miembroRepository.save(miembro);
+        MiembroDtoResponse miembroDtoRes = MiembroMapper.toDtoResponse(miembro);
 
         OrganizacionDtoResponse organizacionDtoResp =  OrganizacionMapper.toDtoResponse(organizacion);
+
+        //Preparar dto antes de enviarlo
+        organizacionDtoResp.setMiembros(List.of(miembroDtoRes));
         organizacionDtoResp.setMiembroCreador(miembro.getId());
 
         return organizacionDtoResp;

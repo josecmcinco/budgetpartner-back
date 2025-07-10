@@ -47,7 +47,9 @@ public class PlanService {
 
         //TODO VALIDAR CAMPOS REPETIDOS (nombre, fechas, organización, etc.)
         Plan plan = PlanMapper.toEntity(planDtoReq, organizacion);
-        planRepository.save(plan);
+
+        //Enviar elemento insertado en la db porque tiene el id
+        plan = planRepository.save(plan);
         return PlanMapper.toDtoResponse(plan);
     }
 

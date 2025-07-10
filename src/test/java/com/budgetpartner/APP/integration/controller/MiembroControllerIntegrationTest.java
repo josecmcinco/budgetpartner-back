@@ -96,8 +96,10 @@ class MiembroControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.nick").value("cmartinez10"))
-                .andExpect(jsonPath("$.isAsociado").value(false));
+                .andExpect(jsonPath("$.isAsociado").value(false))
+                .andExpect(jsonPath("$.isActivo").value(true));
     }
 
     @Test

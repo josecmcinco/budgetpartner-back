@@ -34,10 +34,10 @@ public class OrganizacionController {
             }
     )
     @PostMapping
-    public ResponseEntity<String> postOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoPostRequest organizacionDtoReq
+    public ResponseEntity<OrganizacionDtoResponse> postOrganizacion(@Validated @NotNull @RequestBody OrganizacionDtoPostRequest organizacionDtoReq
     ) {
         OrganizacionDtoResponse organizacionDtoRes = organizacionService.postOrganizacion(organizacionDtoReq);
-        return ResponseEntity.ok("Organización creada correctamente");
+        return ResponseEntity.ok(organizacionDtoRes);
     }
 
     @Operation(

@@ -45,7 +45,9 @@ public class MiembroService {
                 .orElseThrow(() -> new NotFoundException("Rol no encontrada con id: " + (dto.getRolId())));
 
         Miembro miembro = MiembroMapper.toEntity(dto, organizacion, rol);
-        miembroRepository.save(miembro);
+
+        //Enviar elemento insertado en la db porque tiene el id
+        miembro = miembroRepository.save(miembro);
         return MiembroMapper.toDtoResponse(miembro);
     }
 

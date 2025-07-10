@@ -59,7 +59,7 @@ public class Miembro {
         this.organizacion = organizacion;
         this.rol = rol;
         this.nick = nick;
-        //this.isActivo = isActivo;
+        this.isActivo = true;
 
         //Generado automáticamente
         this.actualizadoEn = LocalDateTime.now();

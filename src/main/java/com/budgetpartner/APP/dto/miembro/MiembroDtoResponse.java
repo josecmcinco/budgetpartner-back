@@ -73,11 +73,11 @@ public class MiembroDtoResponse {
         isAsociado = asociado;
     }
 
-    public boolean isActivo() {
+    public boolean getisActivo() {
         return isActivo;
     }
 
-    public void setActivo(boolean activo) {
-        isActivo = activo;
+    public void setisActivo(boolean isActivo) {
+        this.isActivo = isActivo;
     }
 }

@@ -87,7 +87,11 @@ class OrganizacionControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Organización creada correctamente"));
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.nombre").value(nombreOrg))
+                .andExpect(jsonPath("$.miembros").exists())
+                .andExpect(jsonPath("$.descripcion").value(descripcionOrg));
+
     }
 
     @Test
