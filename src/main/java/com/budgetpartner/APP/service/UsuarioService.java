@@ -103,7 +103,9 @@ public class UsuarioService {
                     )
             );
         }
-        catch(Exception E){System.out.println(E.getMessage());}
+        catch(Exception E){
+            //TODO;
+        }
 
         Usuario usuario = usuarioRepository.obtenerUsuarioPorEmail(dto.getEmail())
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + dto.getEmail()));

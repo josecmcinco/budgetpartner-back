@@ -1,8 +1,13 @@
 package com.budgetpartner.APP;
 
+import com.budgetpartner.APP.repository.UsuarioRepository;
+import com.budgetpartner.APP.service.UsuarioService;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.ai.tool.ToolCallbackProvider;
+import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class AppBugdgetPartnerApplication {
@@ -17,4 +22,13 @@ public class AppBugdgetPartnerApplication {
 
 		SpringApplication.run(AppBugdgetPartnerApplication.class, args);
 	}
+/*
+	@Bean
+	public ToolCallbackProvider userTool(UsuarioRepository usuarioRepository){
+		return MethodToolCallbackProvider.builder()
+				.toolObjects(usuarioRepository)
+				.build();
+
+	}*/
+
 }

@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,6 +58,9 @@ public class PobladorDB {
     @Autowired
     private  RepartoTareaRepository repartoTareaRepository;
 
+    //Guardar mensajes de control
+    private static final Logger logger = LoggerFactory.getLogger(PobladorDB.class);
+
 
     @Transactional
     public void borrarTodo(){
@@ -78,8 +83,7 @@ public class PobladorDB {
         organizacionRepository.deleteAll();
 
 
-
-        System.out.println("Base de datos limpiada con éxito.");
+        logger.info("Base de datos limpiada con éxito.");
 
         //reiniciar Ids
         resetIds();
@@ -96,7 +100,7 @@ public class PobladorDB {
         jdbc.execute("ALTER SEQUENCE gasto_seq RESTART WITH 1");
         jdbc.execute("ALTER SEQUENCE estimacion_seq RESTART WITH 1");
 
-        System.out.println("Identificadores reseteados con éxito.");
+        logger.info("Identificadores reseteados con éxito.");
     }
 
     @Transactional
@@ -122,6 +126,8 @@ public class PobladorDB {
 
         //Paso 5
         List<Estimacion> estimaciones = poblarEstimaciones(planes, tareas, miembros, gastos);
+
+        logger.info("Base de datos limpiada con éxito.");
     }
 
     public  List<Estimacion> poblarEstimaciones(List<Plan> planes, List<Tarea> tareas, List<Miembro> miembros, List<Gasto> gastos){
@@ -161,8 +167,6 @@ public class PobladorDB {
         );
 
         estimaciones = estimacionRepository.saveAll(estimaciones);
-
-        System.out.println("Estimaciones creadas");
 
         return estimaciones;
 
@@ -231,8 +235,6 @@ public class PobladorDB {
 
         gastos = gastoRepository.saveAll(gastos);
 
-        System.out.println("Gatos creados");
-
         return gastos;
     }//poblarGastos
 
@@ -293,8 +295,6 @@ public class PobladorDB {
 
         miembros = miembroRepository.saveAll(miembros);
 
-        System.out.println("Miembros creados");
-
         return miembros;
 
     }//poblarMiembros
@@ -305,7 +305,6 @@ public class PobladorDB {
             new Organizacion("FinanceFlow", "Automatización de flujos financieros personales.")
         );
         organizaciones = organizacionRepository.saveAll(organizaciones);
-        System.out.println("Organizaciones creadas");
 
         return organizaciones;
     }//poblarOrganizaciones
@@ -345,7 +344,6 @@ public class PobladorDB {
         );
 
         planes = planRepository.saveAll(planes);
-        System.out.println("Planes creados");
 
         return planes;
     }//poblarPlanes
@@ -357,7 +355,6 @@ public class PobladorDB {
         new Rol(NombreRol.ROLE_MEMBER)
         );
         roles = rolRepository.saveAll(roles);
-        System.out.println("Roles creados");
         return roles;
 
     }//poblarRoles
@@ -429,7 +426,6 @@ public class PobladorDB {
 
         tareas = tareaRepository.saveAll(tareas);
 
-        System.out.println("Tareas creadas");
         return tareas;
 
     }//poblarTareas
@@ -444,7 +440,6 @@ public class PobladorDB {
         );
 
         usuarios = usuarioRepository.saveAll(usuarios);
-        System.out.println("Usuarios creados");
         return usuarios;
     }//poblarUsuarios
 

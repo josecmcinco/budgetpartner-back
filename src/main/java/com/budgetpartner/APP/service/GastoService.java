@@ -93,7 +93,6 @@ public class GastoService {
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + id));
 
         List<Miembro> miembrosEndeudados = gastoRepository.findMiembrosByGastoId(id);
-        System.out.println(miembrosEndeudados);
 
         GastoDtoResponse gastoDtoResp = GastoMapper.toDtoResponse(gasto);
         return gastoDtoResp;

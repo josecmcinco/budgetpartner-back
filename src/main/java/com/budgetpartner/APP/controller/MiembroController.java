@@ -135,7 +135,6 @@ public class MiembroController {
 
     @GetMapping("/organizacion/{organizacionId}")
     public ResponseEntity<MiembroDtoResponse> getMiembroPorUsuarioYOrgID(@PathVariable Long organizacionId) {
-        System.out.println("No tan ole");
         MiembroDtoResponse miembro = miembroService.getMiembroPorUsernameYOrganizacion(organizacionId);
         return ResponseEntity.ok(miembro);
     }

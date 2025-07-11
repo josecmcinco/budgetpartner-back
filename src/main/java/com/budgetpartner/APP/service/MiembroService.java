@@ -39,8 +39,6 @@ public class MiembroService {
         Organizacion organizacion = organizacionRepository.findById(dto.getOrganizacionId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + (dto.getOrganizacionId())));
 
-        System.out.println(dto.getRolId());
-
         Rol rol = rolRepository.findById(dto.getRolId())
                 .orElseThrow(() -> new NotFoundException("Rol no encontrada con id: " + (dto.getRolId())));
 

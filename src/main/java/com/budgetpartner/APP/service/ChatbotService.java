@@ -45,7 +45,9 @@ public class ChatbotService {
                 try {
                     result = mensajeDeepseek(message);}
                 catch(Exception e){
-                    System.out.println("Error: " + e);}
+                    //System.out.println("Error: " + e);
+                    //TODO
+                }
                 break;
 
             case "local":
@@ -110,7 +112,6 @@ public class ChatbotService {
             System.out.println(prettyJson);
         }*/
 
-        System.out.println(responseBody);
 
         return responseBody;
     }
