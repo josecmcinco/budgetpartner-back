@@ -28,13 +28,14 @@ public class GastoDtoResponse {
         private String descripcion;
         private List<MiembroDtoResponse> miembrosEndeudadosDtoRes;
 
-    public GastoDtoResponse(Long id, Long tareaId, Long planId, double cantidad, String nombre, String descripcion, List<MiembroDtoResponse> miembrosEndeudadosDtoRes) {
+    public GastoDtoResponse(Long id, Long tareaId, Long planId, double cantidad, String nombre, String descripcion,MiembroDtoResponse pagador, List<MiembroDtoResponse> miembrosEndeudadosDtoRes) {
         this.id = id;
         this.tareaId = tareaId;
         this.planId = planId;
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.pagador = pagador;
         this.miembrosEndeudadosDtoRes = miembrosEndeudadosDtoRes;
 
     }

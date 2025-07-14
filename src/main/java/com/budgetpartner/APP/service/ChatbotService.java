@@ -1,9 +1,12 @@
 package com.budgetpartner.APP.service;
 
+import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.api.ChatQuery;
 import com.budgetpartner.APP.dto.api.ChatResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -28,30 +31,40 @@ public class ChatbotService {
     private OllamaChatModel localChatbotService;
 
 
+    private static final String intermediateChatbotService = "qwen3:4b" ;
+
+    private static final Logger logger = LoggerFactory.getLogger(PobladorDB.class);
+
     private static final String DEEPSEEK_API_KEY = System.getProperty("DEEPSEEK_API_KEY");
     private static final String BASE_URL_DEEPSEEK = "https://api.deepseek.com/v1";
 
 
-    public ChatResponse procesar(String model, ChatQuery query) {
+    //Procesa el mensaje del usuario
+    //Extrae la acción a realizar y con que utilizando un primer modelo de IA más ligero
+    //Usa la respuesta para que una IA de mayor capacidad sepa que hacer
+
+    public ChatResponse processMessage(String model, ChatQuery query) {
+
+        //Obtener información que se quiere procesar
+        String informacionQuey  = obtenerInformacionQuey(query.getPrompt());
+
+        //
+
+
         String message = query.getPrompt();
         String result = "";
+
+
+        // Procesar la petición
         switch (model.toLowerCase()) {
             case "openai":
                 result = mensajeOpenAI(message);
                 break;
 
             case "deepseek":
-
-                try {
-                    result = mensajeDeepseek(message);}
-                catch(Exception e){
-                    //System.out.println("Error: " + e);
-                    //TODO
-                }
+                result = mensajeDeepseek(message);
                 break;
-
             case "local":
-
                 result = mensajeLocal(message);
                 break;
 
@@ -71,7 +84,7 @@ public class ChatbotService {
 
     }
 
-    private String mensajeDeepseek(String message) throws IOException, InterruptedException {
+    private String mensajeDeepseek(String message) {
 
         String escapedMessage = message.replace("\"", "\\\"");
 
@@ -92,6 +105,7 @@ public class ChatbotService {
                 """.formatted(escapedMessage);
 
 
+        //Preparar y enviar la petición a deepsee
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL_DEEPSEEK + "/chat/completions"))
                 .header("Content-Type", "application/json")
@@ -99,8 +113,17 @@ public class ChatbotService {
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
         var cliente = HttpClient.newHttpClient();
-        var response = cliente.send(request, HttpResponse.BodyHandlers.ofString());
-        String responseBody = response.body();
+
+        try{
+            var response = cliente.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            return responseBody;
+
+        }
+        catch(Exception e){
+            logger.info("Base de datos limpiada con éxito.");
+            throw  new RuntimeException(e);}
+
 
 
         /*
@@ -112,12 +135,16 @@ public class ChatbotService {
             System.out.println(prettyJson);
         }*/
 
-
-        return responseBody;
     }
 
     public String mensajeLocal(String message){
 
         return this.localChatbotService.call(message);
+    }
+
+    public String obtenerInformacionQuey(String message){
+
+        //return ollamaService.generate(model, prompt);
+        return null;
     }
 }

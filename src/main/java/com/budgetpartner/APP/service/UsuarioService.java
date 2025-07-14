@@ -63,7 +63,14 @@ public class UsuarioService {
 
         Usuario usuario = devolverUsuarioAutenticado();
 
+        //Hashear contraseña
+        if((dto.getContraseña() != null)){
+            String contraseñaHash = passwordEncoder.encode(dto.getContraseña());
+            dto.setContraseña(contraseñaHash);
+        }
+
         UsuarioMapper.updateEntityFromDtoRes(dto, usuario);
+
         usuario = usuarioRepository.save(usuario);
         return usuario;
     }
@@ -75,10 +82,15 @@ public class UsuarioService {
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
     //Devuelve los JWT
-    public TokenDtoResponse register(UsuarioDtoPostRequest UsuarioDtoReq){
+    public TokenDtoResponse register(UsuarioDtoPostRequest usuarioDtoReq){
 
         //TODO VARIABLES REPETIDAS (EMAIL)
-        Usuario usuario = UsuarioMapper.toEntity(UsuarioDtoReq);
+
+        //Hashear contraseña
+        String contraseñaHash = passwordEncoder.encode(usuarioDtoReq.getContraseña());
+        usuarioDtoReq.setContraseña(contraseñaHash);
+
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDtoReq);
         usuarioRepository.save(usuario);
 
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
@@ -155,29 +167,9 @@ public class UsuarioService {
 
         String usuarioEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        /*
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            throw new IllegalArgumentException("Invalid bearer token");
-        }
-
-        //Obtener token de de autentificación sin bearer
-        final String authenticationToken = authHeader.substring(7);
-        final String usuarioEmail = jwtService.extractEmailUsuario(authenticationToken);
-
-        //Comprobar que existe un usuario con ese coreeo
-        //NUNCA DEBERÍA DE ERRAR
-        if(usuarioEmail == null){
-            throw new IllegalArgumentException("Invalid refresh token");
-        }*/
-
         final Usuario usuario = usuarioRepository.obtenerUsuarioPorEmail(usuarioEmail)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + usuarioEmail));
 
-        //Conifirmar que el token de refresco es válido
-        /*
-        if(!jwtService.isTokenValid(authenticationToken, usuario)){
-            throw new IllegalArgumentException("Invalid refresh token");
-        }*/
         return usuario;
     }
 

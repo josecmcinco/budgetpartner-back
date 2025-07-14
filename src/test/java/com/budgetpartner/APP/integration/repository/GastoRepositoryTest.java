@@ -25,7 +25,7 @@ public class GastoRepositoryTest {
 
     @Test
     public void testObtenerGastoPorPlanId() {
-        Long planId = 1L; // Plan A de la Organización 1
+        Long planId = 2L; // Plan A de la Organización 1
         List<Gasto> gastos = gastoRepository.obtenerGastosPorPlanId(planId);
 
         assertThat(gastos).isNotEmpty();

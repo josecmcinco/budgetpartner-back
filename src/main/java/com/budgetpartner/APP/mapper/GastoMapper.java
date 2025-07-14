@@ -38,6 +38,7 @@ public class GastoMapper {
                 gasto.getCantidad(),
                 gasto.getNombre(),
                 gasto.getDescripcion(),
+                MiembroMapper.toDtoResponse(gasto.getPagador()),
                 MiembroMapper.toDtoResponseListMiembro(gasto.getMiembrosEndeudados())
         );
     }

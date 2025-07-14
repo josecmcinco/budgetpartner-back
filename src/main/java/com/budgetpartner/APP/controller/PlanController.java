@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.controller;
 
+import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoPostRequest;
 import com.budgetpartner.APP.dto.plan.PlanDtoUpdateRequest;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/planes")
@@ -96,4 +99,30 @@ public class PlanController {
         PlanDtoResponse planDtoResp = PlanMapper.toDtoResponse(plan);
         return ResponseEntity.ok("Plan eliminado correctamente");
     }
+
+    @Operation(
+            summary = "Obtener la lista deudas de miembros de un plan",
+            description = "Devuelve una organización junto con planes, presupuesto estimado y gastos reales dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Organizacioes obtenidas correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
+    @GetMapping("/{id}/saldos")
+    public ResponseEntity<List<MiembroDtoResponse>> getSaldosByOrganizacionId(@Validated @NotNull @PathVariable Long id){
+        List<MiembroDtoResponse> miembros = planService.getAjusteDeudasByOrganizacionId(id);
+        return ResponseEntity.ok(miembros);
+
+    }
+
 }

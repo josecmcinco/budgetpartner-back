@@ -20,6 +20,7 @@ public class MiembroDtoResponse {
     private LocalDateTime fechaIngreso;
     private boolean isAsociado;
     private boolean isActivo;
+    private Double deudaEnPlan;
 
     public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isAsociado, boolean isActivo) {
         this.id = id;
@@ -79,5 +80,13 @@ public class MiembroDtoResponse {
 
     public void setisActivo(boolean isActivo) {
         this.isActivo = isActivo;
+    }
+
+    public Double getDeudaEnPlan() {
+        return deudaEnPlan;
+    }
+
+    public void setDeudaEnPlan(Double deudaEnPlan) {
+        this.deudaEnPlan = deudaEnPlan;
     }
 }

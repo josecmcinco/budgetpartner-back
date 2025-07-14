@@ -32,6 +32,8 @@ public class PlanService {
     private TareaRepository tareaRepository;
     @Autowired
     private EstimacionRepository estimacionRepository;
+    @Autowired
+    private RepartoGastoRepository repartoGastoRepository;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -117,6 +119,32 @@ public class PlanService {
         planRepository.save(plan);
         return plan;
     }
+
+    public List<MiembroDtoResponse> getAjusteDeudasByOrganizacionId(Long planId){
+
+        //Obtener la organizacion a la que pertenece el plan
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new NotFoundException("ERROR: Plan no encontrado con id: " + planId));
+
+        List<Miembro> miembrosOrganizacion = miembroRepository.obtenerMiembrosPorOrganizacionId(plan.getOrganizacion().getId());
+
+        List<MiembroDtoResponse> miembroDtoList = new java.util.ArrayList<>(List.of());
+
+        for (Miembro miembro: miembrosOrganizacion){
+            //Generar el dto de miembro
+            MiembroDtoResponse miembroDto = MiembroMapper.toDtoResponse(miembro);
+
+            //Obtener la cantidad que debe el miembro en este plan
+            Double cantidad = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembro.getId(), planId);
+
+            //Añadirla al dto y guardar el dto
+            miembroDto.setDeudaEnPlan(cantidad);
+            miembroDtoList.add(miembroDto);
+
+        }
+        return miembroDtoList;
+    }
+
 
     //OTROS MÉTODOS
 

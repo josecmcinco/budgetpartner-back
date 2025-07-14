@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -139,14 +140,27 @@ public class Gasto {
     }
 
 
-    public void setMiembrosEndeudados(List<Miembro> miembros) {
+    public void setMiembrosEndeudados(List<Miembro> miembrosEndeudados) {
         this.repartos.clear();
-        for (Miembro miembro : miembros) {
-            RepartoGasto mp = new RepartoGasto(this, miembro, getCantidad());
-            this.repartos.add(mp);
 
-            //Usar SOLO si tienes relación bidireccional
-            //miembro.getMiembroTarea().add(mp);
+        //Obtener deuda como double con dos decimales
+        int prepDeudaSinDecimales = (int) getCantidad() * 100 / miembrosEndeudados.size();
+        double deudaPorPersona = (double) prepDeudaSinDecimales / 100 ;
+
+        //Preparar la parte indivisible del gasto para cobrarsela al que hace el gasto
+        int picoDeudaSinDecimales = (int) (getCantidad() * 100 - deudaPorPersona * miembrosEndeudados.size());
+        double picoDelGasto = (double) picoDeudaSinDecimales / 100;
+
+
+        for (Miembro miembro : miembrosEndeudados) {
+            double gasto;
+            if(Objects.equals(miembro.getId(), pagador.getId())){
+                gasto = deudaPorPersona * (miembrosEndeudados.size() - 1) + picoDelGasto;}
+
+            else{gasto = - deudaPorPersona;}
+
+            RepartoGasto mp = new RepartoGasto(this, miembro, gasto);
+            this.repartos.add(mp);
         }
     }
 }

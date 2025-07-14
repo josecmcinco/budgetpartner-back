@@ -20,4 +20,11 @@ public interface RepartoGastoRepository extends JpaRepository<RepartoGasto, Long
     @Transactional
     @Query("DELETE FROM RepartoGasto rg WHERE rg.gasto.id IN :gastoId")
     void eliminarRepartoGastoPorGastoId(@Param("gastoId") Long gastoId);
+
+    @Query(value = "SELECT SUM(rg.cantidad) " +
+            "FROM reparto_gastos rg " +
+            "JOIN gasto g ON g.id = rg.gasto_id " +
+            "WHERE rg.miembro_id = :miembroId " +
+            " AND g.plan_id = :planId ", nativeQuery = true)
+    Double sumarGastosPorMiembroYTPlanId(@Param("miembroId") Long miembro_id, @Param("planId") Long plan_id);
 }

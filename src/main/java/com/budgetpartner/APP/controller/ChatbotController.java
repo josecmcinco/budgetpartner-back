@@ -17,8 +17,8 @@ public class ChatbotController {
 
 
     @PostMapping("/{model}")
-    public ResponseEntity<ChatResponse> messageToTheAI(@PathVariable String model, @RequestBody ChatQuery query) {
-        ChatResponse response = chatbotService.procesar(model, query);
+    public ResponseEntity<ChatResponse> processMessageAI(@PathVariable String model, @RequestBody ChatQuery query) {
+        ChatResponse response = chatbotService.processMessage(model, query);
         return ResponseEntity.ok(response);
     }
 }
