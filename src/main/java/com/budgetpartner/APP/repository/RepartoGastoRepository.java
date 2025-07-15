@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface RepartoGastoRepository extends JpaRepository<RepartoGasto, Long> {
@@ -21,10 +22,10 @@ public interface RepartoGastoRepository extends JpaRepository<RepartoGasto, Long
     @Query("DELETE FROM RepartoGasto rg WHERE rg.gasto.id IN :gastoId")
     void eliminarRepartoGastoPorGastoId(@Param("gastoId") Long gastoId);
 
-    @Query(value = "SELECT SUM(rg.cantidad) " +
+    @Query(value = "SELECT ROUND(SUM(rg.cantidad), 2) " +
             "FROM reparto_gastos rg " +
             "JOIN gasto g ON g.id = rg.gasto_id " +
             "WHERE rg.miembro_id = :miembroId " +
             " AND g.plan_id = :planId ", nativeQuery = true)
-    Double sumarGastosPorMiembroYTPlanId(@Param("miembroId") Long miembro_id, @Param("planId") Long plan_id);
+    BigDecimal sumarGastosPorMiembroYTPlanId(@Param("miembroId") Long miembro_id, @Param("planId") Long plan_id);
 }

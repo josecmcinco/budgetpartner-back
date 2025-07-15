@@ -4,6 +4,7 @@ import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.entity.Rol;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -20,7 +21,7 @@ public class MiembroDtoResponse {
     private LocalDateTime fechaIngreso;
     private boolean isAsociado;
     private boolean isActivo;
-    private Double deudaEnPlan;
+    private double deudaEnPlan;
 
     public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isAsociado, boolean isActivo) {
         this.id = id;
@@ -82,11 +83,11 @@ public class MiembroDtoResponse {
         this.isActivo = isActivo;
     }
 
-    public Double getDeudaEnPlan() {
+    public double getDeudaEnPlan() {
         return deudaEnPlan;
     }
 
-    public void setDeudaEnPlan(Double deudaEnPlan) {
+    public void setDeudaEnPlan(double deudaEnPlan) {
         this.deudaEnPlan = deudaEnPlan;
     }
 }

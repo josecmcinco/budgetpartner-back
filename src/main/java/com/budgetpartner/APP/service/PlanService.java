@@ -15,6 +15,7 @@ import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -135,7 +136,8 @@ public class PlanService {
             MiembroDtoResponse miembroDto = MiembroMapper.toDtoResponse(miembro);
 
             //Obtener la cantidad que debe el miembro en este plan
-            Double cantidad = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembro.getId(), planId);
+             BigDecimal cantidadBD = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembro.getId(), planId);
+             double cantidad = cantidadBD.floatValue();
 
             //Añadirla al dto y guardar el dto
             miembroDto.setDeudaEnPlan(cantidad);

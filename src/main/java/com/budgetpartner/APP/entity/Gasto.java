@@ -2,6 +2,7 @@ package com.budgetpartner.APP.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Gasto {
     private List<Estimacion> estimaciones = new ArrayList<>();
 
     @Column
-    private double cantidad;
+    private BigDecimal cantidad;
 
     @Column
     private String nombre;
@@ -56,7 +57,7 @@ public class Gasto {
     public Gasto(Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
         this.tarea = tarea;
         this.plan = plan;
-        this.cantidad = cantidad;
+        this.cantidad = BigDecimal.valueOf(cantidad);
         this.nombre = nombre;
         this.pagador = pagador;
         this.descripcion = descripcion;
@@ -72,7 +73,7 @@ public class Gasto {
         this.id = id;
         this.tarea = tarea;
         this.plan = plan;
-        this.cantidad = cantidad;
+        this.cantidad = BigDecimal.valueOf(cantidad);
         this.nombre = nombre;
         this.pagador = pagador;
         this.descripcion = descripcion;
@@ -95,7 +96,7 @@ public class Gasto {
     }
 
     public double getCantidad() {
-        return cantidad;
+        return cantidad.floatValue();
     }
 
     public String getNombre() {
@@ -120,7 +121,7 @@ public class Gasto {
 
     public void setCantidad(double cantidad) {
         this.actualizadoEn = LocalDateTime.now();
-        this.cantidad = cantidad;
+        this.cantidad = BigDecimal.valueOf(cantidad);
     }
 
     public void setNombre(String nombre) {
@@ -145,7 +146,8 @@ public class Gasto {
 
         //Obtener deuda como double con dos decimales
         int prepDeudaSinDecimales = (int) getCantidad() * 100 / miembrosEndeudados.size();
-        double deudaPorPersona = (double) prepDeudaSinDecimales / 100 ;
+
+        double deudaPorPersona = (double) prepDeudaSinDecimales / 100;
 
         //Preparar la parte indivisible del gasto para cobrarsela al que hace el gasto
         int picoDeudaSinDecimales = (int) (getCantidad() * 100 - deudaPorPersona * miembrosEndeudados.size());
@@ -159,7 +161,7 @@ public class Gasto {
 
             else{gasto = - deudaPorPersona;}
 
-            RepartoGasto mp = new RepartoGasto(this, miembro, gasto);
+            RepartoGasto mp = new RepartoGasto(this, miembro, BigDecimal.valueOf(gasto));
             this.repartos.add(mp);
         }
     }

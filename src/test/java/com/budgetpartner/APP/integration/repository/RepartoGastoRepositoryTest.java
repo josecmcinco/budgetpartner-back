@@ -7,6 +7,7 @@ import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.RepartoGastoRepository;
 import com.budgetpartner.config.PobladorTestConfig;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,11 @@ class RepartoGastoRepositoryTest {
         Long planId = 2L;
         Long miembroId = 3L;
 
-        double cantidadDevuelta = 52.44;
+        BigDecimal cantidadDevuelta = BigDecimal.valueOf(52.44);
         //Gastos del miembro en el plan:
         //TODO EXPLICAR
 
-        Double suma = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembroId, planId);
+        BigDecimal suma = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembroId, planId);
         assertThat(suma).isEqualTo(cantidadDevuelta);
     }
 }

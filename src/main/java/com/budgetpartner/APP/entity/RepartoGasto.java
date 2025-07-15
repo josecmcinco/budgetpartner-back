@@ -2,6 +2,8 @@ package com.budgetpartner.APP.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "reparto_gastos")
 public class RepartoGasto {
@@ -19,13 +21,13 @@ public class RepartoGasto {
     @JoinColumn(name = "miembro_id")
     private Miembro miembro;
 
-    private double cantidad;
+    private BigDecimal cantidad;
 
     //Constructor vacío para Hibernate
     public RepartoGasto() {}
 
     //Crear partición gasto desde 0
-    public RepartoGasto(Gasto gasto, Miembro miembro, double cantidad) {
+    public RepartoGasto(Gasto gasto, Miembro miembro, BigDecimal cantidad) {
         this.gasto = gasto;
         this.miembro = miembro;
         this.cantidad = cantidad;
@@ -57,11 +59,11 @@ public class RepartoGasto {
         this.miembro = miembro;
     }
 
-    public double getCantidad() {
+    public BigDecimal getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(BigDecimal cantidad) {
         this.cantidad = cantidad;
     }
 }

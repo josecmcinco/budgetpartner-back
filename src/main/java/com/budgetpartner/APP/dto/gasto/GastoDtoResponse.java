@@ -8,6 +8,7 @@ import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,8 +28,11 @@ public class GastoDtoResponse {
         private MiembroDtoResponse pagador;
         private String descripcion;
         private List<MiembroDtoResponse> miembrosEndeudadosDtoRes;
+        private LocalDateTime creadoEn;
+        private LocalDateTime actualizadoEn;
 
-    public GastoDtoResponse(Long id, Long tareaId, Long planId, double cantidad, String nombre, String descripcion,MiembroDtoResponse pagador, List<MiembroDtoResponse> miembrosEndeudadosDtoRes) {
+    public GastoDtoResponse(Long id, Long tareaId, Long planId, double cantidad, String nombre, String descripcion,MiembroDtoResponse pagador,
+                            List<MiembroDtoResponse> miembrosEndeudadosDtoRes, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.tareaId = tareaId;
         this.planId = planId;
@@ -37,6 +41,8 @@ public class GastoDtoResponse {
         this.descripcion = descripcion;
         this.pagador = pagador;
         this.miembrosEndeudadosDtoRes = miembrosEndeudadosDtoRes;
+        this.creadoEn = creadoEn;
+        this.actualizadoEn = actualizadoEn;
 
     }
 
@@ -102,5 +108,21 @@ public class GastoDtoResponse {
 
     public void setMiembrosEndeudadosDtoRes(List<MiembroDtoResponse> miembrosEndeudadosDtoRes) {
         this.miembrosEndeudadosDtoRes = miembrosEndeudadosDtoRes;
+    }
+
+    public LocalDateTime getCreadoEn() {
+        return creadoEn;
+    }
+
+    public void setCreadoEn(LocalDateTime creadoEn) {
+        this.creadoEn = creadoEn;
+    }
+
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
+    }
+
+    public void setActualizadoEn(LocalDateTime actualizadoEn) {
+        this.actualizadoEn = actualizadoEn;
     }
 }

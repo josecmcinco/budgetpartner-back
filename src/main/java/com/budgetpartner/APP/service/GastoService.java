@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -162,8 +163,8 @@ public class GastoService {
             reparto.setMiembro(miembro);
 
             //Asignar gasto de pico al pagador
-            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(gasto.getCantidad() - deudaPorPersona + picoDelGasto);}
-            else{reparto.setCantidad(-deudaPorPersona);}
+            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(BigDecimal.valueOf(gasto.getCantidad() - deudaPorPersona + picoDelGasto));}
+            else{reparto.setCantidad(BigDecimal.valueOf(-deudaPorPersona));}
 
             reparto.setId(new RepartoGastoId(gasto.getId(), miembro.getId()));
 
