@@ -131,7 +131,7 @@ class OrganizacionControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].nombre").value("Organización Test Actualizada"));
+                .andExpect(jsonPath("$[0].nombre").value("BudgetCorp"));
     }
 
     @Test

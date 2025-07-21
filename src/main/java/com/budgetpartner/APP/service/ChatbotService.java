@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.ollama.OllamaChatModel;
+//import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,13 +22,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
+import dev.langchain4j.model.ollama.OllamaChatModel;
+
 @Service
 public class ChatbotService {
 
     @Autowired
     private OpenAiChatModel openAIChatModel;
-    @Autowired
-    private OllamaChatModel localChatbotService;
 
 
     private static final String intermediateChatbotService = "qwen3:4b" ;
@@ -46,9 +46,9 @@ public class ChatbotService {
     public ChatResponse processMessage(String model, ChatQuery query) {
 
         //Obtener información que se quiere procesar
-        String informacionQuey  = obtenerInformacionQuey(query.getPrompt());
 
-        //
+        String informacionQuey  = obtenerInformacionQuey(query.getPrompt(), intermediateChatbotService);
+
 
 
         String message = query.getPrompt();
@@ -138,13 +138,34 @@ public class ChatbotService {
     }
 
     public String mensajeLocal(String message){
-
-        return this.localChatbotService.call(message);
+        //return this.localChatbotService.call(message);
+        OllamaChatModel model = OllamaChatModel.builder()
+                .baseUrl("http://localhost:11434")
+                .modelName(intermediateChatbotService)
+                .build();
+        return model.chat(message);
     }
 
-    public String obtenerInformacionQuey(String message){
+    public String obtenerInformacionQuey(String message, String nombreModelo){
+        String peticion = """
+        Analiza el siguiente mensaje de un usuario. Devuelve un JSON con:
 
-        //return ollamaService.generate(model, prompt);
-        return null;
-    }
+        - `operacion`: uno de ["Create", "Read", "Update", "Delete", "indeterminado"]
+        - `entidades`: una lista con los nombres de entidades en singular (como Usuario, Producto, Pedido, etc.)
+
+
+        Mensaje del usuario:
+
+        %s
+        """.formatted(message);
+
+        //- `atributos`: opcional, una lista de posibles campos mencionados (como "nombre", "precio", "email")
+        //        - `identificadores`: opcional, una lista de valores únicos detectados (como ID numérico, email, username, etc.)
+
+        OllamaChatModel model = OllamaChatModel.builder()
+                .baseUrl("http://localhost:11434")
+                .modelName(nombreModelo)
+                .build();
+        return model.chat(peticion);
+        }
 }

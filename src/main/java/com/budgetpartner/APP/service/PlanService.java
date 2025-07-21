@@ -136,8 +136,11 @@ public class PlanService {
             MiembroDtoResponse miembroDto = MiembroMapper.toDtoResponse(miembro);
 
             //Obtener la cantidad que debe el miembro en este plan
+            double cantidad = 0f;
              BigDecimal cantidadBD = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembro.getId(), planId);
-             double cantidad = cantidadBD.floatValue();
+             try{
+                cantidad = cantidadBD.floatValue();}
+             catch(Exception ignored){}
 
             //Añadirla al dto y guardar el dto
             miembroDto.setDeudaEnPlan(cantidad);
