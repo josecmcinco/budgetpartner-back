@@ -56,9 +56,13 @@ cp .env.example .env
 ./mvnw spring-boot:run
 ```
 
-#A. Desde tu IDE: 
+#B. Desde tu IDE: 
 - Abre el proyecto.
 - Ejecuta la clase BudgetPartnerApplication.java.
+
+  Se pueden usar los siguientes argumentos para ejecutarlo:
+   - `--borrar`: Elimina la base de datos
+   - `--borrar`: Puebla la base de datos
 
 
 ### 5. Estructura del proyecto
