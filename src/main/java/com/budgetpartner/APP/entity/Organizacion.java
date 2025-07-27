@@ -25,6 +25,10 @@ public class Organizacion {
 
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Miembro> miembros = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Invitacion> invitaciones = new ArrayList<>();
+
     /*
     TODO IMAGEN
      */
@@ -86,5 +90,13 @@ public class Organizacion {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
         this.actualizadoEn = LocalDateTime.now();
+    }
+
+    public List<Invitacion> getInvitaciones() {
+        return invitaciones;
+    }
+
+    public void setInvitaciones(List<Invitacion> invitaciones) {
+        this.invitaciones = invitaciones;
     }
 }

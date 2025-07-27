@@ -24,7 +24,10 @@ public interface MiembroRepository extends JpaRepository<Miembro, Long> {
     Integer contarMiembrosPorOrganizacionId(@Param("organizacionId") Long organizacionId);
 
     @Query(value = "SELECT m.id FROM miembro m where m.organizacion_Id = :organizacionId AND m.is_activo = TRUE", nativeQuery = true)
-    List<Long> obtenerMiembrosIdPorOrganizacionId(@Param("organizacionId") Long organizacionId);
+    List<Long> obtenerMiembrosActivosIdPorOrganizacionId(@Param("organizacionId") Long organizacionId);
+
+    @Query(value = "SELECT m.* FROM miembro m where m.organizacion_Id = :organizacionId AND m.is_asociado = FALSE", nativeQuery = true)
+    List<Miembro> obtenerMiembrosInactivosIdPorOrganizacionId(@Param("organizacionId") Long organizacionId);
 
 
     @Query(value = "SELECT m.* FROM miembro m where m.organizacion_Id = :organizacionId", nativeQuery = true)

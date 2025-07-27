@@ -56,7 +56,10 @@ public class PobladorDB {
     private RepartoGastoRepository repartoGastoRepository;
 
     @Autowired
-    private  RepartoTareaRepository repartoTareaRepository;
+    private RepartoTareaRepository repartoTareaRepository;
+
+    @Autowired
+    private InvitacionRepository invitacionRepository;
 
     //Guardar mensajes de control
     private static final Logger logger = LoggerFactory.getLogger(PobladorDB.class);
@@ -73,6 +76,7 @@ public class PobladorDB {
         miembroRepository.deleteAll();
         gastoRepository.deleteAll();
         tareaRepository.deleteAll();
+        invitacionRepository.deleteAll();
 
 
         // Luego las entidades principales
@@ -127,10 +131,21 @@ public class PobladorDB {
         //Paso 5
         List<Estimacion> estimaciones = poblarEstimaciones(planes, tareas, miembros, gastos);
 
+        //Paso 6
+        poblarInvitacion(organizaciones);
+
         logger.info("Base de datos limpiada con éxito.");
     }
 
-    public  List<Estimacion> poblarEstimaciones(List<Plan> planes, List<Tarea> tareas, List<Miembro> miembros, List<Gasto> gastos){
+    public void poblarInvitacion(List<Organizacion> organizaciones){
+
+        Invitacion invitacion = new Invitacion("a4d6bbda-93a7-47bc-9f38-5b6ec62a9478", organizaciones.get(0));
+
+        invitacionRepository.save(invitacion);
+
+    }
+
+    public List<Estimacion> poblarEstimaciones(List<Plan> planes, List<Tarea> tareas, List<Miembro> miembros, List<Gasto> gastos){
 
         //Estimacion1 estima a gasto1
         //Estimacion3 estima a gasto11
