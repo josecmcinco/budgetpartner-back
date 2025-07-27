@@ -1,0 +1,39 @@
+# Maven - Carpeta de compilación y dependencias descargadas
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# Archivos de configuración del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDEs
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+
+# NetBeans
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# Archivos de sistema
+*.swp
+*~
+
+# Archivos de configuración personal
+.mvn/timing.properties
+
+#Archivo de variables sensibles
+.env
