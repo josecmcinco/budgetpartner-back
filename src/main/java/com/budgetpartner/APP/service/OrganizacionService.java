@@ -48,7 +48,7 @@ public class OrganizacionService {
 
     //Llamada para Endpoint
     //Crea una Entidad usando el DTO recibido por el usuario
-    public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) {
+    public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq) throws Exception {
 
         //Autenticar el miembro
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();
@@ -58,7 +58,7 @@ public class OrganizacionService {
 
         //Obtener el rol para poder meter el Miembro en la DB
         Rol rol = rolRepository.obtenerRolPorNombre(NombreRol.ROLE_ADMIN)
-                .orElseThrow(() -> new NotFoundException("ERROR INTERNO: Miembro no encontrada con el nombre: ROLE_ADMIN"));
+                .orElseThrow(() -> new Exception("ERROR INTERNO"));
 
         Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador());
 

@@ -6,6 +6,8 @@ import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
 import com.budgetpartner.APP.dto.token.TokenDtoResponse;
 import com.budgetpartner.APP.entity.Usuario;
+import com.budgetpartner.APP.exceptions.BadRequestException;
+import com.budgetpartner.APP.exceptions.UnauthorizedException;
 import com.budgetpartner.APP.mapper.UsuarioMapper;
 import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.UsuarioRepository;
@@ -13,8 +15,8 @@ import org.springframework.beans.factory.annotation.*;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
 //import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -114,10 +116,21 @@ public class UsuarioService {
 
                     )
             );
-        }
-        catch(Exception E){
-            //TODO;
-        }
+
+        // Generar token y devolver TokenDtoResponse
+        } catch (
+        BadCredentialsException ex) {
+            throw new BadRequestException("Email o contraseña incorrectos");
+        } catch (
+        DisabledException ex) {
+            throw new UnauthorizedException("Usuario deshabilitado");
+        } catch (
+        LockedException ex) {
+            throw new UnauthorizedException("Cuenta bloqueada");
+        } catch (
+        AuthenticationException ex) {
+            throw new UnauthorizedException("Error de autenticación");}
+
 
         Usuario usuario = usuarioRepository.obtenerUsuarioPorEmail(dto.getEmail())
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con email: " + dto.getEmail()));
@@ -131,7 +144,7 @@ public class UsuarioService {
     //Devuelve el token de autentificacion si el de refresco es correcto
     public TokenDtoResponse refreshToken(final String authHeader){
             if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            throw new IllegalArgumentException("Invalid bearer token");
+            throw new BadRequestException("Invalid bearer token");
         }
 
         //Obtener token de refresco sin bearer
@@ -141,7 +154,7 @@ public class UsuarioService {
         //Comprobar que existe un usuario con ese coreeo
         //NUNCA DEBERÍA DE ERRAR
         if(usuarioEmail == null){
-            throw new IllegalArgumentException("Invalid refresh token");
+            throw new BadRequestException("Invalid refresh token");
         }
 
         final Usuario usuario = usuarioRepository.obtenerUsuarioPorEmail(usuarioEmail).
@@ -149,7 +162,7 @@ public class UsuarioService {
 
         //Conifirmar que el token de refresco es válido
         if(!jwtService.isTokenValid(refreshToken, usuario)){
-            throw new IllegalArgumentException("Invalid refresh token");
+            throw new BadRequestException("Invalid refresh token");
         }
 
         final String accessToken = jwtService.generateToken(usuario);
