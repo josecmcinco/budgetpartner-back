@@ -4,7 +4,7 @@ package com.budgetpartner.APP.service.AiService;
 import com.budgetpartner.APP.dto.api.ChatQuery;
 import com.budgetpartner.APP.dto.api.DeepseekAgentInstruction;
 import com.budgetpartner.APP.mcp.ToolRegistry;
-import com.budgetpartner.APP.util.Message;
+import com.budgetpartner.APP.util.MessageAi;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
@@ -23,10 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.springframework.ai.model.ModelOptionsUtils.toJsonString;
 
 
 @Service
@@ -41,7 +37,7 @@ public class DeepseekAgentService {
     private static final String BASE_URL_DEEPSEEK = "https://api.deepseek.com/v1";
     private static final Logger logger = LoggerFactory.getLogger(DeepseekAgentService.class);
 
-    private List<Message> historial = new ArrayList<>();
+    private List<MessageAi> historial = new ArrayList<>();
 
     public String processUserMessage(ChatQuery chatQuery) {
 
@@ -75,7 +71,7 @@ public class DeepseekAgentService {
 
                     currentMessage = mapper.writeValueAsString(result);
                     currentMessage = currentMessage.replace("\"", "\\\"");
-                    historial.add(new Message("system", currentMessage));
+                    historial.add(new MessageAi("system", currentMessage));
 
                 } catch (Exception e) {
                     responseToUser = "Error al ejecutar herramienta: " + e.getMessage();
@@ -127,7 +123,7 @@ public class DeepseekAgentService {
 
             System.out.println(cleanJson);
 
-            historial.add(new Message("assistant", cleanJson));
+            historial.add(new MessageAi("assistant", cleanJson));
             return DeepseekAgentInstruction.fromJson(cleanJson);
 
         }
@@ -172,10 +168,10 @@ public class DeepseekAgentService {
     
             IMPORTANTE: Solo devuelve el JSON, sin ningún texto adicional, explicación o comentario.
         """.formatted(herramientasTexto);
-        historial.add(new Message("system", startPrompt));
+        historial.add(new MessageAi("system", startPrompt));
 
         // Agregar el mensaje nuevo del usuario
-        historial.add(new Message("user", userMessage));
+        historial.add(new MessageAi("user", userMessage));
 
     }
 

@@ -115,9 +115,8 @@ class PlanControllerIntegrationTest {
 
         LocalDateTime fechaInicio = null;
         LocalDateTime fechaFin = LocalDateTime.now().plusDays(10);
-        ModoPlan modo =  ModoPlan.simple;
 
-        PlanDtoUpdateRequest request = new PlanDtoUpdateRequest(nombre, descripcion, fechaInicio, fechaFin, modo);
+        PlanDtoUpdateRequest request = new PlanDtoUpdateRequest(nombre, descripcion, fechaInicio, fechaFin);
 
         mockMvc.perform(patch("/planes/1")
                         .header("Authorization", "Bearer " + token)

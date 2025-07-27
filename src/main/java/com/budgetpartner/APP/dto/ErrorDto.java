@@ -1,7 +1,10 @@
-package com.budgetpartner.APP.exceptions;
+package com.budgetpartner.APP.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
+@Schema
 public class ErrorDto {
     private LocalDateTime timestamp;
     private int status;

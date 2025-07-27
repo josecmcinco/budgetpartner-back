@@ -14,14 +14,12 @@ public class PlanDtoUpdateRequest {
     private String descripcion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
-    private ModoPlan modoPlan;
 
-    public PlanDtoUpdateRequest(String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan) {
+    public PlanDtoUpdateRequest(String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.modoPlan = modoPlan;
     }
 
     public String getNombre() {
@@ -56,11 +54,4 @@ public class PlanDtoUpdateRequest {
         this.fechaFin = fechaFin;
     }
 
-    public ModoPlan getModoPlan() {
-        return modoPlan;
-    }
-
-    public void setModoPlan(ModoPlan modoPlan) {
-        this.modoPlan = modoPlan;
-    }
 }
