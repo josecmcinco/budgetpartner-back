@@ -21,7 +21,7 @@ public class TareaDtoResponse {
     private String descripcion;
     private LocalDateTime fechaFin;
     private EstadoTarea estado;
-    private double costeEstimado;
+    private Double costeEstimado;
     private MonedasDisponibles moneda;
 
     public TareaDtoResponse(Long id, PlanDtoResponse plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda) {
@@ -79,11 +79,11 @@ public class TareaDtoResponse {
         this.estado = estado;
     }
 
-    public double getCosteEstimado() {
+    public Double getCosteEstimado() {
         return costeEstimado;
     }
 
-    public void setCosteEstimado(double costeEstimado) {
+    public void setCosteEstimado(Double costeEstimado) {
         this.costeEstimado = costeEstimado;
     }
 

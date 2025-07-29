@@ -17,14 +17,14 @@ public class EstimacionDtoResponse {
     private Long planId;
     private Long tareaId;
     private Long creadorId;
-    private double cantidad;
+    private Double cantidad;
     private TipoEstimacion tipoEstimacion;
     private MonedasDisponibles tipoMoneda;
     private String descripcion;
     private Long pagadorId;
     private Long gastoId;
 
-    public EstimacionDtoResponse(Long id, Long planId, Long tareaId, Long creadorId, double cantidad, TipoEstimacion tipoEstimacion, MonedasDisponibles tipoMoneda, String descripcion, Long pagadorId, Long gastoId) {
+    public EstimacionDtoResponse(Long id, Long planId, Long tareaId, Long creadorId, Double cantidad, TipoEstimacion tipoEstimacion, MonedasDisponibles tipoMoneda, String descripcion, Long pagadorId, Long gastoId) {
         this.id = id;
         this.planId = planId;
         this.tareaId = tareaId;
@@ -65,7 +65,7 @@ public class EstimacionDtoResponse {
         this.creadorId = creadorId;
     }
 
-    public double getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 

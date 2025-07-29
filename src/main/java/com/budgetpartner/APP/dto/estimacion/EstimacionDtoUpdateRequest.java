@@ -2,6 +2,7 @@ package com.budgetpartner.APP.dto.estimacion;
 
 import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.enums.TipoEstimacion;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class EstimacionDtoUpdateRequest {
 
@@ -13,16 +14,14 @@ public class EstimacionDtoUpdateRequest {
      */
 
 
-    private double cantidad;
-    private TipoEstimacion tipoEstimacion;
+    private Double cantidad;
     private MonedasDisponibles tipoMoneda;
     private String descripcion;
     private Long pagadorId;
     private Long gastoId;
 
-    public EstimacionDtoUpdateRequest(double cantidad, TipoEstimacion tipoEstimacion, MonedasDisponibles tipoMoneda, String descripcion, Long pagadorId, Long gastoId) {
+    public EstimacionDtoUpdateRequest(Double cantidad, MonedasDisponibles tipoMoneda, String descripcion, Long pagadorId, Long gastoId) {
         this.cantidad = cantidad;
-        this.tipoEstimacion = tipoEstimacion;
         this.tipoMoneda = tipoMoneda;
         this.descripcion = descripcion;
         this.pagadorId = pagadorId;
@@ -30,20 +29,12 @@ public class EstimacionDtoUpdateRequest {
     }
 
 
-    public double getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
-    }
-
-    public TipoEstimacion getTipoEstimacion() {
-        return tipoEstimacion;
-    }
-
-    public void setTipoEstimacion(TipoEstimacion tipoEstimacion) {
-        this.tipoEstimacion = tipoEstimacion;
     }
 
     public MonedasDisponibles getTipoMoneda() {

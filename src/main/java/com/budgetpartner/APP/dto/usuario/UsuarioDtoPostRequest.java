@@ -1,5 +1,8 @@
 package com.budgetpartner.APP.dto.usuario;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class UsuarioDtoPostRequest {
 
     /*
@@ -9,14 +12,17 @@ public class UsuarioDtoPostRequest {
     miembrosDelUsuario
      */
 
-    /*
-
-    ELIMINAR
-     */
-
+    @NotBlank(message = "El correo electrónico no puede estar vacío")
+    @Email(message = "El correo electrónico no es válido")
     private String email;
+
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
+
+    @NotBlank(message = "El apellido no puede estar vacío")
     private String apellido;
+
+    @NotBlank(message = "La contraseña no puede estar vacío")
     private String contraseña;
 
     public UsuarioDtoPostRequest(String email, String nombre, String apellido, String contraseña) {
@@ -54,6 +60,7 @@ public class UsuarioDtoPostRequest {
     public String getContraseña() {
         return contraseña;
     }
+
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }

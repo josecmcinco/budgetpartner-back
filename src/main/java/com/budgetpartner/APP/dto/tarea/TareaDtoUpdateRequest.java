@@ -17,7 +17,7 @@ public class TareaDtoUpdateRequest {
     private String descripcion;
     private LocalDateTime fechaFin;
     private EstadoTarea estado;
-    private double costeEstimado;
+    private Double costeEstimado;
     private MonedasDisponibles moneda;
     private List<Long> listaAtareados;
 
@@ -64,11 +64,11 @@ public class TareaDtoUpdateRequest {
         this.estado = estado;
     }
 
-    public double getCosteEstimado() {
+    public Double getCosteEstimado() {
         return costeEstimado;
     }
 
-    public void setCosteEstimado(double costeEstimado) {
+    public void setCosteEstimado(Double costeEstimado) {
         this.costeEstimado = costeEstimado;
     }
 

@@ -1,12 +1,19 @@
 package com.budgetpartner.APP.dto.organizacion;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class OrganizacionDtoPostRequest {
     /*
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn
     */
+    @NotBlank(message = "El nombre de la organización no puede estar vacío")
     private String nombreOrganizacion;
+
+    @NotBlank(message = "La descripción de la organización no puede estar vacía")
     private String descripcionOrganizacion;
+
+    @NotBlank(message = "El nick del miembro creador no puede estar vacío")
     private String nickMiembroCreador;
 
 

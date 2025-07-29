@@ -2,6 +2,9 @@ package com.budgetpartner.APP.dto.tarea;
 
 import com.budgetpartner.APP.enums.EstadoTarea;
 import com.budgetpartner.APP.enums.MonedasDisponibles;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,16 +15,30 @@ public class TareaDtoPostRequest {
         SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
         id-creadoEn-actualizadoEn
     */
+    @NotNull(message = "El ID del plan no puede ser nulo")
     private Long planId;
-    private String titulo;
-    private String descripcion;
-    private LocalDateTime fechaFin;
-    private EstadoTarea estado;
-    private double costeEstimado;
-    private MonedasDisponibles moneda;
-    private List<Long> listaAtareados;
 
-    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda, List<Long> listaAtareados) {
+    @NotBlank(message = "El título no puede estar vacío")
+    private String titulo;
+
+    private String descripcion;
+
+    @NotNull(message = "La fecha de fin no puede ser nula")
+    private LocalDateTime fechaFin;
+
+    private EstadoTarea estado;
+
+    @NotNull(message = "El coste estimado no puede ser nulo")
+    private Double costeEstimado;
+
+    @NotNull(message = "La moneda no puede ser nula")
+    private MonedasDisponibles moneda;
+
+    @NotEmpty(message = "La lista de atareados no puede estar vacía")
+    private List<@NotNull(message = "Cada ID en la lista de atareados debe ser válido") Long> listaAtareados;
+
+
+    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, Double costeEstimado, MonedasDisponibles moneda, List<Long> listaAtareados) {
         this.planId = planId;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -69,11 +86,11 @@ public class TareaDtoPostRequest {
         this.estado = estado;
     }
 
-    public double getCosteEstimado() {
+    public Double getCosteEstimado() {
         return costeEstimado;
     }
 
-    public void setCosteEstimado(double costeEstimado) {
+    public void setCosteEstimado(Double costeEstimado) {
         this.costeEstimado = costeEstimado;
     }
 

@@ -1,7 +1,7 @@
 package com.budgetpartner.APP.service.AiService;
 
 
-import com.budgetpartner.APP.dto.api.ChatQuery;
+import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.dto.api.DeepseekAgentInstruction;
 import com.budgetpartner.APP.mcp.ToolRegistry;
 import com.budgetpartner.APP.util.MessageAi;
@@ -39,7 +39,7 @@ public class DeepseekAgentService {
 
     private List<MessageAi> historial = new ArrayList<>();
 
-    public String processUserMessage(ChatQuery chatQuery) {
+    public String processUserMessage(ChatbotQuery chatQuery) {
 
         String currentMessage = chatQuery.getPrompt();
         currentMessage = currentMessage.replace("\"", "\\\""); //Quitar carácteres especiales

@@ -25,7 +25,7 @@ TODO IMAGEN
     private List<MiembroDtoResponse> miembros;
     private List<PlanDtoResponse> planes;
     private Integer numeroMiembros = null;
-    private Long idCreador;
+    private Long idCreador; //TODO
 
     public OrganizacionDtoResponse(Long id, String nombre, String descripcion) {
         this.id = id;

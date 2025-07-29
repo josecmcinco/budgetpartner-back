@@ -1,6 +1,6 @@
 package com.budgetpartner.APP.controller;
 
-import com.budgetpartner.APP.dto.api.ChatQuery;
+import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.dto.api.ChatResponse;
 
 import com.budgetpartner.APP.service.AiService.DeepseekAgentService;
@@ -35,7 +35,7 @@ public class ChatbotController {
             }
     )
     @PostMapping("/{model}")
-    public ResponseEntity<ChatResponse> processMessageAI(@PathVariable String model, @RequestBody ChatQuery query) {
+    public ResponseEntity<ChatResponse> processMessageAI(@PathVariable String model, @RequestBody ChatbotQuery query) {
         String result = "";
         switch (model.toLowerCase()) {
             case "openai":

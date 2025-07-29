@@ -2,6 +2,9 @@ package com.budgetpartner.APP.dto.gasto;
 
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -13,15 +16,27 @@ public class GastoDtoPostRequest {
         miembrosDelUsuario
          */
 
-        private Long planId;
-        private Long tareaId;
-        private double cantidad;
-        private String nombre;
-        private Long pagadorId;
-        private String descripcion;
-        private List<Long> listaMiembrosEndeudados;
+    @NotNull(message = "El ID del plan no puede ser nulo")
+    private Long planId;
 
-    public GastoDtoPostRequest(Long tareaId, Long planId, double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
+    private Long tareaId;
+
+    @NotNull(message = "La cantidad no puede ser nula")
+    private Double cantidad;
+
+    @NotBlank(message = "El nombre no puede estar vacío")
+    private String nombre;
+
+    @NotNull(message = "El ID del pagador no puede ser nulo")
+    private Long pagadorId;
+
+    @NotBlank(message = "La descripción no puede estar vacía")
+    private String descripcion;
+
+    @NotEmpty(message = "La lista de miembros endeudados no puede estar vacía")
+    private List<@NotNull(message = "El ID de cada miembro endeudado no puede ser nulo") Long> listaMiembrosEndeudados;
+
+    public GastoDtoPostRequest(Long tareaId, Long planId, Double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
         this.tareaId = tareaId;
         this.planId = planId;
         this.cantidad = cantidad;
@@ -40,11 +55,11 @@ public class GastoDtoPostRequest {
         return tareaId;
     }
 
-    public double getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

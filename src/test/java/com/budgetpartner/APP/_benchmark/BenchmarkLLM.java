@@ -1,40 +1,22 @@
 package com.budgetpartner.APP._benchmark;
 
-import com.budgetpartner.APP.admin.PobladorDB;
-import com.budgetpartner.APP.dto.api.ChatQuery;
-import com.budgetpartner.APP.dto.dashborard.DashboardDtoResponse;
-import com.budgetpartner.APP.repository.UsuarioRepository;
+import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.service.AiService.OllamaAgentService;
 
-import com.budgetpartner.APP.service.JwtService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 @SpringBootTest
 public class BenchmarkLLM {
@@ -92,7 +74,7 @@ public class BenchmarkLLM {
         //"qwen3:8b", "gemma3:12b", "qwen3:4b"
         List<String> models = List.of("qwen3:4b", "gemma3:12b");
 
-        ChatQuery query = new ChatQuery(prompt, true);
+        ChatbotQuery query = new ChatbotQuery(prompt, true);
 
         for (String model : models) {
             long start = System.nanoTime();
