@@ -36,7 +36,9 @@ public class PlanDtoPostRequestValidationTest {
                 descripcion,
                 fechaInicio,
                 fechaFin,
-                modoPlan
+                modoPlan,
+                null,
+                null
         );
 
         Set<ConstraintViolation<PlanDtoPostRequest>> violations = validator.validate(dto);
@@ -51,7 +53,9 @@ public class PlanDtoPostRequestValidationTest {
                 null,      // descripcion (no tiene validación, puede ser null)
                 null,      // fechaInicio (no tiene validación)
                 null,      // fechaFin (no tiene validación)
-                null       // modoPlan nulo
+                null,       // modoPlan nulo
+                null,       //latitud
+                null        //longitud
         );
 
         Set<ConstraintViolation<PlanDtoPostRequest>> violations = validator.validate(dto);

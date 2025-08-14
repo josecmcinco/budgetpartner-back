@@ -31,8 +31,11 @@ public class PlanDtoResponse {
     private List<EstimacionDtoResponse> estimaciones;
     private ModoPlan modoPlan;
 
+    private Double latitud;
+    private Double longitud;
 
-    public PlanDtoResponse(Long id, OrganizacionDtoResponse organizacionDtoResponse, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin,  ModoPlan modoPlan) {
+
+    public PlanDtoResponse(Long id, OrganizacionDtoResponse organizacionDtoResponse, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin,  ModoPlan modoPlan, Double latitud, Double longitud) {
         this.id = id;
         this.organizacionDtoResponse = organizacionDtoResponse;
         this.nombre = nombre;
@@ -40,6 +43,8 @@ public class PlanDtoResponse {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.modoPlan = modoPlan;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public Long getId() {
@@ -116,5 +121,21 @@ public class PlanDtoResponse {
 
     public void setEstimaciones(List<EstimacionDtoResponse> estimaciones) {
         this.estimaciones = estimaciones;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 }

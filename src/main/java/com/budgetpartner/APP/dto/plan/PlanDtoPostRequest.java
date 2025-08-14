@@ -27,13 +27,18 @@ public class PlanDtoPostRequest {
     @NotNull(message = "El modo del plan no puede ser nulo")
     private ModoPlan modoPlan;
 
-    public PlanDtoPostRequest(Long organizacionId, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan) {
+    private Double latitud;
+    private Double longitud;
+
+    public PlanDtoPostRequest(Long organizacionId, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan, Double latitud, Double longitud) {
         this.organizacionId = organizacionId;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.modoPlan = modoPlan;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
 
@@ -84,4 +89,22 @@ public class PlanDtoPostRequest {
     public void setModoPlan(ModoPlan modoPlan) {
         this.modoPlan = modoPlan;
     }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
+
+
 }
