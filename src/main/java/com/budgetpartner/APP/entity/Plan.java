@@ -48,17 +48,25 @@ public class Plan {
     @Enumerated
     private ModoPlan modoPlan;
 
+    @Column
+    private Double longitud;
+
+    @Column
+    private Double latitud;
+
     //Constructor vacío para Hibernate
     public Plan(){}
 
     //Creacion de Plan desde 0
-    public Plan(Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan) {
+    public Plan(Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan, Double latitud, Double longitud) {
         this.organizacion = organizacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.modoPlan = modoPlan;
+        this.latitud = latitud;
+        this.longitud = longitud;
 
         //Generado automáticamente
         this.creadoEn = LocalDateTime.now();
@@ -66,7 +74,7 @@ public class Plan {
     }
 
     //Extraer Plan de la DB
-    public Plan(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Plan(Long id, Organizacion organizacion, String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, ModoPlan modoPlan, Double latitud, Double longitud, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.organizacion = organizacion;
         this.nombre = nombre;
@@ -76,6 +84,8 @@ public class Plan {
         this.modoPlan = modoPlan;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public Long getId() {
@@ -137,5 +147,21 @@ public class Plan {
     public void setModoPlan(ModoPlan modoPlan) {
         this.modoPlan = modoPlan;
         this.actualizadoEn = LocalDateTime.now();
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 }

@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.dto.gasto;
 
 import com.budgetpartner.APP.entity.Plan;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -9,14 +10,14 @@ public class GastoDtoUpdateRequest {
     SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
     id-creadoEn-actualizadoEn
     SE MODIFICA EL TIMPO DE LAS SIGUIENTES VARIABLES:
-    miembrosDelUsuario
+    miembrosDelUsuario-listaMiembrosEndeudados
      */
-//TODO solo parte como endeudados(lista) o siempre todos???
-    private double cantidad;
+
+    private Double cantidad;
     private String nombre;
     private Long pagadorId;
     private String descripcion;
-    List<Long> listaMiembrosEndeudados;
+    List<@NotNull(message = "El ID de cada miembro endeudado no puede ser nulo")Long> listaMiembrosEndeudados;
 
     public GastoDtoUpdateRequest(double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
         this.cantidad = cantidad;

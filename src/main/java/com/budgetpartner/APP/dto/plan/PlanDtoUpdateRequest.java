@@ -14,12 +14,16 @@ public class PlanDtoUpdateRequest {
     private String descripcion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
+    private Double latitud;
+    private Double longitud;
 
-    public PlanDtoUpdateRequest(String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    public PlanDtoUpdateRequest(String nombre, String descripcion, LocalDateTime fechaInicio, LocalDateTime fechaFin, Double latitud, Double longitud) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public String getNombre() {
@@ -54,4 +58,19 @@ public class PlanDtoUpdateRequest {
         this.fechaFin = fechaFin;
     }
 
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
 }

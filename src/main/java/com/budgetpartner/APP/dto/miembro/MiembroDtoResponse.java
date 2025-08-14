@@ -19,11 +19,11 @@ public class MiembroDtoResponse {
     private Rol rol;
     private String nick;
     private LocalDateTime fechaIngreso;
-    private boolean isAsociado;
-    private boolean isActivo;
-    private double deudaEnPlan;
+    private Boolean isAsociado;
+    private Boolean isActivo;
+    private Double deudaEnPlan;
 
-    public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isAsociado, boolean isActivo) {
+    public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, Boolean isAsociado, Boolean isActivo) {
         this.id = id;
         this.rol = rol;
         this.nick = nick;
@@ -67,27 +67,27 @@ public class MiembroDtoResponse {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public boolean getIsAsociado() {
+    public Boolean getIsAsociado() {
         return isAsociado;
     }
 
-    public void setIsAsociado(boolean asociado) {
+    public void setIsAsociado(Boolean asociado) {
         isAsociado = asociado;
     }
 
-    public boolean getisActivo() {
+    public Boolean getisActivo() {
         return isActivo;
     }
 
-    public void setisActivo(boolean isActivo) {
+    public void setisActivo(Boolean isActivo) {
         this.isActivo = isActivo;
     }
 
-    public double getDeudaEnPlan() {
+    public Double getDeudaEnPlan() {
         return deudaEnPlan;
     }
 
-    public void setDeudaEnPlan(double deudaEnPlan) {
+    public void setDeudaEnPlan(Double deudaEnPlan) {
         this.deudaEnPlan = deudaEnPlan;
     }
 }

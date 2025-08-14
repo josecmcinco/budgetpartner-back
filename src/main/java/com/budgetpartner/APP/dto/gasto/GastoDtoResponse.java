@@ -23,7 +23,7 @@ public class GastoDtoResponse {
         private Long id;
         private Long tareaId;
         private Long planId;
-        private double cantidad;
+        private Double cantidad;
         private String nombre;
         private MiembroDtoResponse pagador;
         private String descripcion;
@@ -31,7 +31,7 @@ public class GastoDtoResponse {
         private LocalDateTime creadoEn;
         private LocalDateTime actualizadoEn;
 
-    public GastoDtoResponse(Long id, Long tareaId, Long planId, double cantidad, String nombre, String descripcion,MiembroDtoResponse pagador,
+    public GastoDtoResponse(Long id, Long tareaId, Long planId, Double cantidad, String nombre, String descripcion,MiembroDtoResponse pagador,
                             List<MiembroDtoResponse> miembrosEndeudadosDtoRes, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.tareaId = tareaId;
@@ -70,11 +70,11 @@ public class GastoDtoResponse {
         this.planId = planId;
     }
 
-    public double getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

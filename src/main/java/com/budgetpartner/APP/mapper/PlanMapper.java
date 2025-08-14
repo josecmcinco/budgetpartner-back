@@ -27,7 +27,9 @@ public class PlanMapper {
                 plan.getDescripcion(),
                 plan.getFechaInicio(),
                 plan.getFechaFin(),
-                plan.getModoPlan()
+                plan.getModoPlan(),
+                plan.getLatitud(),
+                plan.getLongitud()
         );
     }
 
@@ -42,7 +44,9 @@ public class PlanMapper {
                 dto.getDescripcion(),
                 dto.getFechaInicio(),
                 dto.getFechaFin(),
-                dto.getModoPlan()
+                dto.getModoPlan(),
+                dto.getLatitud(),
+                dto.getLongitud()
 
         );
     }
@@ -57,6 +61,8 @@ public class PlanMapper {
         if (dto.getDescripcion() != null) plan.setDescripcion(dto.getDescripcion());
         if (dto.getFechaInicio() != null) plan.setFechaInicio(dto.getFechaInicio());
         if (dto.getFechaFin() != null) plan.setFechaFin(dto.getFechaFin());
+        if (dto.getLatitud() != null) plan.setLatitud(dto.getLatitud());
+        if (dto.getLongitud() != null) plan.setLongitud(dto.getLongitud());
     }
     public static List<PlanDtoResponse> toDtoResponseListPlan(List<Plan> planes) {
         List<PlanDtoResponse> listaPlanesDtoResp = new ArrayList<>();

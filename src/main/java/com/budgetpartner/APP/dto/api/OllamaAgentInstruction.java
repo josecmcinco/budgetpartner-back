@@ -1,8 +1,10 @@
 package com.budgetpartner.APP.dto.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
 
-public class OpenAIAgentInstruction {
+public class OllamaAgentInstruction {
     private String toolName;  // Ejemplo: "MiembroTools.crearMiembro"
     private List<String> arguments; // Lista de argumentos
     private Boolean finished; // Indica si la tarea terminó
@@ -39,5 +41,14 @@ public class OpenAIAgentInstruction {
 
     public void setFinalResponse(String finalResponse) {
         this.finalResponse = finalResponse;
+    }
+
+    public static OllamaAgentInstruction fromJson(String json) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(json, OllamaAgentInstruction.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al deserializar JSON a DeepseekAgentInstruction", e);
+        }
     }
 }

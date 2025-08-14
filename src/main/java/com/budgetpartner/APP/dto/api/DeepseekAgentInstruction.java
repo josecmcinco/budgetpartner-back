@@ -7,7 +7,7 @@ import java.util.List;
 public class DeepseekAgentInstruction {
     private String toolName;  // Ejemplo: "MiembroTools.crearMiembro"
     private List<String> arguments; // Lista de argumentos
-    private boolean finished; // Indica si la tarea terminó
+    private Boolean finished; // Indica si la tarea terminó
     private String finalResponse; // Respuesta final para el usuario (si finished == true)
 
 
@@ -27,11 +27,11 @@ public class DeepseekAgentInstruction {
         this.arguments = arguments;
     }
 
-    public boolean isFinished() {
+    public Boolean isFinished() {
         return finished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(Boolean finished) {
         this.finished = finished;
     }
 

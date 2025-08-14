@@ -66,8 +66,7 @@ class InvitacionControllerIntegrationTest {
 
     private static String token;
 
-    private static String tokenValido;
-    private static String tokenInvalido = "token-no-existente-1234";
+    private static String tokenValido = "a4d6bbda-93a7-47bc-9f38-5b6ec62a9478";;
 
     @BeforeAll
     static void init(@Autowired JwtService jwtService,
@@ -79,7 +78,6 @@ class InvitacionControllerIntegrationTest {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado. No se pueden empezar tests"));
 
         token = jwtService.generateToken(usuario);
-        tokenValido = "a4d6bbda-93a7-47bc-9f38-5b6ec62a9478";
     }
 
     @Test

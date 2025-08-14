@@ -57,7 +57,6 @@ public class EstimacionMapper {
         if (dto == null || estimacion == null) return;
 
         if (dto.getCantidad() != 0) estimacion.setCantidad(dto.getCantidad());
-        if (dto.getTipoEstimacion() != null) estimacion.setTipoEstimacion(dto.getTipoEstimacion());
         if (dto.getTipoMoneda() != null) estimacion.setTipoMoneda(dto.getTipoMoneda());
         if (dto.getDescripcion() != null) estimacion.setDescripcion(dto.getDescripcion());
         if (pagador != null) estimacion.setPagador(pagador);

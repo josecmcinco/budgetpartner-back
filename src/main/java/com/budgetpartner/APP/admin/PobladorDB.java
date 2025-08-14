@@ -336,7 +336,9 @@ public class PobladorDB {
                         "Descripción del Plan A de la Organización. 1 PLAN SIMPLE",
                         LocalDateTime.of(2025, 6, 1, 10, 0),
                         LocalDateTime.of(2025, 6, 30, 10, 0),
-                        ModoPlan.simple
+                        ModoPlan.simple,
+                        null,
+                        null
                 ),
 
                 new Plan(
@@ -345,7 +347,9 @@ public class PobladorDB {
                         "Descripción del Plan B de la Organización 1. PLAN ESTRUCTURADO",
                         LocalDateTime.of(2025, 7, 1, 10, 0),
                         LocalDateTime.of(2025, 7, 31, 10, 0),
-                        ModoPlan.estructurado
+                        ModoPlan.estructurado,
+                        null,
+                        null
                 ),
 
                 new Plan(
@@ -354,7 +358,9 @@ public class PobladorDB {
                         "Descripción del Plan único de la Organización 2. PLAN SIMPLE",
                         LocalDateTime.of(2025, 6, 1, 10, 0),
                         LocalDateTime.of(2025, 6, 15, 10, 0),
-                        ModoPlan.estructurado
+                        ModoPlan.estructurado,
+                        null,
+                        null
                 )
         );
 

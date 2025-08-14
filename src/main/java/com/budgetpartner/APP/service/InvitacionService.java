@@ -5,7 +5,6 @@ import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.entity.Invitacion;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.MiembroMapper;
 import com.budgetpartner.APP.repository.InvitacionRepository;
@@ -47,21 +46,29 @@ public class InvitacionService {
 
         Invitacion invitacion = invitacionRepository.obtenerInvitacionPorOrganizacionId(organizacionId).orElse(null);
 
-        if(invitacion != null){
-            // Retornar token nuevo
-            return new TokenResponse(invitacion.getToken());
+        //Si hay un token en la DB
+        if(invitacion != null && invitacion.isActiva()){
+            return new TokenResponse(invitacion.getToken());// Retornar token guardado
         }
 
-            Organizacion organizacion = organizacionRepository.findById(organizacionId)
-                    .orElseThrow(() -> new NotFoundException("Organización no encontrada con id :" + organizacionId));
+        //Incializar variables do-while
+        boolean tokenRepetido = true;
+        String token;
 
-        //Generar token nuevo
-        String token = UUID.randomUUID().toString();
+        //Revisar que no se geneara un token repetido
+        do{
+            //Generar token nuevo
+            token = UUID.randomUUID().toString();
+            tokenRepetido = invitacionRepository.findById(token).isPresent();
+        }
+        while(tokenRepetido);
+
+        //Guardar y devolver el token
+        Organizacion organizacion = organizacionRepository.findById(organizacionId)
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id :" + organizacionId));
 
         invitacion = new Invitacion(token, organizacion);
         invitacionRepository.save(invitacion);
-
-        // Retornar token nuevo
         return new TokenResponse(token);
     }
 }

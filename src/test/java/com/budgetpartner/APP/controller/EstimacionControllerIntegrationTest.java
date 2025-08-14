@@ -195,7 +195,6 @@ class EstimacionControllerIntegrationTest {
         //Creación del dto
         EstimacionDtoUpdateRequest request = new EstimacionDtoUpdateRequest(
                 cantidad,
-                tipoEstimacion,
                 tipoMoneda,
                 descripcion,
                 pagadorId,
