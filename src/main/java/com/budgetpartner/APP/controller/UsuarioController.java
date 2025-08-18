@@ -130,9 +130,12 @@ TODO ELIMINAR
                             content = @Content(
                                     mediaType = "application/json",
                                     examples = @ExampleObject(
-                                            name = "MensajeConfirmacion",
-                                            summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
+                                            name = "Tokens",
+                                            summary = "Tokens de acceso y refresco generados",
+                                            value = "{\n" +
+                                                    "  \"accessToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzIiwibmFtZSI6IkNhcmxvcyIsInN1YiI6ImNhcmxvcy5tYXJ0aW5lekBtYWlsLmNvbSIsImV4cCI6MTc1NTYyMTEyN30.Kdm0nt_67L_fabf-D23YLAEcPCZUw5fKH3VtpDxQHOQ\",\n" +
+                                                    "  \"refreshToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzIiwibmFtZSI6IkNhcmxvcyIsInN1YiI6ImNhcmxvcy5tYXJ0aW5lekBtYWlsLmNvbSIsImV4cCI6MTc1NjEzOTUyN30.81qFxQYkyKywFdG1Hx7ev0M_e6g0m9KrwUf3rEWvdI0\"\n" +
+                                                    "}"
                                     )
                             )
                     )
@@ -157,7 +160,10 @@ TODO ELIMINAR
                                     examples = @ExampleObject(
                                             name = "MensajeConfirmacion",
                                             summary = "Mensaje de éxito",
-                                            value = "PENDIENTE"
+                                            value = "{\n" +
+                                                    "  \"accessToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzIiwibmFtZSI6IkNhcmxvcyIsInN1YiI6ImNhcmxvcy5tYXJ0aW5lekBtYWlsLmNvbSIsImV4cCI6MTc1NTYyMTEyN30.Kdm0nt_67L_fabf-D23YLAEcPCZUw5fKH3VtpDxQHOQ\",\n" +
+                                                    "  \"refreshToken\": \"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzIiwibmFtZSI6IkNhcmxvcyIsInN1YiI6ImNhcmxvcy5tYXJ0aW5lekBtYWlsLmNvbSIsImV4cCI6MTc1NjEzOTUyN30.81qFxQYkyKywFdG1Hx7ev0M_e6g0m9KrwUf3rEWvdI0\"\n" +
+                                                    "}"
                                     )
                             )
                     )

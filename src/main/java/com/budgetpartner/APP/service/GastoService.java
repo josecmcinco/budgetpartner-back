@@ -59,10 +59,10 @@ public class GastoService {
         Tarea tarea = null;
 
         //Gestión de los planes por tipo
-        if(plan.getModoPlan().equals(ModoPlan.simple) && gastoDtoReq.getPlanId() != null){
+        if(plan.getModoPlan().equals(ModoPlan.simple) && gastoDtoReq.getTareaId() != null){
             throw new BadRequestException("Se está tratando de asignar una tarea a un gasto en un plan simple");}
 
-        else if(gastoDtoReq.getPlanId() != null){
+        else if(gastoDtoReq.getTareaId() != null){
             tarea = tareaRepository.findById(gastoDtoReq.getTareaId())
                 .orElseThrow(() -> new NotFoundException("Gasto no encontrado con id: " + gastoDtoReq.getPlanId()));}
 
@@ -72,7 +72,6 @@ public class GastoService {
 
         //Crea el gasto
         Gasto gasto = GastoMapper.toEntity(gastoDtoReq, tarea, plan, pagador);
-
         //Enviar elemento insertado en la db porque tiene el id
         gasto = gastoRepository.save(gasto);
 
