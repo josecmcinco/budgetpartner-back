@@ -73,10 +73,11 @@ public class PobladorDB {
 
         // Borrar entidades dependientes después
         estimacionRepository.deleteAll();
-        miembroRepository.deleteAll();
         gastoRepository.deleteAll();
-        tareaRepository.deleteAll();
+
         invitacionRepository.deleteAll();
+        miembroRepository.deleteAll();
+        tareaRepository.deleteAll();
 
 
         // Luego las entidades principales

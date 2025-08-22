@@ -69,9 +69,9 @@ public class DeepseekAgentService {
                     mapper.registerModule(new JavaTimeModule());
                     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-                    currentMessage = mapper.writeValueAsString(result);
+                    //currentMessage = "  \"tool_call_id\": \"call_1\"," + mapper.writeValueAsString(result);
                     currentMessage = currentMessage.replace("\"", "\\\"");
-                    historial.add(new MessageAi("system", currentMessage));
+                    historial.add(new MessageAi("tool", currentMessage, "call_1"));
 
                 } catch (Exception e) {
                     responseToUser = "Error al ejecutar herramienta: " + e.getMessage();
@@ -90,8 +90,9 @@ public class DeepseekAgentService {
         //Obtiene el historial de mensajes
         String messagesJson = "";
         try {
-            messagesJson = mapper.writeValueAsString(historial);}
-        catch (Exception e){System.out.println("Nooooooooo");}
+            messagesJson = mapper.writeValueAsString(historial);
+        } catch (Exception e) {
+            throw new RuntimeException("Error serializando historial", e);}
 
         String body = """
                 {

@@ -52,6 +52,9 @@ public class ChatbotController {
             case "qwen3:4b":
                 result = ollamaAgentService.processUserMessage(query, "qwen3:4b");
                 break;
+            case "prueba":
+                result = "Estamos en mantenimiento :))";
+                break;
             default:
                 result = "Modelo de chatbot no reconocido.";
         }
