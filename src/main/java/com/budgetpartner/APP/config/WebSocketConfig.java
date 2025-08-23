@@ -29,8 +29,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 }
 
 /*
-
-TODO
 /plan-chat	Conexión WebSocket inicial (handshake)
 /app/plan/{id}/chat	Enviar mensajes desde cliente al servidor (entrada)
 /topic/plan/{id}/chat	Suscripción para recibir mensajes desde servidor (salida)

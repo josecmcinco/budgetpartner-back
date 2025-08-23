@@ -19,7 +19,7 @@ public class MiembroMapper {
 
         return new MiembroDtoResponse(
                 miembro.getId(),
-                miembro.getRol(),
+                miembro.getRol().getId(),
                 miembro.getNick(),
                 miembro.getFechaIngreso(),
                 miembro.isAsociado(),

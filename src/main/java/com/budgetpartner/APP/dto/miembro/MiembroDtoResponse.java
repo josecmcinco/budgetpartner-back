@@ -16,16 +16,16 @@ public class MiembroDtoResponse {
 
     private Long id;
     private OrganizacionDtoResponse organizacion;
-    private Rol rol;
+    private Long rolId;
     private String nick;
     private LocalDateTime fechaIngreso;
     private Boolean isAsociado;
     private Boolean isActivo;
     private Double deudaEnPlan;
 
-    public MiembroDtoResponse(Long id, Rol rol, String nick, LocalDateTime fechaIngreso, Boolean isAsociado, Boolean isActivo) {
+    public MiembroDtoResponse(Long id, Long rolId, String nick, LocalDateTime fechaIngreso, Boolean isAsociado, Boolean isActivo) {
         this.id = id;
-        this.rol = rol;
+        this.rolId = rolId;
         this.nick = nick;
         this.fechaIngreso = fechaIngreso;
         this.isAsociado = isAsociado;
@@ -43,12 +43,12 @@ public class MiembroDtoResponse {
 
     public void setOrganizacion(OrganizacionDtoResponse organizacion) {this.organizacion = organizacion;}
 
-    public Rol getRol() {
-        return rol;
+    public Long getRolId() {
+        return rolId;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setRolId(Long rolId) {
+        this.rolId = rolId;
     }
 
     public String getNick() {

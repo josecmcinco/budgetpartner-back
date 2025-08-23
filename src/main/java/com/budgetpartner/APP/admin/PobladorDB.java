@@ -135,7 +135,7 @@ public class PobladorDB {
         //Paso 6
         poblarInvitacion(organizaciones);
 
-        logger.info("Base de datos limpiada con éxito.");
+        logger.info("Base de datos poblada con éxito.");
     }
 
     public void poblarInvitacion(List<Organizacion> organizaciones){

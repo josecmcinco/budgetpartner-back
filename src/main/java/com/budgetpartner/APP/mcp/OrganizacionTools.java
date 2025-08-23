@@ -62,7 +62,7 @@ public class OrganizacionTools {
             String nick = _nickMiembroCreador_;
 
             //Autenticar el miembro
-            Usuario usuario = usuarioRepository.findById(2L).orElseThrow(null);
+            Usuario usuario = usuarioRepository.findById(2L).orElseThrow(() -> new NotFoundException("ARREGLAR  no encontrado con id"));
 
             //Confirmar valor de los elementos
             if (descripcion == null || descripcion.isEmpty()){

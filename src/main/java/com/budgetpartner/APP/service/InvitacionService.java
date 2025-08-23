@@ -52,7 +52,7 @@ public class InvitacionService {
         }
 
         //Incializar variables do-while
-        boolean tokenRepetido = true;
+        boolean tokenRepetido;
         String token;
 
         //Revisar que no se geneara un token repetido
