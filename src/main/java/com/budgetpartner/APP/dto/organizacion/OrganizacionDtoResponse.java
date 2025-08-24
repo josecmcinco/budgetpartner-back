@@ -2,8 +2,6 @@ package com.budgetpartner.APP.dto.organizacion;
 
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
-import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.entity.Plan;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;

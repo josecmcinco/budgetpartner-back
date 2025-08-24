@@ -46,9 +46,5 @@ public class MiembroDtoPostRequestValidationTest {
 
         Set<ConstraintViolation<MiembroDtoPostRequest>> violations = validator.validate(dto);
         assertEquals(3, violations.size());
-
-        violations.forEach(v ->
-                System.out.println(v.getPropertyPath() + ": " + v.getMessage())
-        );
     }
 }

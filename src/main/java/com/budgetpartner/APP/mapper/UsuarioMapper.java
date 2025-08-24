@@ -4,8 +4,6 @@ import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

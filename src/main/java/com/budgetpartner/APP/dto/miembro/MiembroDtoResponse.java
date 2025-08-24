@@ -1,10 +1,7 @@
 package com.budgetpartner.APP.dto.miembro;
 
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
-import com.budgetpartner.APP.entity.Rol;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

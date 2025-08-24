@@ -3,18 +3,11 @@ package com.budgetpartner.APP.mapper;
 import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
-import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
-import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.entity.Gasto;
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
-import com.budgetpartner.APP.service.MiembroService;
-import com.budgetpartner.APP.service.PlanService;
-import com.budgetpartner.APP.service.TareaService;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

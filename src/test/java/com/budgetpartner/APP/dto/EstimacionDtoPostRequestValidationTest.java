@@ -61,8 +61,6 @@ public class EstimacionDtoPostRequestValidationTest {
 
         assertEquals(9, violations.size());  // 9 campos a validar
 
-        // Opcional: imprimir mensajes de error
-        violations.forEach(v -> System.out.println(v.getPropertyPath() + ": " + v.getMessage()));
     }
 
     @Test

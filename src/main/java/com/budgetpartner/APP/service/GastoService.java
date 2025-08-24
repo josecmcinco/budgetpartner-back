@@ -32,6 +32,8 @@ public class GastoService {
     private MiembroRepository miembroRepository;
     @Autowired
     private RepartoGastoRepository repartoGastoRepository;
+    @Autowired
+    private DivisaService divisaService;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -148,9 +150,6 @@ public class GastoService {
         int prepDeudaSinDecimales = (int) gasto.getCantidad() * 100 / idEndeudadosList.size();
         double deudaPorPersona = (double) prepDeudaSinDecimales / 100 ;
 
-        //Preparar la parte indivisible del gasto para cobrarsela al que hace el gasto
-        double picoDelGasto = gasto.getCantidad() - deudaPorPersona * idEndeudadosList.size();
-
         //Crear un elemento repartoDeuda por cada endeudado y meterlo en la DB
         for (Long idEndeudado: idEndeudadosList){
             Miembro miembro = miembroRepository.findById(idEndeudado)
@@ -162,7 +161,7 @@ public class GastoService {
             reparto.setMiembro(miembro);
 
             //Asignar gasto de pico al pagador
-            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(BigDecimal.valueOf(gasto.getCantidad() - deudaPorPersona + picoDelGasto));}
+            if(Objects.equals(pagador.getId(), idEndeudado)){reparto.setCantidad(BigDecimal.valueOf(deudaPorPersona * (idEndeudadosList.size() -1)));}
             else{reparto.setCantidad(BigDecimal.valueOf(-deudaPorPersona));}
 
             reparto.setId(new RepartoGastoId(gasto.getId(), miembro.getId()));

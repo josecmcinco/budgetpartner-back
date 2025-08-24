@@ -3,7 +3,6 @@ package com.budgetpartner.APP.service;
 import com.budgetpartner.APP.dto.estimacion.EstimacionDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
-import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoPostRequest;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoUpdateRequest;

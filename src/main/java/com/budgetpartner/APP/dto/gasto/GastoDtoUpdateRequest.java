@@ -1,6 +1,5 @@
 package com.budgetpartner.APP.dto.gasto;
 
-import com.budgetpartner.APP.entity.Plan;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;

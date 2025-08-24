@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.dto.tarea;
 
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
-import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.enums.EstadoTarea;
 import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.fasterxml.jackson.annotation.JsonInclude;

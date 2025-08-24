@@ -4,8 +4,6 @@ import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

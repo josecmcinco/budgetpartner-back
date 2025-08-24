@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.mcp;
+package com.budgetpartner.APP.aiTools;
 
 import com.budgetpartner.APP.repository.*;
 import org.springframework.ai.tool.annotation.ToolParam;

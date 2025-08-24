@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -397,7 +398,7 @@ public class PobladorDB {
         Plan plan2 = planes.get(1);
         Plan plan3 = planes.get(2);
 
-        List<Miembro> listaMiembro1 = Arrays.asList(miembros.get(0));
+        List<Miembro> listaMiembro1 = Collections.singletonList(miembros.get(0));
         List<Miembro> listaMiembro2 = Arrays.asList(miembros.get(1), miembros.get(2));
         List<Miembro> listaMiembro3 = Arrays.asList(miembros.get(0), miembros.get(1));
         List<Miembro> listaMiembro4 = Arrays.asList(miembros.get(3), miembros.get(5));

@@ -2,7 +2,6 @@ package com.budgetpartner.APP.service;
 
 import com.budgetpartner.APP.dto.token.TokenDtoRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
-import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
 import com.budgetpartner.APP.dto.token.TokenDtoResponse;
 import com.budgetpartner.APP.entity.Usuario;
@@ -14,7 +13,6 @@ import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.*;
 
 import com.budgetpartner.APP.exceptions.NotFoundException;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;

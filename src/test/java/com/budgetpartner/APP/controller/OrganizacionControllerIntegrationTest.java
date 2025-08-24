@@ -3,7 +3,6 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
-import com.budgetpartner.APP.enums.MonedasDisponibles; // Si lo usas, sino eliminar
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

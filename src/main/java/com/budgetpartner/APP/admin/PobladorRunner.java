@@ -1,6 +1,5 @@
 package com.budgetpartner.APP.admin;
 
-import com.budgetpartner.APP.repository.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

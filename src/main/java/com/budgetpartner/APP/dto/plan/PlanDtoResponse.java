@@ -4,9 +4,6 @@ import com.budgetpartner.APP.dto.estimacion.EstimacionDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
-import com.budgetpartner.APP.entity.Estimacion;
-import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.enums.ModoPlan;
 import com.fasterxml.jackson.annotation.JsonInclude;
 

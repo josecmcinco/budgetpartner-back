@@ -71,10 +71,6 @@ public class TareaDtoPostRequestValidationTest {
         // planId, titulo, fechaFin, costeEstimado, moneda, listaAtareados (vacía)
         // Total 6 errores esperados
         assertEquals(6, violations.size());
-
-        violations.forEach(v ->
-                System.out.println(v.getPropertyPath() + ": " + v.getMessage())
-        );
     }
 
     @Test

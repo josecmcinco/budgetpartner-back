@@ -2,7 +2,6 @@ package com.budgetpartner.APP.config;
 
 import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.repository.UsuarioRepository;
-import io.jsonwebtoken.security.Password;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
-//@Configuration
+
+@Configuration
 public class AppConfig {
 
     @Autowired

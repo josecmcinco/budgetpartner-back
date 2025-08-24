@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.dto.gasto;
 
-import com.budgetpartner.APP.entity.Plan;
-import com.budgetpartner.APP.entity.Tarea;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

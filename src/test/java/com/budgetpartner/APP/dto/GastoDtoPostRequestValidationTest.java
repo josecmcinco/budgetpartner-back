@@ -62,10 +62,6 @@ public class GastoDtoPostRequestValidationTest {
 
         Set<ConstraintViolation<GastoDtoPostRequest>> violations = validator.validate(dto);
         assertEquals(6, violations.size());
-
-        violations.forEach(v ->
-                System.out.println(v.getPropertyPath() + ": " + v.getMessage())
-        );
     }
 
     @Test

@@ -161,8 +161,14 @@
 			<artifactId>junit-platform-suite</artifactId>
 			<version>1.10.0</version> <!-- o la versión que uses -->
 		</dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

@@ -2,12 +2,9 @@ package com.budgetpartner.APP.mapper;
 
 import com.budgetpartner.APP.dto.tarea.TareaDtoPostRequest;
 import com.budgetpartner.APP.dto.tarea.TareaDtoUpdateRequest;
-import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
-import com.budgetpartner.APP.service.PlanService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;

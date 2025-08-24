@@ -2,7 +2,7 @@ package com.budgetpartner.APP.service.AiService;
 
 import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.dto.api.OllamaAgentInstruction;
-import com.budgetpartner.APP.mcp.ToolRegistry;
+import com.budgetpartner.APP.aiTools.ToolRegistry;
 import com.budgetpartner.APP.util.MessageAi;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,7 +70,7 @@ public class OllamaAgentService {
             return responseToUser;
         }
 
-        private OllamaAgentInstruction querry(String context, String modeloOllama) {
+        OllamaAgentInstruction querry(String context, String modeloOllama) {
             ObjectMapper mapper = new ObjectMapper();
 
             String messagesJson = "";
@@ -92,6 +92,8 @@ public class OllamaAgentService {
             try {
 
                 String responseBody = model.chat(messagesJson);
+
+                System.out.println(responseBody);
 
                 //Quitar los posibles comentarios de la IA en formato <think></think>
                 responseBody = responseBody.replaceAll("(?s)<think>\\s*.*?\\s*</think>", "").trim();

@@ -1,11 +1,6 @@
 package com.budgetpartner.APP.dto.gasto;
 
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
-import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
-import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
-import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.entity.Plan;
-import com.budgetpartner.APP.entity.Tarea;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;

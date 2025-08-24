@@ -3,7 +3,6 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.TokenResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
-import com.budgetpartner.APP.repository.InvitacionRepository;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.InvitacionService;
 import com.budgetpartner.APP.service.JwtService;

@@ -1,8 +1,6 @@
 package com.budgetpartner.APP.dto.estimacion;
 
 import com.budgetpartner.APP.enums.MonedasDisponibles;
-import com.budgetpartner.APP.enums.TipoEstimacion;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class EstimacionDtoUpdateRequest {
 

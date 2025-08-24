@@ -20,7 +20,6 @@ import com.budgetpartner.APP.exceptions.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

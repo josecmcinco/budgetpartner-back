@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.mcp;
+package com.budgetpartner.APP.aiTools;
 
 import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.mapper.MiembroMapper;
