@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.dto.gasto;
 
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
@@ -25,9 +26,10 @@ public class GastoDtoResponse {
         private List<MiembroDtoResponse> miembrosEndeudadosDtoRes;
         private LocalDateTime creadoEn;
         private LocalDateTime actualizadoEn;
+        private MonedasDisponibles moneda;
 
     public GastoDtoResponse(Long id, Long tareaId, Long planId, Double cantidad, String nombre, String descripcion,MiembroDtoResponse pagador,
-                            List<MiembroDtoResponse> miembrosEndeudadosDtoRes, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+                            List<MiembroDtoResponse> miembrosEndeudadosDtoRes, MonedasDisponibles moneda,  LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.tareaId = tareaId;
         this.planId = planId;
@@ -36,6 +38,7 @@ public class GastoDtoResponse {
         this.descripcion = descripcion;
         this.pagador = pagador;
         this.miembrosEndeudadosDtoRes = miembrosEndeudadosDtoRes;
+        this.moneda = moneda;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
 
@@ -119,5 +122,13 @@ public class GastoDtoResponse {
 
     public void setActualizadoEn(LocalDateTime actualizadoEn) {
         this.actualizadoEn = actualizadoEn;
+    }
+
+    public MonedasDisponibles getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(MonedasDisponibles moneda) {
+        this.moneda = moneda;
     }
 }

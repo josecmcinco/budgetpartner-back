@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.dto.gasto;
 
 
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +36,10 @@ public class GastoDtoPostRequest {
     @NotEmpty(message = "La lista de miembros endeudados no puede estar vacía")
     private List<@NotNull(message = "El ID de cada miembro endeudado no puede ser nulo") Long> listaMiembrosEndeudados;
 
-    public GastoDtoPostRequest(Long tareaId, Long planId, Double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
+    @NotNull(message = "El nick del miembro creador no puede estar vacío")
+    private MonedasDisponibles moneda;
+
+    public GastoDtoPostRequest(Long tareaId, Long planId, Double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados, MonedasDisponibles moneda) {
         this.tareaId = tareaId;
         this.planId = planId;
         this.cantidad = cantidad;
@@ -43,6 +47,7 @@ public class GastoDtoPostRequest {
         this.pagadorId = pagadorId;
         this.descripcion = descripcion;
         this.listaMiembrosEndeudados = listaMiembrosEndeudados;
+        this.moneda = moneda;
     }
 
     public Long getPlanId() {
@@ -90,5 +95,13 @@ public class GastoDtoPostRequest {
 
     public void setListaMiembrosEndeudados(List<Long> listaMiembrosEndeudados) {
         this.listaMiembrosEndeudados = listaMiembrosEndeudados;
+    }
+
+    public MonedasDisponibles getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(MonedasDisponibles moneda) {
+        this.moneda = moneda;
     }
 }

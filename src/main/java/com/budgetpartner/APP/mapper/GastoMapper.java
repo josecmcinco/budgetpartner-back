@@ -33,6 +33,7 @@ public class GastoMapper {
                 gasto.getDescripcion(),
                 MiembroMapper.toDtoResponse(gasto.getPagador()),
                 MiembroMapper.toDtoResponseListMiembro(gasto.getMiembrosEndeudados()),
+                gasto.getMoneda(),
                 gasto.getCreadoEn(),
                 gasto.getActualizadoEn()
         );
@@ -49,7 +50,8 @@ public class GastoMapper {
                 dto.getCantidad(),
                 dto.getNombre(),
                 pagador,
-                dto.getDescripcion()
+                dto.getDescripcion(),
+                dto.getMoneda()
         );
 
     }

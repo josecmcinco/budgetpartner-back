@@ -3,6 +3,7 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
 import com.budgetpartner.APP.entity.Usuario;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -90,7 +91,7 @@ class GastoControllerIntegrationTest {
         String descripcion = "Pizza entre amigos";
         List<Long> miembrosEndeudados = Arrays.asList(1L, 2L);
 
-        GastoDtoPostRequest request = new GastoDtoPostRequest(tareaId, planId, cantidad, nombre, pagadorId, descripcion, miembrosEndeudados);
+        GastoDtoPostRequest request = new GastoDtoPostRequest(tareaId, planId, cantidad, nombre, pagadorId, descripcion, miembrosEndeudados, MonedasDisponibles.EUR);
 
         mockMvc.perform(post("/gastos")
                         .header("Authorization", "Bearer " + token)
@@ -124,7 +125,7 @@ class GastoControllerIntegrationTest {
         String descripcion = "Pizza entre amigos";
         List<Long> miembrosEndeudados = Arrays.asList(1L, 2L, 3L);
 
-        var updateRequest = new com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest(cantidad, nombre, pagadorId, descripcion, miembrosEndeudados );
+        var updateRequest = new com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest(cantidad, nombre, pagadorId, descripcion, miembrosEndeudados, MonedasDisponibles.EUR);
 
         mockMvc.perform(patch("/gastos/1")
                         .header("Authorization", "Bearer " + token)

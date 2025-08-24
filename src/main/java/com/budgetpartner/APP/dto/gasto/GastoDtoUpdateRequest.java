@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.dto.gasto;
 
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -17,13 +18,15 @@ public class GastoDtoUpdateRequest {
     private Long pagadorId;
     private String descripcion;
     List<@NotNull(message = "El ID de cada miembro endeudado no puede ser nulo")Long> listaMiembrosEndeudados;
+    private MonedasDisponibles moneda;
 
-    public GastoDtoUpdateRequest(double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados) {
+    public GastoDtoUpdateRequest(double cantidad, String nombre, Long pagadorId, String descripcion, List<Long> listaMiembrosEndeudados, MonedasDisponibles moneda) {
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.pagadorId = pagadorId;
         this.descripcion = descripcion;
         this.listaMiembrosEndeudados = listaMiembrosEndeudados;
+        this.moneda = moneda;
     }
 
     public double getCantidad() {
@@ -61,5 +64,14 @@ public class GastoDtoUpdateRequest {
 
     public void setListaMiembrosEndeudados(List<Long> listaMiembrosEndeudados) {
         this.listaMiembrosEndeudados = listaMiembrosEndeudados;
+    }
+
+
+    public MonedasDisponibles getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(MonedasDisponibles moneda) {
+        this.moneda = moneda;
     }
 }

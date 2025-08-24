@@ -218,20 +218,20 @@ public class PobladorDB {
 
 
         List<Gasto> gastos = Arrays.asList(
-                new Gasto(null, plan1, 50.0, "Desayuno", miembro1, "Desayuno en cafetería"),
-                new Gasto(null, plan1, 120.0, "Transporte", miembro2, "Taxi ida y vuelta"),
-                new Gasto(null, plan1, 75.5, "Materiales", miembro3, "Compra de materiales de oficina"),
-                new Gasto(null, plan1, 200.0, "Almuerzo", miembro5, "Comida para el equipo"),
-                new Gasto(null, plan1, 45.0, "Bebidas", miembro1, "Compra de botellas de agua"),
+                new Gasto(null, plan1, 50.0, "Desayuno", miembro1, "Desayuno en cafetería", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 120.0, "Transporte", miembro2, "Taxi ida y vuelta", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 75.5, "Materiales", miembro3, "Compra de materiales de oficina", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 200.0, "Almuerzo", miembro5, "Comida para el equipo", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 45.0, "Bebidas", miembro1, "Compra de botellas de agua", MonedasDisponibles.EUR),
 
-                new Gasto(null, plan2, 60.0, "Papelería", miembro2, "Útiles varios"),
-                new Gasto(null, plan2, 90.0, "Publicidad", miembro3, "Anuncio en redes sociales"),
-                new Gasto(tarea1, plan2, 150.0, "Servicio técnico", miembro4, "Reparación de laptop"),
-                new Gasto(tarea2, plan2, 80.0, "Cena", miembro5, "Cena de cierre del proyecto"),
-                new Gasto(tarea3, plan2, 20.0, "Postre", miembro1, "Helados para el equipo"),
+                new Gasto(null, plan2, 60.0, "Papelería", miembro2, "Útiles varios", MonedasDisponibles.EUR),
+                new Gasto(null, plan2, 90.0, "Publicidad", miembro3, "Anuncio en redes sociales", MonedasDisponibles.EUR),
+                new Gasto(tarea1, plan2, 150.0, "Servicio técnico", miembro4, "Reparación de laptop", MonedasDisponibles.EUR),
+                new Gasto(tarea2, plan2, 80.0, "Cena", miembro5, "Cena de cierre del proyecto", MonedasDisponibles.EUR),
+                new Gasto(tarea3, plan2, 20.0, "Postre", miembro1, "Helados para el equipo", MonedasDisponibles.EUR),
 
-                new Gasto(tarea4, plan3, 100.0, "Obsequios", miembro7, "Regalos para los participantes"),
-                new Gasto(null, plan3, 30.0, "Estacionamiento", miembro4, "Pago de estacionamiento")
+                new Gasto(tarea4, plan3, 100.0, "Obsequios", miembro7, "Regalos para los participantes", MonedasDisponibles.EUR),
+                new Gasto(null, plan3, 30.0, "Estacionamiento", miembro4, "Pago de estacionamiento", MonedasDisponibles.EUR)
 
         );
 

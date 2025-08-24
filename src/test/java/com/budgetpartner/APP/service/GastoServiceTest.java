@@ -53,7 +53,7 @@ public class GastoServiceTest {
 
         // Gasto
         double cantidad = 200.0;
-        Gasto gasto = new Gasto(10L, null, null, cantidad, "Gasto1", pagador, "Descripcion", null, date, date);
+        Gasto gasto = new Gasto(10L, null, null, cantidad, "Gasto1", pagador, "Descripcion", MonedasDisponibles.EUR, null, date, date);
 
         // Mockear respuestas del repo
         when(miembroRepository.findById(1L)).thenReturn(Optional.of(pagador));
@@ -108,7 +108,7 @@ public class GastoServiceTest {
 
         // Gasto
         double cantidad = 4.3;
-        Gasto gasto = new Gasto(10L, null, null, cantidad, "Gasto1", pagador, "Descripcion", null, date, date);
+        Gasto gasto = new Gasto(10L, null, null, cantidad, "Gasto1", pagador, "Descripcion", MonedasDisponibles.EUR, null, date, date);
 
         // Mockear respuestas del repo
         when(miembroRepository.findById(1L)).thenReturn(Optional.of(pagador));
