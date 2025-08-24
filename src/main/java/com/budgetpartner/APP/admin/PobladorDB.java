@@ -318,8 +318,8 @@ public class PobladorDB {
 
     public List<Organizacion>  poblarOrganizaciones() {
         List<Organizacion> organizaciones = Arrays.asList(
-            new Organizacion("BudgetCorp", "Gestión de presupuestos familiares."),
-            new Organizacion("FinanceFlow", "Automatización de flujos financieros personales.")
+            new Organizacion("BudgetCorp", "Gestión de presupuestos familiares.", MonedasDisponibles.EUR),
+            new Organizacion("FinanceFlow", "Automatización de flujos financieros personales.", MonedasDisponibles.EUR)
         );
         organizaciones = organizacionRepository.saveAll(organizaciones);
 

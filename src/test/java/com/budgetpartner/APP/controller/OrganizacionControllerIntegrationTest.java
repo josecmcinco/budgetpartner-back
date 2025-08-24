@@ -3,6 +3,7 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,8 +77,9 @@ class OrganizacionControllerIntegrationTest {
         String nombreOrg = "Organización Test";
         String descripcionOrg = "Descripción de prueba para organización";
         String nick = "Paco";
+        MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
-        OrganizacionDtoPostRequest request = new OrganizacionDtoPostRequest(nombreOrg, descripcionOrg, nick);
+        OrganizacionDtoPostRequest request = new OrganizacionDtoPostRequest(nombreOrg, descripcionOrg, nick, moneda);
 
         mockMvc.perform(post("/organizaciones")
                         .header("Authorization", "Bearer " + token)
@@ -120,8 +122,9 @@ class OrganizacionControllerIntegrationTest {
 
         String nombre = "Organización Test Actualizada";
         String descrpicion = "Descripción actualizada para organización";
+        MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
-        OrganizacionDtoUpdateRequest request = new OrganizacionDtoUpdateRequest(nombre, descrpicion);
+        OrganizacionDtoUpdateRequest request = new OrganizacionDtoUpdateRequest(nombre, descrpicion, moneda);
 
         mockMvc.perform(patch("/organizaciones/1")
                         .header("Authorization", "Bearer " + token)

@@ -1,6 +1,8 @@
 package com.budgetpartner.APP.dto.organizacion;
 
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class OrganizacionDtoPostRequest {
     /*
@@ -16,11 +18,15 @@ public class OrganizacionDtoPostRequest {
     @NotBlank(message = "El nick del miembro creador no puede estar vacío")
     private String nickMiembroCreador;
 
+    @NotNull(message = "El nick del miembro creador no puede estar vacío")
+    private MonedasDisponibles moneda;
 
-    public OrganizacionDtoPostRequest(String nombreOrganizacion, String descripcionOrganizacion, String nickMiembroCreador) {
+
+    public OrganizacionDtoPostRequest(String nombreOrganizacion, String descripcionOrganizacion, String nickMiembroCreador, MonedasDisponibles moneda) {
         this.nombreOrganizacion = nombreOrganizacion;
         this.descripcionOrganizacion = descripcionOrganizacion;
         this.nickMiembroCreador = nickMiembroCreador;
+        this.moneda = moneda;
     }
 
     public String getNombreOrganizacion() {
@@ -43,5 +49,11 @@ public class OrganizacionDtoPostRequest {
         return nickMiembroCreador;
     }
 
+    public MonedasDisponibles getMoneda() {
+        return moneda;
+    }
 
+    public void setMoneda(MonedasDisponibles moneda) {
+        this.moneda = moneda;
+    }
 }

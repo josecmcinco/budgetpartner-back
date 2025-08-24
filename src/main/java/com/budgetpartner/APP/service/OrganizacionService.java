@@ -49,10 +49,12 @@ public class OrganizacionService {
     //Crea una Entidad usando el DTO recibido por el usuario
     public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq){
 
+        System.out.println("organizacion");
         //Autenticar el miembro
         Usuario usuario = usuarioService.devolverUsuarioAutenticado();
 
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
+        System.out.println(organizacion);
         organizacion = organizacionRepository.save(organizacion);
 
         //Obtener el rol para poder meter el Miembro en la DB

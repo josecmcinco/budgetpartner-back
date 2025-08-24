@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Set;
 
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 
@@ -24,12 +25,14 @@ public class OrganizacionDtoPostRequestValidationTest {
         String nombreOrganizacion = "Budget Partners";
         String descripcionOrganizacion = "Gestión de gastos compartidos";
         String nickMiembroCreador = "juanito";
+        MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
         // Creación del DTO
         OrganizacionDtoPostRequest dto = new OrganizacionDtoPostRequest(
                 nombreOrganizacion,
                 descripcionOrganizacion,
-                nickMiembroCreador
+                nickMiembroCreador,
+                moneda
         );
 
         Set<ConstraintViolation<OrganizacionDtoPostRequest>> violations = validator.validate(dto);
@@ -42,10 +45,11 @@ public class OrganizacionDtoPostRequestValidationTest {
         OrganizacionDtoPostRequest dto = new OrganizacionDtoPostRequest(
                 "  ",   // nombre vacío
                 null,   // descripción nula
-                ""      // nick vacío
+                "",      // nick vacío
+                null
         );
 
         Set<ConstraintViolation<OrganizacionDtoPostRequest>> violations = validator.validate(dto);
-        assertEquals(3, violations.size());
+        assertEquals(4, violations.size());
     }
 }

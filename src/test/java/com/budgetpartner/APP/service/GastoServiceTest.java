@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.budgetpartner.APP.entity.*;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.enums.NombreRol;
 import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.RepartoGastoRepository;
@@ -37,7 +38,7 @@ public class GastoServiceTest {
         String descOrganizacion = "Soy una descripción";
         String nickCreador = "nick1";
         LocalDateTime date = LocalDateTime.of(2025, 1, 1, 12, 0);
-        Organizacion organizacion = new Organizacion(1L, nombreOrganizacion, descOrganizacion, date, date);
+        Organizacion organizacion = new Organizacion(1L, nombreOrganizacion, descOrganizacion, MonedasDisponibles.EUR, date, date);
 
         //Creación miembro pagador
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date );
@@ -92,7 +93,7 @@ public class GastoServiceTest {
         String descOrganizacion = "Soy una descripción";
         String nickCreador = "nick1";
         LocalDateTime date = LocalDateTime.of(2025, 1, 1, 12, 0);
-        Organizacion organizacion = new Organizacion(1L, nombreOrganizacion, descOrganizacion, date, date);
+        Organizacion organizacion = new Organizacion(1L, nombreOrganizacion, descOrganizacion, MonedasDisponibles.EUR, date, date);
 
         //Creación miembro pagador
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date );

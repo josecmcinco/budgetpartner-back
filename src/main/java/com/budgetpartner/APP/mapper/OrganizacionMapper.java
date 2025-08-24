@@ -17,7 +17,8 @@ public class OrganizacionMapper {
         return new OrganizacionDtoResponse(
                 organizacion.getId(),
                 organizacion.getNombre(),
-                organizacion.getDescripcion()
+                organizacion.getDescripcion(),
+                organizacion.getMoneda()
         );
     }
 
@@ -29,7 +30,8 @@ public class OrganizacionMapper {
 
         return new Organizacion(
                 dto.getNombreOrganizacion(),
-                dto.getDescripcionOrganizacion()
+                dto.getDescripcionOrganizacion(),
+                dto.getMoneda()
         );
     }
 

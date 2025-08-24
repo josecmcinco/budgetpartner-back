@@ -6,6 +6,7 @@ import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoResponse;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
 import com.budgetpartner.APP.entity.*;
 import com.budgetpartner.APP.enums.ModoPlan;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.enums.NombreRol;
 import com.budgetpartner.APP.mapper.MiembroMapper;
 import com.budgetpartner.APP.mapper.OrganizacionMapper;
@@ -57,9 +58,9 @@ class OrganizacionServiceTest {
         String nickCreador = "nick1";
         LocalDateTime date = LocalDateTime.of(2025, 1, 1, 12, 0);
 
-        OrganizacionDtoPostRequest request = new OrganizacionDtoPostRequest(nombreOrganizacion, descOrganizacion, nickCreador);
+        OrganizacionDtoPostRequest request = new OrganizacionDtoPostRequest(nombreOrganizacion, descOrganizacion, nickCreador, MonedasDisponibles.EUR);
         Usuario usuario = new Usuario(3L, "carlos.martinez@mail.com", "Carlos", "Martínez", "contraseña789", date, date);
-        Organizacion organizacion = new Organizacion(4L, nombreOrganizacion, descOrganizacion, date, date);
+        Organizacion organizacion = new Organizacion(4L, nombreOrganizacion, descOrganizacion, MonedasDisponibles.EUR, date, date);
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date );
         Miembro miembro = new Miembro(8L, usuario,  organizacion, rol, nickCreador, date, true, date, date );
 
@@ -72,7 +73,7 @@ class OrganizacionServiceTest {
         try (MockedStatic<OrganizacionMapper> orgMapper = mockStatic(OrganizacionMapper.class);
              MockedStatic<MiembroMapper> miembroMapper = mockStatic(MiembroMapper.class)) {
 
-            OrganizacionDtoResponse dtoResponse = new OrganizacionDtoResponse(4L, nombreOrganizacion, descOrganizacion);
+            OrganizacionDtoResponse dtoResponse = new OrganizacionDtoResponse(4L, nombreOrganizacion, descOrganizacion, MonedasDisponibles.EUR);
             MiembroDtoResponse miembroDtoResponse = new MiembroDtoResponse(8L, rol.getId(), nickCreador, date, true, true);
 
             orgMapper.when(() -> OrganizacionMapper.toEntity(request)).thenReturn(organizacion);
@@ -108,8 +109,8 @@ class OrganizacionServiceTest {
         Long orgId = 4L;
         LocalDateTime date = LocalDateTime.of(2025, 1, 1, 12, 0);
 
-        Organizacion organizacion = new Organizacion(orgId, "Organizacion1", "Descripción de prueba", date, date);
-        OrganizacionDtoResponse dtoResponse = new OrganizacionDtoResponse(orgId, organizacion.getNombre(), organizacion.getDescripcion());
+        Organizacion organizacion = new Organizacion(orgId, "Organizacion1", "Descripción de prueba", MonedasDisponibles.EUR, date, date);
+        OrganizacionDtoResponse dtoResponse = new OrganizacionDtoResponse(orgId, organizacion.getNombre(), organizacion.getDescripcion(), MonedasDisponibles.EUR);
 
         when(organizacionRepository.findById(orgId)).thenReturn(Optional.of(organizacion));
 
@@ -132,7 +133,7 @@ class OrganizacionServiceTest {
         Long orgId = 4L;
         LocalDateTime date = LocalDateTime.of(2025, 1, 1, 12, 0);
 
-        Organizacion organizacion = new Organizacion(orgId, "Organizacion1", "Descripción", date, date);
+        Organizacion organizacion = new Organizacion(orgId, "Organizacion1", "Descripción", MonedasDisponibles.EUR,  date, date);
 
         // Crear planes con el constructor completo
         Plan plan1 = new Plan(1L, organizacion, "Plan1", "Desc Plan1", date, date, ModoPlan.simple, 0.0, 0.0, date, date);
@@ -165,8 +166,8 @@ void testPatchOrganizacion() {
     Long orgId = 4L;
     LocalDateTime date = LocalDateTime.of(2025, 1, 1, 12, 0);
 
-    Organizacion organizacionExistente = new Organizacion(orgId, "Organizacion1", "Desc antigua", date, date);
-    OrganizacionDtoUpdateRequest updateRequest = new OrganizacionDtoUpdateRequest("Nuevo nombre", "Nueva descripción");
+    Organizacion organizacionExistente = new Organizacion(orgId, "Organizacion1", "Desc antigua", MonedasDisponibles.EUR, date, date);
+    OrganizacionDtoUpdateRequest updateRequest = new OrganizacionDtoUpdateRequest("Nuevo nombre", "Nueva descripción", MonedasDisponibles.EUR);
 
     when(organizacionRepository.findById(orgId)).thenReturn(Optional.of(organizacionExistente));
     when(organizacionRepository.save(any(Organizacion.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -189,13 +190,13 @@ void testPatchOrganizacion() {
         Usuario usuario = new Usuario(3L, "carlos.martinez@mail.com", "Carlos", "Martínez", "contraseña789", date, date);
 
         // Organizaciones
-        Organizacion organizacion1 = new Organizacion(4L, "Organizacion1", "Descripción 1", date, date);
-        Organizacion organizacion2 = new Organizacion(5L, "Organizacion2", "Descripción 2", date, date);
+        Organizacion organizacion1 = new Organizacion(4L, "Organizacion1", "Descripción 1", MonedasDisponibles.EUR, date, date);
+        Organizacion organizacion2 = new Organizacion(5L, "Organizacion2", "Descripción 2", MonedasDisponibles.EUR,  date, date);
         List<Organizacion> organizaciones = List.of(organizacion1, organizacion2);
 
         // DTOs de salida
-        OrganizacionDtoResponse dto1 = new OrganizacionDtoResponse(4L, "Organizacion1", "Descripción 1");
-        OrganizacionDtoResponse dto2 = new OrganizacionDtoResponse(5L, "Organizacion2", "Descripción 2");
+        OrganizacionDtoResponse dto1 = new OrganizacionDtoResponse(4L, "Organizacion1", "Descripción 1", MonedasDisponibles.EUR);
+        OrganizacionDtoResponse dto2 = new OrganizacionDtoResponse(5L, "Organizacion2", "Descripción 2", MonedasDisponibles.EUR);
         List<OrganizacionDtoResponse> listaDto = new ArrayList<>(List.of(dto1, dto2));
 
         // Mocks

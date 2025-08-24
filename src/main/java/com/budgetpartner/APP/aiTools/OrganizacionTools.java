@@ -8,6 +8,7 @@ import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.entity.Rol;
 import com.budgetpartner.APP.entity.Usuario;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.enums.NombreRol;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.MiembroMapper;
@@ -60,6 +61,7 @@ public class OrganizacionTools {
             String nombre = nombreOrganizacion;
             String descripcion = _descripcionOrganizacion_;
             String nick = _nickMiembroCreador_;
+            MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
             //Autenticar el miembro
             Usuario usuario = usuarioRepository.findById(2L).orElseThrow(() -> new NotFoundException("ARREGLAR  no encontrado con id"));
@@ -72,7 +74,7 @@ public class OrganizacionTools {
                 nick = usuario.getEmail().split("@")[0];;
             }
 
-            OrganizacionDtoPostRequest dto = new OrganizacionDtoPostRequest(nombre, descripcion, nick);
+            OrganizacionDtoPostRequest dto = new OrganizacionDtoPostRequest(nombre, descripcion, nick, moneda);
 
             // Guardar la organización
             Organizacion organizacion = OrganizacionMapper.toEntity(dto);

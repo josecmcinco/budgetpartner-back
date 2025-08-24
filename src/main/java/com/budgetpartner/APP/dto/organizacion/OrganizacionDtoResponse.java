@@ -2,6 +2,7 @@ package com.budgetpartner.APP.dto.organizacion;
 
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
@@ -20,15 +21,18 @@ TODO IMAGEN
     private Long id;
     private String nombre;
     private String descripcion;
+    private MonedasDisponibles moneda;
+
     private List<MiembroDtoResponse> miembros;
     private List<PlanDtoResponse> planes;
     private Integer numeroMiembros = null;
     private Long idCreador; //TODO
 
-    public OrganizacionDtoResponse(Long id, String nombre, String descripcion) {
+    public OrganizacionDtoResponse(Long id, String nombre, String descripcion, MonedasDisponibles moneda) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.moneda = moneda;
     }
 
     public Long getId() {
@@ -79,4 +83,11 @@ TODO IMAGEN
         this.idCreador = idCreador;
     }
 
+    public MonedasDisponibles getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(MonedasDisponibles moneda) {
+        this.moneda = moneda;
+    }
 }
