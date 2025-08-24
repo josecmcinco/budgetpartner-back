@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.controller;
 
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.service.DivisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,8 @@ public class CurrencyController {
     @GetMapping("/convert")
     public double convert(
             @RequestParam double amount,
-            @RequestParam String from,
-            @RequestParam String to) {
+            @RequestParam MonedasDisponibles from,
+            @RequestParam MonedasDisponibles to) {
         return divisaService.convertCurrency(amount, from, to);
     }
 }

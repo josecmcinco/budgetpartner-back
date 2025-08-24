@@ -34,6 +34,8 @@ public class GastoService {
     private RepartoGastoRepository repartoGastoRepository;
     @Autowired
     private DivisaService divisaService;
+    @Autowired
+    private OrganizacionRepository organizacionRepository;
 
     //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
     //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
@@ -131,7 +133,6 @@ public class GastoService {
         if(gastoDtoResp.getListaMiembrosEndeudados() != null){
             //Eliminar las reparticiones previas
             repartoGastoRepository.eliminarRepartoGastoPorGastoId(id);
-
             //Añadir reparticiones nuevas
             List<Long> idEndeudadosList = gastoDtoResp.getListaMiembrosEndeudados();
             postRepartoGastos(idEndeudadosList, gasto, gasto.getPagador());
@@ -145,9 +146,18 @@ public class GastoService {
 
     //Crea las deudas de cada miembro en base al gasto
     public void postRepartoGastos(List<Long> idEndeudadosList, Gasto gasto, Miembro pagador){
+        double cantidad;
+        Organizacion organizacion = organizacionRepository.obtenerOrganizacionPorPlanId(gasto.getPlan().getId())
+                .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + gasto.getPlan().getId()));
+        if(organizacion.getMoneda() == gasto.getMoneda()){
+            cantidad =  gasto.getCantidad();
+        }
+        else{
+            cantidad = divisaService.convertCurrency(gasto.getCantidad(), gasto.getMoneda(), organizacion.getMoneda());
+        }
 
         //Obtener deuda como double con dos decimales
-        int prepDeudaSinDecimales = (int) gasto.getCantidad() * 100 / idEndeudadosList.size();
+        int prepDeudaSinDecimales = (int) cantidad * 100 / idEndeudadosList.size();
         double deudaPorPersona = (double) prepDeudaSinDecimales / 100 ;
 
         //Crear un elemento repartoDeuda por cada endeudado y meterlo en la DB
