@@ -19,10 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
 
-    @Autowired
-    private JwtAuthFilter jwtAuthFilter;
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     public SecurityConfig(JwtAuthFilter jwtAuthFilter,
                           AuthenticationProvider authenticationProvider) {
@@ -30,12 +28,16 @@ public class SecurityConfig {
         this.authenticationProvider = authenticationProvider;
     }
 
+    /**
+     * Configuración de seguridad de Spring Security.
+     * Define endpoints públicos, autenticación JWT, sesiones sin estado y logout.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req -> req
-                        //Rutas que se pueden acceder sin autentificación
+                        //Endpoints públicos
                         .requestMatchers(
                                 "/usuarios/registro",
                                 "/usuarios/login",
@@ -56,7 +58,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/usuario/logout")
                         .addLogoutHandler((request, response, authentication) -> {
-                            // Lógica si se decidiera gestionar tokens en BD
+                            //Aquí se podría gestionar tokens en BD
                         })
                         .logoutSuccessHandler((request, response, authentication) ->
                                 SecurityContextHolder.clearContext()
@@ -65,7 +67,5 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 
 }

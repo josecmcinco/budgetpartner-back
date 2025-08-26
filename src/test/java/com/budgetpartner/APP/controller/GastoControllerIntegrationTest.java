@@ -45,24 +45,14 @@ class GastoControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    //Uso de JWT
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private PobladorDB pobladorDB;
-
-
-    private static Long createdGastoId;
+    public GastoControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
     private static String token;
 

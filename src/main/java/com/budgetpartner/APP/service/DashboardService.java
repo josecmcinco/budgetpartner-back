@@ -13,40 +13,47 @@ import org.springframework.stereotype.Service;
 @Service
 public class DashboardService {
 
-    @Autowired
-    UsuarioService usuarioService;
+    private final AutorizacionService autorizacionService;
+    private final PlanRepository planRepository;
+    private final MiembroRepository miembroRepository;
+    private final TareaRepository tareaRepository;
 
     @Autowired
-    PlanRepository planRepository;
-    @Autowired
-    MiembroRepository miembroRepository;
-    @Autowired
-    TareaRepository tareaRepository;
+    public DashboardService(AutorizacionService autorizacionService,
+                   PlanRepository planRepository,
+                   MiembroRepository miembroRepository,
+                   TareaRepository tareaRepository) {
+        this.autorizacionService = autorizacionService;
+        this.planRepository = planRepository;
+        this.miembroRepository = miembroRepository;
+        this.tareaRepository = tareaRepository;
+    }
 
-
-    /*
-     Llamada para Endpoint
-
-    DEVUELVE AL USUARIO:
-        usuario : objeto completo con todos sus atributos
-        numeroOrganizaciones/NumeroMiembros : number
-        numeroPlanes : number
-        numeroTareas : number
-        actividadReciente : array de objetos*/
+    /**
+     * Obtiene la información del dashboard para el usuario autenticado.
+     *
+     * Devuelve:
+     * - usuario: objeto con sus atributos en formato DTO
+     * - numeroOrganizaciones: cantidad de organizaciones a las que pertenece
+     * - numeroPlanes: cantidad de planes asignados
+     * - numeroTareas: cantidad de tareas asignadas
+     *
+     * @return DashboardDtoResponse con la información del usuario y estadísticas principales
+     */
     public DashboardDtoResponse getDashboard(){
 
-        //Validar Token
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        //Validar y obtener usuario autentificado
+        Usuario usuario = autorizacionService.devolverUsuarioAutenticado();
         Long idUsuario = usuario.getId();
 
+        //Extraer información dashboard
         Integer numOrganizaciones = miembroRepository.contarMiembrosPorUsuarioId(idUsuario);
         Integer numPlanes = planRepository.contarPlanesPorUsuarioId(idUsuario);
         Integer numTareas = tareaRepository.contarTareasPorUsuarioId(idUsuario);
 
+        //Crear dashboard y devolverlo con la información
         UsuarioDtoResponse usuarioDtoResponse = UsuarioMapper.toDtoResponse(usuario);
-
-        DashboardDtoResponse dto = new DashboardDtoResponse(usuarioDtoResponse, numOrganizaciones, numPlanes, numTareas);
-        return dto;
+        return new DashboardDtoResponse(usuarioDtoResponse, numOrganizaciones, numPlanes, numTareas);
     }
 
 }

@@ -24,6 +24,12 @@ class ITBenchmarkLLM {
 
     private static final String FILE_PATH = "target/benchmark/benchmark-results.txt";
 
+    private final OllamaAgentService ollamaAgentService;
+
+    public ITBenchmarkLLM(OllamaAgentService ollamaAgentService) {
+        this.ollamaAgentService = ollamaAgentService;
+    }
+
     @BeforeAll
     static void init() throws IOException {
         // Poblamos DB con datos necesarios (organizaciones, roles, usuarios, miembros iniciales…)
@@ -48,9 +54,6 @@ class ITBenchmarkLLM {
 
 
     }
-
-    @Autowired
-    private OllamaAgentService ollamaAgentService;
 
     private int countTokens (String text){
         return text.split("\\s+").length;

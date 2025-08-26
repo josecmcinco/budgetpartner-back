@@ -16,105 +16,119 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Servicio encargado de la gestión de tareas.
+ * Permite crear, consultar, actualizar, eliminar tareas y asignar miembros.
+ */
 @Service
 public class TareaService {
 
-    @Autowired
-    private TareaRepository tareaRepository;
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private MiembroRepository miembroRepository;
-    @Autowired
-    private RepartoTareaRepository repartoTareaRepository;
+    private final TareaRepository tareaRepository;
+    private final PlanRepository planRepository;
+    private final MiembroRepository miembroRepository;
+    private final RepartoTareaRepository repartoTareaRepository;
 
-    //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
-    //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
+    @Autowired
+    public TareaService(TareaRepository tareaRepository,
+                        PlanRepository planRepository,
+                        MiembroRepository miembroRepository,
+                        RepartoTareaRepository repartoTareaRepository) {
+        this.tareaRepository = tareaRepository;
+        this.planRepository = planRepository;
+        this.miembroRepository = miembroRepository;
+        this.repartoTareaRepository = repartoTareaRepository;
+    }
 
-
-    //ENDPOINTS
-
-    //Llamada para Endpoint
-    //Crea una Entidad usando el DTO recibido por el usuario
+    /**
+     * Crea una nueva tarea y asigna miembros según la lista proporcionada.
+     *
+     * @param dto DTO con los datos de la tarea a crear
+     * @return entidad Tarea creada
+     * @throws NotFoundException si el plan no existe
+     */
     @Transactional //Interacción con un many to many
     public Tarea postTarea(TareaDtoPostRequest dto) {
-
 
         //TODO VALIDAR CAMPOS REPETIDOS (título, descripción, fechas, estado, etc.)
         Plan plan = planRepository.findById(dto.getPlanId())
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + dto.getPlanId()));
 
         Tarea tarea = TareaMapper.toEntity(dto, plan);
-
-        //Usar elemento insertado en la db porque tiene el id
         tarea = tareaRepository.save(tarea);
 
-        //Crea las deudas de cada miembro en base al gasto
+        // Crear asignaciones de miembros para la tarea
         List<Long> idAtareadosList = dto.getListaAtareados();
         postRepartoTarea(idAtareadosList, tarea);
 
-
         return tarea;
     }
 
-    //Llamada para Endpoint
-    //Obtiene una Entidad usando el id recibido por el usuario
-        /*DEVUELVE AL USUARIO:
-        organizacion
-            |-
-            |-numeroPlanes : number
-        numeroTareas : number
-        actividadReciente : array de objetos
-    */
+    /**
+     * Obtiene una tarea por su ID transformada a DTO.
+     *
+     * @param id ID de la tarea
+     * @return DTO de la tarea
+     * @throws NotFoundException si la tarea no existe
+     */
     public TareaDtoResponse getTareaDtoById(Long id) {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
-        TareaDtoResponse dto = TareaMapper.toDtoResponse(tarea);
-        return dto;
+
+        return TareaMapper.toDtoResponse(tarea);
     }
 
-    //Llamada para Endpoint
-    //Elimina una Entidad usando el id recibido por el usuario
+    /**
+     * Elimina una tarea y sus asignaciones a miembros.
+     *
+     * @param id ID de la tarea
+     * @return entidad Tarea eliminada
+     * @throws NotFoundException si la tarea no existe
+     */
     @Transactional //Interacción con un many to many
-    public Tarea deleteTareaById(Long id) {
-        //Obtener tarea usando el id pasado en la llamada
+    public void deleteTareaById(Long id) {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
-        //Elimina primero la relación muchos a muchos con Miembro
+        // Eliminar asignaciones de miembros
         repartoTareaRepository.eliminarRepartoTareaPorTareaId(id);
 
-        //Borra tarea en cascada
+        // Eliminar tarea en cascada
         tareaRepository.delete(tarea);
 
-        return tarea;
     }
 
-    //Llamada para Endpoint
-    //Actualiza una Entidad usando el id recibido por el usuario
-    @Transactional //Interacción con un many to many
-    public Tarea patchTarea(TareaDtoUpdateRequest dto, Long id) {
-        //Obtener tarea usando el id pasado en la llamada
+    /**
+     * Actualiza una tarea existente y sus asignaciones a miembros.
+     *
+     * @param dto DTO con los datos a actualizar
+     * @param id  ID de la tarea
+     * @throws NotFoundException si la tarea no existe
+     */
+    @Transactional
+    public void patchTarea(TareaDtoUpdateRequest dto, Long id) {
         Tarea tarea = tareaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Tarea no encontrada con id: " + id));
 
         TareaMapper.updateEntityFromDtoRes(dto, tarea);
         tareaRepository.save(tarea);
 
-        if(dto.getListaAtareados() != null){
-            //Eliminar las reparticiones previas
+        if (dto.getListaAtareados() != null) {
+            // Eliminar asignaciones previas
             repartoTareaRepository.eliminarRepartoTareaPorTareaId(id);
 
-            //Añadir reparticiones nuevas
-            List<Long> idAtareadosList = dto.getListaAtareados();
-            postRepartoTarea(idAtareadosList, tarea);
+            // Añadir nuevas asignaciones
+            postRepartoTarea(dto.getListaAtareados(), tarea);
         }
 
-        return tarea;
     }
 
-    //OTROS MÉTODOS
-    //Crea las deudas de cada miembro en base al gasto
+    /**
+     * Crea las asignaciones de miembros para una tarea.
+     *
+     * @param idAtareadosList lista de IDs de miembros a asignar
+     * @param tarea           tarea a la que se asignan los miembros
+     * @throws NotFoundException si algún miembro no existe
+     */
     public void postRepartoTarea(List<Long> idAtareadosList, Tarea tarea){
 
         //Crear un elemento repartoDeuda por cada endeudado y meterlo en la DB

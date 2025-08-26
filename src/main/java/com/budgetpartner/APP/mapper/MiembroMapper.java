@@ -13,7 +13,9 @@ import java.util.List;
 
 public class MiembroMapper {
 
-    // Convierte Miembro en MiembroDtoResponse
+    /**
+     * Convierte una entidad Miembro a su DTO de respuesta.
+     */
     public static MiembroDtoResponse toDtoResponse(Miembro miembro) {
         if (miembro == null) return null;
 
@@ -27,8 +29,10 @@ public class MiembroMapper {
         );
     }
 
-    // Convierte MiembroDtoPostRequest to Miembro
-    //No se hacen llamadas al servicio desde aquí
+
+    /**
+     * Convierte un DTO de creación a una entidad Miembro.
+     */
     public static Miembro toEntity(MiembroDtoPostRequest dto, Organizacion organizacion, Rol rol) {
         if (dto == null) return null;
 
@@ -40,18 +44,23 @@ public class MiembroMapper {
     }
 
 
-    // Actualiza entidad existente con los valores del DTO
+    /**
+     * Actualiza una entidad Miembro existente con los valores del DTO de actualización.
+     * No se permite modificar ciertos campos como: organizacion, isActivo, isAsociado desde el DTO.
+     */
     public static void updateEntityFromDtoRes(MiembroDtoUpdateRequest dto, Miembro miembro, Rol rol) {
         if (dto == null || miembro == null) return;
 
-        //NO SE PERMITE MODIFICAR DESDE EL DTO:
-        //OrganizacionOrigen-isActivo-isAsignado
         if (dto.getRolId() != null) miembro.setRol(rol);
         if (dto.getNick() != null) miembro.setNick(dto.getNick());
 
 
     }
 
+
+    /**
+     * Convierte una lista de entidades Miembro a una lista de DTOs de respuesta.
+     */
     public static List<MiembroDtoResponse> toDtoResponseListMiembro(List<Miembro> miembros) {
         ArrayList<MiembroDtoResponse> listaMiembrosDtoResp = new ArrayList<>();
         if (miembros.isEmpty()) {

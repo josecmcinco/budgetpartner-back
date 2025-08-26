@@ -40,21 +40,14 @@ class OrganizacionControllerIntegrationTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
     }
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PobladorDB pobladorDB;
+    public OrganizacionControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
     private static String token;
 

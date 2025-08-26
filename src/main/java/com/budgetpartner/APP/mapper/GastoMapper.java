@@ -14,8 +14,9 @@ import java.util.List;
 
 public class GastoMapper {
 
-
-    //Entity a GastoDtoRequest
+    /**
+     * Convierte una entidad Gasto a su DTO de respuesta.
+     */
     public static GastoDtoResponse toDtoResponse(Gasto gasto) {
         if (gasto == null) return null;
 
@@ -39,8 +40,9 @@ public class GastoMapper {
         );
     }
 
-    //Obtener Entity desde GastoDtoPostRequest
-    //No se hacen llamadas al servicio desde aquí
+    /**
+     * Convierte un DTO de creación a una entidad Gasto.
+     */
     public static Gasto toEntity(GastoDtoPostRequest dto, Tarea tarea, Plan plan, Miembro pagador) {
         if (dto == null) return null;
 
@@ -57,17 +59,23 @@ public class GastoMapper {
     }
 
 
-    // Actualiza entidad existente con los valores del DTO
+    /**
+     * Actualiza una entidad Gasto existente con los campos del DTO de actualización.
+     * No se permite modificar ciertos campos como: tarea, plan, pagador desde el DT
+     */
     public static void updateEntityFromDtoRes(GastoDtoUpdateRequest dto, Gasto gasto) {
         if (dto == null || gasto == null) return;
 
-        //NO SE PERMITE MODIFICAR DESDE EL DTO:
-        //Tarea-Plan-Pagador
         if (dto.getCantidad() != 0) gasto.setCantidad(dto.getCantidad());
         if (dto.getNombre() != null) gasto.setNombre(dto.getNombre());
         if (dto.getDescripcion() != null) gasto.setDescripcion(dto.getDescripcion());
 
     }
+
+
+    /**
+     * Convierte una lista de entidades Gasto a una lista de DTOs de respuesta.
+     */
     public static List<GastoDtoResponse> toDtoResponseListGasto(List<Gasto> gastos) {
         List<GastoDtoResponse> listaGastosDtoResp = new ArrayList<>();
         if (gastos == null || gastos.isEmpty()) {

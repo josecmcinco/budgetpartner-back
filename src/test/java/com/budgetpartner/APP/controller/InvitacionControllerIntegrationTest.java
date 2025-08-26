@@ -45,23 +45,14 @@ class InvitacionControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private InvitacionService invitacionService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private PobladorDB pobladorDB;
+    public InvitacionControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
     private static String token;
 

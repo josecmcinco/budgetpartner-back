@@ -117,8 +117,7 @@ public class TareaController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTareaById(@Validated @NotNull @PathVariable Long id) {
-        Tarea tarea = tareaService.deleteTareaById(id);
-        TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
+        tareaService.deleteTareaById(id);
         return ResponseEntity.ok("Tarea eliminada correctamente");
     }
 }

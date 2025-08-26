@@ -64,12 +64,12 @@ public class GastoServiceTest {
 
         //Creación miembro pagador
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date );
-        Miembro pagador = new Miembro(1L, null,  organizacion, rol, nickCreador, date, true, date, date );
+        Miembro pagador = new Miembro(1L, null,  organizacion, rol, nickCreador, date, true,false, date, date );
 
         //Otros miembros
-        Miembro miembro1 = new Miembro(2L, null, organizacion, rol, nickCreador, date, true, date, date);
-        Miembro miembro2 = new Miembro(3L, null, organizacion, rol, nickCreador, date, true, date, date);
-        Miembro miembro3 = new Miembro(4L, null, organizacion, rol, nickCreador, date, true, date, date);
+        Miembro miembro1 = new Miembro(2L, null, organizacion, rol, nickCreador, date, true,false, date, date);
+        Miembro miembro2 = new Miembro(3L, null, organizacion, rol, nickCreador, date, true,false, date, date);
+        Miembro miembro3 = new Miembro(4L, null, organizacion, rol, nickCreador, date, true,false, date, date);
 
         List<Long> idMiembros = Arrays.asList(1L, 2L, 3L, 4L);
 
@@ -141,12 +141,12 @@ public class GastoServiceTest {
         );
         //Creación miembro pagador
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date );
-        Miembro pagador = new Miembro(1L, null,  organizacion, rol, nickCreador, date, true, date, date );
+        Miembro pagador = new Miembro(1L, null,  organizacion, rol, nickCreador, date, true, false, date, date );
 
         //Otros miembros
-        Miembro miembro1 = new Miembro(2L, null, organizacion, rol, nickCreador, date, true, date, date);
-        Miembro miembro2 = new Miembro(3L, null, organizacion, rol, nickCreador, date, true, date, date);
-        Miembro miembro3 = new Miembro(4L, null, organizacion, rol, nickCreador, date, true, date, date);
+        Miembro miembro1 = new Miembro(2L, null, organizacion, rol, nickCreador, date, true, false, date, date);
+        Miembro miembro2 = new Miembro(3L, null, organizacion, rol, nickCreador, date, true, false, date, date);
+        Miembro miembro3 = new Miembro(4L, null, organizacion, rol, nickCreador, date, true, false, date, date);
 
         List<Long> idMiembros = Arrays.asList(1L, 2L, 3L, 4L);
 
@@ -220,12 +220,12 @@ public class GastoServiceTest {
 
         // Creación miembro pagador
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date);
-        Miembro pagador = new Miembro(1L, null, organizacion, rol, nickCreador, date, true, date, date);
+        Miembro pagador = new Miembro(1L, null, organizacion, rol, nickCreador, date, true, false, date, date);
 
         // Otros miembros
-        Miembro miembro1 = new Miembro(2L, null, organizacion, rol, nickCreador, date, true, date, date);
-        Miembro miembro2 = new Miembro(3L, null, organizacion, rol, nickCreador, date, true, date, date);
-        Miembro miembro3 = new Miembro(4L, null, organizacion, rol, nickCreador, date, true, date, date);
+        Miembro miembro1 = new Miembro(2L, null, organizacion, rol, nickCreador, date, true, false, date, date);
+        Miembro miembro2 = new Miembro(3L, null, organizacion, rol, nickCreador, date, true, false, date, date);
+        Miembro miembro3 = new Miembro(4L, null, organizacion, rol, nickCreador, date, true, false, date, date);
 
         List<Long> idMiembros = Arrays.asList(1L, 2L, 3L, 4L);
 

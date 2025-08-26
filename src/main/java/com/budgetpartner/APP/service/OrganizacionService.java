@@ -22,55 +22,62 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Servicio encargado de la gestión de organizaciones.
+ * Permite crear, consultar, actualizar, eliminar y obtener listas de organizaciones.
+ */
 @Service
 public class OrganizacionService {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final AutorizacionService autorizacionService;
+    private final OrganizacionRepository organizacionRepository;
+    private final MiembroRepository miembroRepository;
+    private final GastoRepository gastoRepository;
+    private final PlanRepository planRepository;
+    private final RolRepository rolRepository;
 
     @Autowired
-    private OrganizacionRepository organizacionRepository;
-    @Autowired
-    private MiembroRepository miembroRepository;
-    @Autowired
-    private GastoRepository gastoRepository;
-    @Autowired
-    private TareaRepository tareaRepository;
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private RolRepository rolRepository;
-    @Autowired
-    private RepartoGastoRepository repartoGastoRepository;
+    public OrganizacionService(AutorizacionService autorizacionService,
+                               OrganizacionRepository organizacionRepository,
+                               MiembroRepository miembroRepository,
+                               GastoRepository gastoRepository,
+                               PlanRepository planRepository,
+                               RolRepository rolRepository) {
+        this.autorizacionService = autorizacionService;
+        this.organizacionRepository = organizacionRepository;
+        this.miembroRepository = miembroRepository;
+        this.gastoRepository = gastoRepository;
+        this.planRepository = planRepository;
+        this.rolRepository = rolRepository;
+    }
 
-    //ENDPOINTS
-
-    //Llamada para Endpoint
-    //Crea una Entidad usando el DTO recibido por el usuario
+    /**
+     * Crea una organización y asigna un miembro administrador como creador.
+     *
+     * @param organizacionDtoReq DTO con los datos de la organización y nick del miembro creador
+     * @return DTO de la organización creada con el miembro creador incluido
+     */
     public OrganizacionDtoResponse postOrganizacion(OrganizacionDtoPostRequest organizacionDtoReq){
 
-        System.out.println("organizacion");
-        //Autenticar el miembro
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        //Autenticar el usuario
+        Usuario usuario = autorizacionService.devolverUsuarioAutenticado();
 
+        // Crear entidad Organización
         Organizacion organizacion = OrganizacionMapper.toEntity(organizacionDtoReq);
-        System.out.println(organizacion);
         organizacion = organizacionRepository.save(organizacion);
 
-        //Obtener el rol para poder meter el Miembro en la DB
+        // Obtener rol ADMIN
         Rol rol = rolRepository.obtenerRolPorNombre(NombreRol.ROLE_ADMIN)
                 .orElseThrow(() -> new NotFoundException("ERROR INTERNO"));
 
+        // Crear miembro administrador
         Miembro miembro = new Miembro(organizacion, rol, organizacionDtoReq.getNickMiembroCreador());
-
-        //Configurar valores por defecto del miembor creador
         miembro.setUsuario(usuario);
         miembro.setAsociado(true);
         miembro.setFechaIngreso(LocalDateTime.now());
-
-        //Guardar miembro en la DB recién creada
-        //Enviar elemento insertado en la db porque tiene el id
         miembro = miembroRepository.save(miembro);
+
+
         MiembroDtoResponse miembroDtoRes = MiembroMapper.toDtoResponse(miembro);
 
         OrganizacionDtoResponse organizacionDtoResp =  OrganizacionMapper.toDtoResponse(organizacion);
@@ -82,33 +89,29 @@ public class OrganizacionService {
         return organizacionDtoResp;
     }
 
-    //Llamada para Endpoint
-    //Obtiene una Entidad usando el id recibido por el usuario
-        /*DEVUELVE AL USUARIO:
-
-    */
+    /**
+     * Obtiene una organización por su ID junto con sus miembros y planes.
+     *
+     * @param id ID de la organización
+     * @return DTO de la organización
+     * @throws NotFoundException si la organización no existe
+     */
     public OrganizacionDtoResponse getOrganizacionDtoById(Long id) {
-        //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Organizacion no encontrada con id: " + id));
 
-        //Transformación de Entity a DtoResponse
         OrganizacionDtoResponse organizacionDto = OrganizacionMapper.toDtoResponse(organizacion);
 
 
-        //Se añade a OrganizacionDtoResponse la lista de miembros como Dtos
+        //Agregar miembros
         List<Miembro> miembros = miembroRepository.obtenerMiembrosPorOrganizacionId(organizacionDto.getId());
         List<MiembroDtoResponse> ListMiembroDto = MiembroMapper.toDtoResponseListMiembro(miembros);
         organizacionDto.setMiembros(ListMiembroDto);
 
-        //Se añade a OrganizacionDtoResponse la lista de Planes como Dtos (antes hay que meter los gastos en los planes)
+        // Agregar planes y sus gastos
         List<Plan> planes = planRepository.obtenerPlanesPorOrganizacionId(organizacionDto.getId());
         List<PlanDtoResponse> ListPlanDto = PlanMapper.toDtoResponseListPlan(planes);
-
-
-        //Se añade a PlanDtoResponse la lista de gastos como Dtos para cada gasto
         for ( PlanDtoResponse planDto: ListPlanDto) {
-
             List<Gasto> gastos = gastoRepository.obtenerGastosPorPlanId(planDto.getId());
             List<GastoDtoResponse> ListGastoDto = GastoMapper.toDtoResponseListGasto(gastos);
             planDto.setGastos(ListGastoDto);
@@ -116,61 +119,71 @@ public class OrganizacionService {
 
         organizacionDto.setPlanes(ListPlanDto);
 
-
         return organizacionDto;
     }
 
-    //Llamada para Endpoint
-    //Elimina una Entidad usando el id recibido por el usuario
+
+    /**
+     * Elimina una organización y sus planes asociados.
+     *
+     * @param organizacionId ID de la organización
+     * @return entidad Organización eliminada
+     * @throws NotFoundException si la organización no existe
+     */
     @Transactional //Implica interactuar con el muchos a muchos de repartoGastos y repartoTareas
     public Organizacion deleteOrganizacionById(Long organizacionId) {
         //Obtener organización usando el id pasado en la llamada
         Organizacion organizacion = organizacionRepository.findById(organizacionId)
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + organizacionId));
 
-        //El propósito de esta linea es hacer una llamada que devuelva los planes para que el gestor
-        // de la DB tenga una instancia de ellos antes del delete
+        /*
+        IMPORTANTE
+        Esta linea es hacer una llamada que devuelva los planes,
+        así, el gestor la DB tiene una instancia de ellos antes del delete
+        */
+        // Eliminar planes asociados primero
         List<Plan> listaPlanes = planRepository.obtenerPlanesPorOrganizacionId(organizacionId);
-
-        for (Plan plan : listaPlanes){
+        for (Plan plan : listaPlanes) {
             planRepository.delete(plan);
         }
 
-
-        //Borrado en cascada de organizaciones
+        // Eliminar organización en cascada
         organizacionRepository.delete(organizacion);
         return organizacion;
     }
 
-    //Llamada para Endpoint
-    //Actualiza una Entidad usando el id recibido por el usuario
-    public OrganizacionDtoResponse patchOrganizacion(OrganizacionDtoUpdateRequest dto, Long id) {
-        //Obtener organización usando el id pasado en la llamada
+    /**
+     * Actualiza los datos de una organización existente.
+     *
+     * @param dto DTO con los datos a actualizar
+     * @param id  ID de la organización
+     * @throws NotFoundException si la organización no existe
+     */
+    public void patchOrganizacion(OrganizacionDtoUpdateRequest dto, Long id) {
         Organizacion organizacion = organizacionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + id));
 
         OrganizacionMapper.updateEntityFromDtoRes(dto, organizacion);
         organizacionRepository.save(organizacion);
-        return OrganizacionMapper.toDtoResponse(organizacion);
+        OrganizacionMapper.toDtoResponse(organizacion);
     }
 
-    //Llamada para Endpoint
-    //Obtiene una lista de Entidades usando el id recibido por el usuario
-    /*DEVUELVE:
-            |-OrganizacionDto
-                |-numeroMiembros
+    /**
+     * Obtiene todas las organizaciones asociadas al usuario autenticado.
+     *
+     * @return lista de DTOs de organizaciones con número de miembros
      */
     public List<OrganizacionDtoResponse> getOrganizacionesDtoByUsuarioId() {
 
 
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        Usuario usuario = autorizacionService.devolverUsuarioAutenticado();
         List<Organizacion> organizaciones = organizacionRepository.obtenerOrganizacionesPorUsuarioId(usuario.getId());
 
         //TODO gestionar sin organizacion
 
         List<OrganizacionDtoResponse> ListaDtoOrganizacionDto = OrganizacionMapper.toDtoResponseListOrganizacion(organizaciones);
 
-        //Introducir número de mimebros de cada organización en el DTO correspondiente
+        // Añadir número de miembros a cada DTO
         for (OrganizacionDtoResponse organizacionDto : ListaDtoOrganizacionDto) {
             int numeroMiembros = miembroRepository.contarMiembrosPorOrganizacionId(organizacionDto.getId());
             organizacionDto.setNumeroMiembros(numeroMiembros);
@@ -178,7 +191,5 @@ public class OrganizacionService {
 
         return  ListaDtoOrganizacionDto;
     }
-
-    //OTROS MÉTODOS
 
 }

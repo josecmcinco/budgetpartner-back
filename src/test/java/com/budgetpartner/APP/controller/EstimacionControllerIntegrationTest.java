@@ -20,7 +20,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,20 +43,16 @@ class EstimacionControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    public EstimacionControllerIntegrationTest(MockMvc mockMvc,
+                                         ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PobladorDB pobladorDB;
+    }
 
     private static String token;
 

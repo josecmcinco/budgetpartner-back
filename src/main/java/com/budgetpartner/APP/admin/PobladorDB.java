@@ -23,44 +23,50 @@ import java.util.List;
 @Component
 public class PobladorDB {
 
-    @Autowired
-    private  UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
+    private final OrganizacionRepository organizacionRepository;
+    private final MiembroRepository miembroRepository;
+    private final GastoRepository gastoRepository;
+    private final TareaRepository tareaRepository;
+    private final PlanRepository planRepository;
+    private final JdbcTemplate jdbc;
+    private final PasswordEncoder passwordEncoder;
+    private final EstimacionRepository estimacionRepository;
+    private final RepartoGastoRepository repartoGastoRepository;
+    private final RepartoTareaRepository repartoTareaRepository;
+    private final InvitacionRepository invitacionRepository;
 
     @Autowired
-    private  RolRepository rolRepository;
-
-    @Autowired
-    private  OrganizacionRepository organizacionRepository;
-
-    @Autowired
-    private  MiembroRepository miembroRepository;
-
-    @Autowired
-    private  GastoRepository gastoRepository;
-
-    @Autowired
-    private  TareaRepository tareaRepository;
-
-    @Autowired
-    private  PlanRepository planRepository;
-
-    @Autowired
-    private JdbcTemplate jdbc;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EstimacionRepository estimacionRepository;
-
-    @Autowired
-    private RepartoGastoRepository repartoGastoRepository;
-
-    @Autowired
-    private RepartoTareaRepository repartoTareaRepository;
-
-    @Autowired
-    private InvitacionRepository invitacionRepository;
+    public PobladorDB(
+            UsuarioRepository usuarioRepository,
+            RolRepository rolRepository,
+            OrganizacionRepository organizacionRepository,
+            MiembroRepository miembroRepository,
+            GastoRepository gastoRepository,
+            TareaRepository tareaRepository,
+            PlanRepository planRepository,
+            JdbcTemplate jdbc,
+            PasswordEncoder passwordEncoder,
+            EstimacionRepository estimacionRepository,
+            RepartoGastoRepository repartoGastoRepository,
+            RepartoTareaRepository repartoTareaRepository,
+            InvitacionRepository invitacionRepository
+    ) {
+        this.usuarioRepository = usuarioRepository;
+        this.rolRepository = rolRepository;
+        this.organizacionRepository = organizacionRepository;
+        this.miembroRepository = miembroRepository;
+        this.gastoRepository = gastoRepository;
+        this.tareaRepository = tareaRepository;
+        this.planRepository = planRepository;
+        this.jdbc = jdbc;
+        this.passwordEncoder = passwordEncoder;
+        this.estimacionRepository = estimacionRepository;
+        this.repartoGastoRepository = repartoGastoRepository;
+        this.repartoTareaRepository = repartoTareaRepository;
+        this.invitacionRepository = invitacionRepository;
+    }
 
     //Guardar mensajes de control
     private static final Logger logger = LoggerFactory.getLogger(PobladorDB.class);

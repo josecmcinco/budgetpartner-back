@@ -2,16 +2,20 @@ package com.budgetpartner.APP.mapper;
 
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoPostRequest;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoUpdateRequest;
-import com.budgetpartner.APP.entity.Usuario;
 import com.budgetpartner.APP.dto.usuario.UsuarioDtoResponse;
+import com.budgetpartner.APP.entity.Usuario;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class UsuarioMapper {
 
-    // Convierte Usuario en UsuarioDtoResponse
+    /**
+     * Convierte una entidad Usuario en un DTO de respuesta.
+     */
     public static UsuarioDtoResponse toDtoResponse(Usuario usuario) {
+        if (usuario == null) return null;
 
         return new UsuarioDtoResponse(
                 usuario.getId(),
@@ -22,36 +26,23 @@ public class UsuarioMapper {
         );
     }
 
-    // Convierte UsuarioDtoRequest en Usuario
+    /**
+     * Convierte un DTO de creación en una entidad Usuario.
+     */
     public static Usuario toEntity(UsuarioDtoPostRequest dto) {
         if (dto == null) return null;
 
         return new Usuario(
-            dto.getEmail(),
-            dto.getNombre(),
-            dto.getApellido(),
-            dto.getContraseña()
-        );
-    }
-
-    //Obtener Entity desde GastoDtoUpdateRequest
-    //No se hacen llamadas al servicio desde aquí
-    /*
-    public static Usuario toEntity(UsuarioDtoUpdateRequest dto) {
-        if (dto == null) return null;
-
-        return new Usuario(
-                dto.getId(),
                 dto.getEmail(),
                 dto.getNombre(),
                 dto.getApellido(),
-                dto.getContraseña(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                dto.getContraseña()
         );
-    }*/
+    }
 
-    //Actualiza entidad existente con los valores del DTO
+    /**
+     * Actualiza una entidad Usuario existente con los valores del DTO de actualización.
+     */
     public static void updateEntityFromDtoRes(UsuarioDtoUpdateRequest dto, Usuario usuario) {
         if (dto == null || usuario == null) return;
 
@@ -59,16 +50,17 @@ public class UsuarioMapper {
         if (dto.getNombre() != null) usuario.setNombre(dto.getNombre());
         if (dto.getApellido() != null) usuario.setApellido(dto.getApellido());
     }
+
+    /**
+     * Convierte una lista de entidades Usuario en una lista de DTOs de respuesta.
+     */
     public static List<UsuarioDtoResponse> toDtoResponseListUsuario(List<Usuario> usuarios) {
-        List<UsuarioDtoResponse> listaUsuariosDtoResp = new ArrayList<>();
-        if (usuarios == null || usuarios.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            for (Usuario usuario : usuarios) {
-                UsuarioDtoResponse usuarioDtoResp = UsuarioMapper.toDtoResponse(usuario);
-                listaUsuariosDtoResp.add(usuarioDtoResp);
-            }
-            return listaUsuariosDtoResp;
+        if (usuarios == null || usuarios.isEmpty()) return Collections.emptyList();
+
+        List<UsuarioDtoResponse> lista = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            lista.add(toDtoResponse(usuario));
         }
+        return lista;
     }
 }

@@ -29,7 +29,7 @@ class OrganizacionServiceTest {
     private OrganizacionService organizacionService;
 
     @Mock
-    private UsuarioService usuarioService;
+    private AutorizacionService autorizacionService;
     @Mock
     private OrganizacionRepository organizacionRepository;
     @Mock
@@ -40,10 +40,6 @@ class OrganizacionServiceTest {
     private GastoRepository gastoRepository;
     @Mock
     private RolRepository rolRepository;
-    @Mock
-    private RepartoGastoRepository repartoGastoRepository;
-    @Mock
-    private TareaRepository tareaRepository;
 
     @BeforeEach
     void setUp() {
@@ -62,9 +58,9 @@ class OrganizacionServiceTest {
         Usuario usuario = new Usuario(3L, "carlos.martinez@mail.com", "Carlos", "Martínez", "contraseña789", date, date);
         Organizacion organizacion = new Organizacion(4L, nombreOrganizacion, descOrganizacion, MonedasDisponibles.EUR, date, date);
         Rol rol = new Rol(1L, NombreRol.ROLE_ADMIN, date, date );
-        Miembro miembro = new Miembro(8L, usuario,  organizacion, rol, nickCreador, date, true, date, date );
+        Miembro miembro = new Miembro(8L, usuario,  organizacion, rol, nickCreador, date, true, true, date, date );
 
-        when(usuarioService.devolverUsuarioAutenticado()).thenReturn(usuario);
+        when(autorizacionService.devolverUsuarioAutenticado()).thenReturn(usuario);
         when(organizacionRepository.save(any(Organizacion.class))).thenReturn(organizacion);
         when(rolRepository.obtenerRolPorNombre(any())).thenReturn(Optional.of(rol));
         when(miembroRepository.save(any(Miembro.class))).thenReturn(miembro);
@@ -95,7 +91,7 @@ class OrganizacionServiceTest {
             assertEquals(nickCreador, result.getMiembros().get(0).getNick());
 
             //Verificación de interacción con mocks
-            verify(usuarioService).devolverUsuarioAutenticado();
+            verify(autorizacionService).devolverUsuarioAutenticado();
             verify(organizacionRepository).save(any(Organizacion.class));
             verify(rolRepository).obtenerRolPorNombre(NombreRol.ROLE_ADMIN); // o el rol que esperes
             verify(miembroRepository).save(any(Miembro.class));
@@ -200,7 +196,7 @@ void testPatchOrganizacion() {
         List<OrganizacionDtoResponse> listaDto = new ArrayList<>(List.of(dto1, dto2));
 
         // Mocks
-        when(usuarioService.devolverUsuarioAutenticado()).thenReturn(usuario);
+        when(autorizacionService.devolverUsuarioAutenticado()).thenReturn(usuario);
         when(organizacionRepository.obtenerOrganizacionesPorUsuarioId(usuario.getId())).thenReturn(organizaciones);
         when(miembroRepository.contarMiembrosPorOrganizacionId(4L)).thenReturn(3);
         when(miembroRepository.contarMiembrosPorOrganizacionId(5L)).thenReturn(5);
@@ -224,7 +220,7 @@ void testPatchOrganizacion() {
             assertEquals(5, result.get(1).getNumeroMiembros());
 
             // Verificación de interacciones
-            verify(usuarioService).devolverUsuarioAutenticado();
+            verify(autorizacionService).devolverUsuarioAutenticado();
             verify(organizacionRepository).obtenerOrganizacionesPorUsuarioId(usuario.getId());
             verify(miembroRepository).contarMiembrosPorOrganizacionId(4L);
             verify(miembroRepository).contarMiembrosPorOrganizacionId(5L);

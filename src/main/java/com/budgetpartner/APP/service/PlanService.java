@@ -13,53 +13,69 @@ import com.budgetpartner.APP.mapper.*;
 import com.budgetpartner.APP.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 
+
+/**
+ * Servicio encargado de la gestión de planes.
+ * Permite crear, consultar, actualizar, eliminar planes y ajustar deudas de los miembros.
+ */
 @Service
 public class PlanService {
 
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private OrganizacionRepository organizacionRepository;
-    @Autowired
-    private MiembroRepository miembroRepository;
-    @Autowired
-    private GastoRepository gastoRepository;
-    @Autowired
-    private TareaRepository tareaRepository;
-    @Autowired
-    private EstimacionRepository estimacionRepository;
-    @Autowired
-    private RepartoGastoRepository repartoGastoRepository;
+    private final PlanRepository planRepository;
+    private final OrganizacionRepository organizacionRepository;
+    private final MiembroRepository miembroRepository;
+    private final GastoRepository gastoRepository;
+    private final TareaRepository tareaRepository;
+    private final EstimacionRepository estimacionRepository;
+    private final RepartoGastoRepository repartoGastoRepository;
 
-    //ESTRUCTURA GENERAL DE LA LÓGICA DE LOS CONTROLADORES
-    //Pasar de DtoRequest a Entity-> Insertar en DB->Pasar de Entity a DtoRequest->Return
+    @Autowired
+    public PlanService(PlanRepository planRepository,
+                       OrganizacionRepository organizacionRepository,
+                       MiembroRepository miembroRepository,
+                       GastoRepository gastoRepository,
+                       TareaRepository tareaRepository,
+                       EstimacionRepository estimacionRepository,
+                       RepartoGastoRepository repartoGastoRepository) {
+        this.planRepository = planRepository;
+        this.organizacionRepository = organizacionRepository;
+        this.miembroRepository = miembroRepository;
+        this.gastoRepository = gastoRepository;
+        this.tareaRepository = tareaRepository;
+        this.estimacionRepository = estimacionRepository;
+        this.repartoGastoRepository = repartoGastoRepository;
+    }
 
-    //ENDPOINTS
-
-    //Llamada para Endpoint
-    //Crea una Entidad usando el DTO recibido por el usuario
+    /**
+     * Crea un nuevo plan en la organización indicada.
+     *
+     * @param planDtoReq DTO con los datos del plan a crear
+     * @return DTO del plan creado
+     * @throws NotFoundException si la organización no existe
+     */
     public PlanDtoResponse postPlan(PlanDtoPostRequest planDtoReq) {
 
         Organizacion organizacion= organizacionRepository.findById(planDtoReq.getOrganizacionId())
                 .orElseThrow(() -> new NotFoundException("Organización no encontrada con id: " + planDtoReq.getOrganizacionId()));
 
         //TODO VALIDAR CAMPOS REPETIDOS (nombre, fechas, organización, etc.)
+        //Crear entidad Plan
         Plan plan = PlanMapper.toEntity(planDtoReq, organizacion);
-
-        //Enviar elemento insertado en la db porque tiene el id
         plan = planRepository.save(plan);
+
         return PlanMapper.toDtoResponse(plan);
     }
 
-    //Llamada para Endpoint
-    //Obtiene una Entidad usando el id recibido por el usuario
-        /*DEVUELVE AL USUARIO:
-
-    */
+    /**
+     * Obtiene un plan por su ID y transforma toda la información relacionada en DTOs.
+     *
+     * @param id ID del plan
+     * @return DTO del plan con miembros, gastos, tareas y estimaciones
+     * @throws NotFoundException si el plan no existe
+     */
     public PlanDtoResponse getPlanByIdAndTrasnform(Long id) {
 
         //Obtener plan
@@ -69,25 +85,22 @@ public class PlanService {
         //Transformar plan en dto
         PlanDtoResponse planDto = PlanMapper.toDtoResponse(plan);
 
-        //La organizacion ya la tiene el Plan
-
-
-        //Enviar los miembros de la organizacion como dto en planDto
+        // Agregar miembros de la organización
         List< Miembro > miembros = miembroRepository.obtenerMiembrosPorOrganizacionId(planDto.getOrganizacionDtoResponse().getId());
         List<MiembroDtoResponse> ListMiembroDto = MiembroMapper.toDtoResponseListMiembro(miembros);
         planDto.getOrganizacionDtoResponse().setMiembros(ListMiembroDto);
 
-        //Enviar los gastos como dto en planDto
+        // Agregar gastos
         List<Gasto> gastos = gastoRepository.obtenerGastosPorPlanId(planDto.getId());
         List<GastoDtoResponse> ListGastoDto = GastoMapper.toDtoResponseListGasto(gastos);
         planDto.setGastos(ListGastoDto);
 
-        //Enviar las tareas como dto en planDto
+        // Agregar tareas
         List<Tarea> tareas = tareaRepository.obtenerTareasPorPlanId(planDto.getId());
         List<TareaDtoResponse> ListTareaDto = TareaMapper.toDtoResponseListTarea(tareas);
         planDto.setTareas(ListTareaDto);
 
-        //Enviar las estimaciones como dto en planDto
+        // Agregar estimaciones
         List<Estimacion> estimaciones = estimacionRepository.obtenerEstimacionesPorPlanId(planDto.getId());
         List<EstimacionDtoResponse> ListEstimacionDto = EstimacionMapper.toDtoResponseListEstimacion(estimaciones);
         planDto.setEstimaciones(ListEstimacionDto);
@@ -95,23 +108,30 @@ public class PlanService {
         return planDto;
     }
 
-    //Llamada para Endpoint
-    //Elimina una Entidad usando el id recibido por el usuario
+    /**
+     * Elimina un plan por su ID.
+     *
+     * @param id ID del plan
+     * @return entidad Plan eliminada
+     * @throws NotFoundException si el plan no existe
+     */
     public Plan deletePlanById(Long id) {
-        //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
-        //Borra el plan en cascada
         planRepository.delete(plan);
-
         return plan;
     }
 
-    //Llamada para Endpoint
-    //Actualiza una Entidad usando el id recibido por el usuario
+    /**
+     * Actualiza un plan existente con los datos recibidos.
+     *
+     * @param dto DTO con los datos a actualizar
+     * @param id  ID del plan
+     * @return entidad Plan actualizada
+     * @throws NotFoundException si el plan no existe
+     */
     public Plan patchPlan(PlanDtoUpdateRequest dto, Long id) {
-        //Obtener plan usando el id pasado en la llamada
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Plan no encontrado con id: " + id));
 
@@ -120,36 +140,36 @@ public class PlanService {
         return plan;
     }
 
+    /**
+     * Obtiene los miembros de la organización del plan con su deuda acumulada en el plan.
+     *
+     * @param planId ID del plan
+     * @return lista de DTOs de miembros con la deuda en el plan
+     * @throws NotFoundException si el plan no existe
+     */
     public List<MiembroDtoResponse> getAjusteDeudasByOrganizacionId(Long planId){
-
-        //Obtener la organizacion a la que pertenece el plan
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new NotFoundException("ERROR: Plan no encontrado con id: " + planId));
 
+        //Obtener lso miembros del plan (tienen el mismo idOrg que el plan)
         List<Miembro> miembrosOrganizacion = miembroRepository.obtenerMiembrosPorOrganizacionId(plan.getOrganizacion().getId());
-
         List<MiembroDtoResponse> miembroDtoList = new java.util.ArrayList<>(List.of());
 
-        for (Miembro miembro: miembrosOrganizacion){
-            //Generar el dto de miembro
+        for (Miembro miembro : miembrosOrganizacion) {
             MiembroDtoResponse miembroDto = MiembroMapper.toDtoResponse(miembro);
 
-            //Obtener la cantidad que debe el miembro en este plan
-            double cantidad = 0f;
-             BigDecimal cantidadBD = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembro.getId(), planId);
-             try{
-                cantidad = cantidadBD.floatValue();}
-             catch(Exception ignored){}
+            // Calcular deuda en el plan
+            double cantidad = 0.0;
+            BigDecimal cantidadBD = repartoGastoRepository.sumarGastosPorMiembroYTPlanId(miembro.getId(), planId);
+            if (cantidadBD != null) {
+                cantidad = cantidadBD.doubleValue();
+            }
 
-            //Añadirla al dto y guardar el dto
             miembroDto.setDeudaEnPlan(cantidad);
             miembroDtoList.add(miembroDto);
-
         }
+
         return miembroDtoList;
     }
-
-
-    //OTROS MÉTODOS
 
 }

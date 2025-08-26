@@ -11,7 +11,9 @@ import java.util.List;
 
 public class PlanMapper {
 
-    // Convierte Plan en PlanDtoResponse
+    /**
+     * Convierte una entidad Plan en su DTO de respuesta.
+     */
     public static PlanDtoResponse toDtoResponse(Plan plan) {
         if (plan == null) return null;
 
@@ -28,8 +30,9 @@ public class PlanMapper {
         );
     }
 
-    //Obtener Entity desde GastoDtoPostRequest
-    //No se hacen llamadas al servicio desde aquí
+    /**
+     * Convierte un DTO de creación a una entidad Plan.
+     */
     public static Plan toEntity(PlanDtoPostRequest dto, Organizacion organizacion) {
         if (dto == null) return null;
 
@@ -42,16 +45,15 @@ public class PlanMapper {
                 dto.getModoPlan(),
                 dto.getLatitud(),
                 dto.getLongitud()
-
         );
     }
 
-    // Actualiza entidad existente con los valores del DTO
+    /**
+     * Actualiza una entidad Plan existente con los valores del DTO de actualización.
+     */
     public static void updateEntityFromDtoRes(PlanDtoUpdateRequest dto, Plan plan) {
         if (dto == null || plan == null) return;
 
-        //NO SE PERMITE MODIFICAR DESDE EL DTO:
-        //Organizacion
         if (dto.getNombre() != null) plan.setNombre(dto.getNombre());
         if (dto.getDescripcion() != null) plan.setDescripcion(dto.getDescripcion());
         if (dto.getFechaInicio() != null) plan.setFechaInicio(dto.getFechaInicio());
@@ -59,21 +61,17 @@ public class PlanMapper {
         if (dto.getLatitud() != null) plan.setLatitud(dto.getLatitud());
         if (dto.getLongitud() != null) plan.setLongitud(dto.getLongitud());
     }
+
+    /**
+     * Convierte una lista de entidades Plan a una lista de DTOs de respuesta.
+     */
     public static List<PlanDtoResponse> toDtoResponseListPlan(List<Plan> planes) {
-        List<PlanDtoResponse> listaPlanesDtoResp = new ArrayList<>();
-        if (planes == null || planes.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            for (Plan plan : planes) {
-                PlanDtoResponse planDtoResp = PlanMapper.toDtoResponse(plan);
-                listaPlanesDtoResp.add(planDtoResp);
-            }
-            return listaPlanesDtoResp;
+        if (planes == null || planes.isEmpty()) return Collections.emptyList();
+
+        List<PlanDtoResponse> lista = new ArrayList<>();
+        for (Plan plan : planes) {
+            lista.add(toDtoResponse(plan));
         }
+        return lista;
     }
-
-
-
-
-
 }
