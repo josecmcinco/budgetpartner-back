@@ -81,7 +81,6 @@ public class TareaService {
      * Elimina una tarea y sus asignaciones a miembros.
      *
      * @param id ID de la tarea
-     * @return entidad Tarea eliminada
      * @throws NotFoundException si la tarea no existe
      */
     @Transactional //Interacción con un many to many
