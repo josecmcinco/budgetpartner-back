@@ -102,7 +102,7 @@ public class Gasto {
     }
 
     public double getCantidad() {
-        return cantidad.floatValue();
+        return cantidad.doubleValue();
     }
 
     public String getNombre() {

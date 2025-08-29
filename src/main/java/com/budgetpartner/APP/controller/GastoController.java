@@ -38,7 +38,7 @@ public class GastoController {
 
     @Operation(
             summary = "Devolver un gasto",
-            description = "Devuelve un gasto existente dado un id. Además se devuelve PENDIENTE", //TDOD
+            description = "Devuelve un gasto existente dado un id. Además se devuelve PENDIENTE", //TODO
             responses = {
                     @ApiResponse(
                             responseCode = "200",

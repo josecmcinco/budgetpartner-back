@@ -33,6 +33,10 @@ public class Organizacion {
     @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Invitacion> invitaciones = new ArrayList<>();
 
+    @OneToMany(mappedBy = "organizacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AjusteFinanciero> ajustesFinancieros = new ArrayList<>();
+
+
     @Column
     private LocalDateTime creadoEn;
 
@@ -42,7 +46,7 @@ public class Organizacion {
     //Constructor para Hibernate
     public Organizacion(){}
 
-    //Creacióon de Organizacion desde 0
+    //Creación de Organizacion desde 0
     public Organizacion(String nombre, String descripcion, MonedasDisponibles moneda) {
         this.nombre = nombre;
         this.descripcion = descripcion;

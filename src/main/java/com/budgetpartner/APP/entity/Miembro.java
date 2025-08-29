@@ -49,6 +49,12 @@ public class Miembro {
     @OneToMany(mappedBy = "miembro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RepartoTarea> miembroTareas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "pagador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AjusteFinanciero> pagador = new ArrayList<>();
+
+    @OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AjusteFinanciero> beneficiario = new ArrayList<>();
+
 
     //Constructor vacío para Hibernate
     public Miembro(){}
