@@ -5,19 +5,18 @@ import com.budgetpartner.APP.enums.TipoEstimacion;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class EstimacionDtoPostRequest {
-    /*
-    SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
-    id-creadoEn-actualizadoEn
-    SE MODIFICA EL TIPO DE LAS SIGUIENTES VARIABLES:
-    plan, tarea, creador, pagador y gasto ahora llevan un Long en vez del Entity
-     */
+/*
+SE PRESCINDE DE LAS SIGUIENTES VARIABLES PARA EL DTO:
+id-creadoEn-actualizadoEn
+SE MODIFICA EL TIPO DE LAS SIGUIENTES VARIABLES:
+plan, tarea, creador, pagador y gasto ahora llevan un Long en vez del Entity
+ */
 
+public class EstimacionDtoPostRequest {
 
     @NotNull(message = "El ID del plan no puede ser nulo")
     private Long planId;
 
-    @NotNull(message = "El ID de la tarea no puede ser nulo")
     private Long tareaId;
 
     @NotNull(message = "El ID del creador no puede ser nulo")

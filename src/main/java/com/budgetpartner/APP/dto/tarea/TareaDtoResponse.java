@@ -20,18 +20,14 @@ public class TareaDtoResponse {
     private String descripcion;
     private LocalDateTime fechaFin;
     private EstadoTarea estado;
-    private Double costeEstimado;
-    private MonedasDisponibles moneda;
 
-    public TareaDtoResponse(Long id, PlanDtoResponse plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda) {
+    public TareaDtoResponse(Long id, PlanDtoResponse plan, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado) {
         this.id = id;
         this.plan = plan;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.costeEstimado = costeEstimado;
-        this.moneda = moneda;
     }
 
     public Long getId() {
@@ -78,19 +74,4 @@ public class TareaDtoResponse {
         this.estado = estado;
     }
 
-    public Double getCosteEstimado() {
-        return costeEstimado;
-    }
-
-    public void setCosteEstimado(Double costeEstimado) {
-        this.costeEstimado = costeEstimado;
-    }
-
-    public MonedasDisponibles getMoneda() {
-        return moneda;
-    }
-
-    public void setMoneda(MonedasDisponibles moneda) {
-        this.moneda = moneda;
-    }
 }

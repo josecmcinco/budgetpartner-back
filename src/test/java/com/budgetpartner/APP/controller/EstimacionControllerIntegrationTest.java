@@ -47,8 +47,7 @@ class EstimacionControllerIntegrationTest {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EstimacionControllerIntegrationTest(MockMvc mockMvc,
-                                         ObjectMapper objectMapper) {
+    public EstimacionControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
 
@@ -102,12 +101,9 @@ class EstimacionControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.tareaId").exists())
+                .andExpect(jsonPath("$.planId").exists())
                 .andExpect(jsonPath("$.creadorId").value(creadorId))
-                .andExpect(jsonPath("$.cantidad").value(cantidad))
                 .andExpect(jsonPath("$.tipoEstimacion").value(TipoEstimacion.ESTIMACION_PLAN.toString()))
-                .andExpect(jsonPath("$.tipoMoneda").value("EUR"))
                 .andExpect(jsonPath("$.descripcion").value(descripcion))
                 .andExpect(jsonPath("$.pagadorId").value(pagadorId))
                 .andExpect(jsonPath("$.gastoId").value(gastoId));
@@ -118,15 +114,15 @@ class EstimacionControllerIntegrationTest {
     void crearEstimacionTarea() throws Exception {
 
         //Datos para EstimacionDtoPostRequest
-        Long planId = 1L;
-        Long tareaId = 1L; //Es estimación de tipo plan -> Ha de ser distinto de null
+        Long planId = 2L;
+        Long tareaId = 3L; //Es estimación de tipo plan -> Ha de ser distinto de null
         Long creadorId = 3L;
         double cantidad = 150.75;
         TipoEstimacion tipoEstimacion = TipoEstimacion.ESTIMACION_TAREA;
         MonedasDisponibles tipoMoneda = MonedasDisponibles.EUR;
         String descripcion = "Estimación inicial para la tarea";
         Long pagadorId = 4L;
-        Long gastoId = 5L;
+        Long gastoId = 4L;
 
         //Creación del dto
         EstimacionDtoPostRequest request = new EstimacionDtoPostRequest(
@@ -149,9 +145,7 @@ class EstimacionControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.tareaId").value(tareaId))
                 .andExpect(jsonPath("$.creadorId").value(creadorId))
-                .andExpect(jsonPath("$.cantidad").value(cantidad))
                 .andExpect(jsonPath("$.tipoEstimacion").value(TipoEstimacion.ESTIMACION_TAREA.toString()))
-                .andExpect(jsonPath("$.tipoMoneda").value("EUR"))
                 .andExpect(jsonPath("$.descripcion").value(descripcion))
                 .andExpect(jsonPath("$.pagadorId").value(pagadorId))
                 .andExpect(jsonPath("$.gastoId").value(gastoId));

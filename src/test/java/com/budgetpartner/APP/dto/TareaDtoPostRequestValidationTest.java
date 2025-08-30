@@ -32,8 +32,7 @@ public class TareaDtoPostRequestValidationTest {
         String descripcion = "Desarrollar el módulo de autenticación";
         LocalDateTime fechaFin = LocalDateTime.now().plusDays(10);
         EstadoTarea estado = EstadoTarea.PENDIENTE;
-        Double costeEstimado = 250.0;
-        MonedasDisponibles moneda = MonedasDisponibles.EUR;
+
         // Lista no vacía y sin nulos
         var listaAtareados = Arrays.asList(1L, 2L, 3L);
 
@@ -43,8 +42,6 @@ public class TareaDtoPostRequestValidationTest {
                 descripcion,
                 fechaFin,
                 estado,
-                costeEstimado,
-                moneda,
                 listaAtareados
         );
 
@@ -60,17 +57,15 @@ public class TareaDtoPostRequestValidationTest {
                 null,       // descripcion sin validación
                 null,       // fechaFin nulo
                 null,       // estado sin validación
-                null,       // costeEstimado nulo
-                null,       // moneda nulo
                 Collections.emptyList() // listaAtareados vacía
         );
 
         Set<ConstraintViolation<TareaDtoPostRequest>> violations = validator.validate(dto);
 
         // Validaciones que fallan:
-        // planId, titulo, fechaFin, costeEstimado, moneda, listaAtareados (vacía)
-        // Total 6 errores esperados
-        assertEquals(6, violations.size());
+        // planId, titulo, fechaFin, listaAtareados (vacía)
+        // Total 4 errores esperados
+        assertEquals(4, violations.size());
     }
 
     @Test
@@ -78,8 +73,6 @@ public class TareaDtoPostRequestValidationTest {
         Long planId = 1L;
         String titulo = "Tarea con lista inválida";
         LocalDateTime fechaFin = LocalDateTime.now().plusDays(5);
-        Double costeEstimado = 100.0;
-        MonedasDisponibles moneda = MonedasDisponibles.EUR;
         var listaAtareados = Arrays.asList(1L, null, 3L);
 
         TareaDtoPostRequest dto = new TareaDtoPostRequest(
@@ -88,8 +81,6 @@ public class TareaDtoPostRequestValidationTest {
                 null,
                 fechaFin,
                 null,
-                costeEstimado,
-                moneda,
                 listaAtareados
         );
 

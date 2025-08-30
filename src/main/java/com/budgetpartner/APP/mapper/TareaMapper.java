@@ -24,9 +24,7 @@ public class TareaMapper {
                 tarea.getTitulo(),
                 tarea.getDescripcion(),
                 tarea.getFechaFin(),
-                tarea.getEstado(),
-                tarea.getCosteEstimado(),
-                tarea.getMoneda()
+                tarea.getEstado()
         );
     }
 
@@ -40,9 +38,7 @@ public class TareaMapper {
                 plan,
                 dto.getTitulo(),
                 dto.getDescripcion(),
-                dto.getFechaFin(),
-                dto.getCosteEstimado(),
-                dto.getMoneda()
+                dto.getFechaFin()
         );
     }
 
@@ -56,8 +52,6 @@ public class TareaMapper {
         if (dto.getDescripcion() != null) tarea.setDescripcion(dto.getDescripcion());
         if (dto.getFechaFin() != null) tarea.setFechaFin(dto.getFechaFin());
         if (dto.getEstado() != null) tarea.setEstado(dto.getEstado());
-        if (dto.getCosteEstimado() != 0) tarea.setCosteEstimado(dto.getCosteEstimado());
-        if (dto.getMoneda() != null) tarea.setMoneda(dto.getMoneda());
     }
 
     /**

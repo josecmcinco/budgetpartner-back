@@ -79,11 +79,9 @@ class TareaControllerIntegrationTest {
         String descripcion = "Descripción tarea prueba";
         LocalDateTime fechaFin = LocalDateTime.now().plusDays(5);
         EstadoTarea estado = EstadoTarea.PENDIENTE; // Ajustar según enum o validación
-        double costeEstimado = 100.00;
-        MonedasDisponibles moneda = MonedasDisponibles.EUR;
         List<Long> listaAtareados = Arrays.asList(1L, 2L);
 
-        TareaDtoPostRequest request = new TareaDtoPostRequest(planId, titulo, descripcion, fechaFin, estado, costeEstimado, moneda, listaAtareados);
+        TareaDtoPostRequest request = new TareaDtoPostRequest(planId, titulo, descripcion, fechaFin, estado, listaAtareados);
 
         mockMvc.perform(post("/tareas")
                         .header("Authorization", "Bearer " + token)
@@ -93,9 +91,7 @@ class TareaControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.titulo").value("Tarea de prueba"))
                 .andExpect(jsonPath("$.descripcion").value("Descripción tarea prueba"))
-                .andExpect(jsonPath("$.estado").value("PENDIENTE"))
-                .andExpect(jsonPath("$.costeEstimado").value(100.00))
-                .andExpect(jsonPath("$.moneda").value(MonedasDisponibles.EUR.toString()));
+                .andExpect(jsonPath("$.estado").value("PENDIENTE"));
     }
 
     @Test
@@ -106,8 +102,7 @@ class TareaControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.titulo").value("Comprar comida semanal"))
-                .andExpect(jsonPath("$.descripcion").value("Ir al supermercado y comprar alimentos para la semana."))
-                .andExpect(jsonPath("$.moneda").value(MonedasDisponibles.EUR.toString()));
+                .andExpect(jsonPath("$.descripcion").value("Ir al supermercado y comprar alimentos para la semana."));
     }
 
     @Test
@@ -118,11 +113,9 @@ class TareaControllerIntegrationTest {
         String descripcion = "Descripción actualizada";
         LocalDateTime fecha = LocalDateTime.now().plusDays(5);
         EstadoTarea estado = EstadoTarea.PENDIENTE;
-        double costeEstimado = 120.00;
-        MonedasDisponibles moneda = MonedasDisponibles.EUR;
         List<Long> listaAtareados = Arrays.asList(2L, 3L);
 
-        TareaDtoUpdateRequest request = new TareaDtoUpdateRequest(titulo, descripcion, fecha, estado, costeEstimado, moneda, listaAtareados);
+        TareaDtoUpdateRequest request = new TareaDtoUpdateRequest(titulo, descripcion, fecha, estado, listaAtareados);
 
         mockMvc.perform(patch("/tareas/1")
                         .header("Authorization", "Bearer " + token)
