@@ -59,8 +59,6 @@ class TareaMapperTest {
                 "Descripcion tarea",
                 LocalDateTime.now().plusDays(2),
                 EstadoTarea.PENDIENTE,
-                100.0,
-                MonedasDisponibles.EUR,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 miembros
@@ -73,8 +71,6 @@ class TareaMapperTest {
         assertEquals(tarea.getTitulo(), dto.getTitulo());
         assertEquals(tarea.getDescripcion(), dto.getDescripcion());
         assertEquals(tarea.getEstado(), dto.getEstado());
-        assertEquals(tarea.getCosteEstimado(), dto.getCosteEstimado());
-        assertEquals(tarea.getMoneda(), dto.getMoneda());
         assertTrue(dto.getPlan() != null);
     }
 
@@ -87,7 +83,7 @@ class TareaMapperTest {
     void testToEntity_WithValidDto() {
         Plan plan = crearPlanDummy();
         LocalDateTime fechaFin = LocalDateTime.now().plusDays(3);
-        TareaDtoPostRequest dto = new TareaDtoPostRequest(1L, "Nueva tarea", "Descripcion", fechaFin, EstadoTarea.PENDIENTE, 50.0, MonedasDisponibles.USD, null);
+        TareaDtoPostRequest dto = new TareaDtoPostRequest(1L, "Nueva tarea", "Descripcion", fechaFin, EstadoTarea.PENDIENTE , null);
 
         Tarea tarea = TareaMapper.toEntity(dto, plan);
 
@@ -95,8 +91,6 @@ class TareaMapperTest {
         assertEquals("Nueva tarea", tarea.getTitulo());
         assertEquals("Descripcion", tarea.getDescripcion());
         assertEquals(fechaFin, tarea.getFechaFin());
-        assertEquals(50.0, tarea.getCosteEstimado());
-        assertEquals(MonedasDisponibles.USD, tarea.getMoneda());
         assertEquals(plan, tarea.getPlan());
     }
 
@@ -110,14 +104,12 @@ class TareaMapperTest {
         Plan plan = crearPlanDummy();
         Tarea tarea = new Tarea(
                 plan, "Viejo titulo", "Vieja desc",
-                LocalDateTime.now().plusDays(1), 20.0, MonedasDisponibles.EUR
-        );
+                LocalDateTime.now().plusDays(1));
 
         TareaDtoUpdateRequest dto = new TareaDtoUpdateRequest(
                 "Nuevo titulo", "Nueva desc",
                 LocalDateTime.now().plusDays(10),
-                EstadoTarea.COMPLETADA, 150.0, MonedasDisponibles.USD, null
-        );
+                EstadoTarea.COMPLETADA, null);
 
         TareaMapper.updateEntityFromDtoRes(dto, tarea);
 
@@ -125,23 +117,19 @@ class TareaMapperTest {
         assertEquals("Nueva desc", tarea.getDescripcion());
         assertEquals(dto.getFechaFin(), tarea.getFechaFin());
         assertEquals(EstadoTarea.COMPLETADA, tarea.getEstado());
-        assertEquals(150.0, tarea.getCosteEstimado());
-        assertEquals(MonedasDisponibles.USD, tarea.getMoneda());
     }
 
     @Test
     void testUpdateEntityFromDtoRes_PartialUpdate() {
         Plan plan = crearPlanDummy();
-        Tarea tarea = new Tarea(plan, "Titulo", "Desc", LocalDateTime.now(), 30.0, MonedasDisponibles.EUR);
+        Tarea tarea = new Tarea(plan, "Titulo", "Desc", LocalDateTime.now());
 
-        TareaDtoUpdateRequest dto = new TareaDtoUpdateRequest(null, "Desc nueva", null, null, 0.0, null, null);
+        TareaDtoUpdateRequest dto = new TareaDtoUpdateRequest(null, "Desc nueva", null, null, null);
 
         TareaMapper.updateEntityFromDtoRes(dto, tarea);
 
         assertEquals("Titulo", tarea.getTitulo()); // no cambia
         assertEquals("Desc nueva", tarea.getDescripcion()); // cambia
-        assertEquals(30.0, tarea.getCosteEstimado()); // no cambia porque dto.getCosteEstimado() == 0
-        assertEquals(MonedasDisponibles.EUR, tarea.getMoneda()); // no cambia
     }
 
     @Test
@@ -153,8 +141,8 @@ class TareaMapperTest {
     @Test
     void testToDtoResponseListTarea_WithElements() {
         Plan plan = crearPlanDummy();
-        Tarea t1 = new Tarea(plan, "Tarea1", "Desc1", LocalDateTime.now(), 10.0, MonedasDisponibles.EUR);
-        Tarea t2 = new Tarea(plan, "Tarea2", "Desc2", LocalDateTime.now(), 20.0, MonedasDisponibles.EUR);
+        Tarea t1 = new Tarea(plan, "Tarea1", "Desc1", LocalDateTime.now());
+        Tarea t2 = new Tarea(plan, "Tarea2", "Desc2", LocalDateTime.now());
 
         List<TareaDtoResponse> result = TareaMapper.toDtoResponseListTarea(Arrays.asList(t1, t2));
 

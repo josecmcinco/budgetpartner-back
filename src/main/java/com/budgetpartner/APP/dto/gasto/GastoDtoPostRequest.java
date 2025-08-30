@@ -19,6 +19,7 @@ public class GastoDtoPostRequest {
     @NotNull(message = "El ID del plan no puede ser nulo")
     private Long planId;
 
+    @NotNull(message = "El ID de la tarea no puede ser nulo")
     private Long tareaId;
 
     @NotNull(message = "La cantidad no puede ser nula")

@@ -21,7 +21,7 @@ class EstimacionMapperTest {
 
     private Tarea crearTareaDummy(Plan plan) {
         return new Tarea(1L, plan, "Tarea Test", "Desc Tarea",
-                LocalDateTime.now().plusDays(1), null, 0.0, MonedasDisponibles.EUR,
+                LocalDateTime.now().plusDays(1), null,
                 LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
     }
 

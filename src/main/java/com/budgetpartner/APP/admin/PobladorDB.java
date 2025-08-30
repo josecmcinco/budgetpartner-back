@@ -158,7 +158,8 @@ public class PobladorDB {
         //Estimacion1 estima a gasto1
         //Estimacion3 estima a gasto11
         Gasto gasto1 = gastos.get(0);
-        Gasto gasto11 = gastos.get(10);
+        Gasto gasto2 = gastos.get(2);
+        Gasto gasto3 = gastos.get(10);
 
         //Estimacion1 tiene tarea = 2
         //Estimacion1 tiene tarea = 4
@@ -184,9 +185,9 @@ public class PobladorDB {
 
                 new Estimacion(plan2, tarea2, miembro1, 24.52, TipoEstimacion.ESTIMACION_TAREA, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", miembro2, gasto1),
 
-                new Estimacion(plan2, tarea4, miembro3, 56.80, TipoEstimacion.ESTIMACION_TAREA, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", null, gasto1),
+                new Estimacion(plan2, tarea4, miembro3, 56.80, TipoEstimacion.ESTIMACION_TAREA, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", null, gasto2),
 
-                new Estimacion(plan3, null, miembro7, 219.99, TipoEstimacion.ESTIMACION_PLAN, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", miembro2, gasto1)
+                new Estimacion(plan3, null, miembro7, 219.99, TipoEstimacion.ESTIMACION_PLAN, MonedasDisponibles.EUR, "Estimacion de tipo Tarea con pagador", miembro2, gasto3)
         );
 
         estimaciones = estimacionRepository.saveAll(estimaciones);
@@ -414,9 +415,7 @@ public class PobladorDB {
                     plan2,
                     "Comprar comida semanal",
                     "Ir al supermercado y comprar alimentos para la semana.",
-                    LocalDateTime.of(2025, 5, 18, 18, 0),
-                    120.0,
-                    MonedasDisponibles.EUR
+                    LocalDateTime.of(2025, 5, 18, 18, 0)
             ),
 
 
@@ -424,9 +423,7 @@ public class PobladorDB {
                  plan2,
                 "Pagar factura de electricidad",
                 "Realizar el pago mensual del servicio eléctrico antes de la fecha límite.",
-                LocalDateTime.of(2025, 5, 20, 17, 0),
-                75.0,
-                 MonedasDisponibles.EUR
+                LocalDateTime.of(2025, 5, 20, 17, 0)
         ),
 
 
@@ -434,17 +431,13 @@ public class PobladorDB {
                  plan2,
                 "Repostar gasolina del coche",
                 "Llenar el depósito del coche familiar para los desplazamientos semanales.",
-                LocalDateTime.of(2025, 5, 16, 16, 0),
-                60.0,
-                 MonedasDisponibles.EUR
+                LocalDateTime.of(2025, 5, 16, 16, 0)
         ),
         new Tarea(
                 plan3,
                 "Pagar suscripción de internet",
                 "Realizar el pago mensual del servicio de internet del hogar.",
-                LocalDateTime.of(2025, 5, 19, 12, 0),
-                50.0,
-                MonedasDisponibles.EUR
+                LocalDateTime.of(2025, 5, 19, 12, 0)
         )
         );
 

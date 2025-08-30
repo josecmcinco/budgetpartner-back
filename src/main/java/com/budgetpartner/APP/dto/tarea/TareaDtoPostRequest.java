@@ -28,24 +28,17 @@ public class TareaDtoPostRequest {
 
     private EstadoTarea estado;
 
-    @NotNull(message = "El coste estimado no puede ser nulo")
-    private Double costeEstimado;
-
-    @NotNull(message = "La moneda no puede ser nula")
-    private MonedasDisponibles moneda;
 
     @NotEmpty(message = "La lista de atareados no puede estar vacía")
     private List<@NotNull(message = "Cada ID en la lista de atareados debe ser válido") Long> listaAtareados;
 
 
-    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, Double costeEstimado, MonedasDisponibles moneda, List<Long> listaAtareados) {
+    public TareaDtoPostRequest(Long planId, String titulo, String descripcion, LocalDateTime fechaFin, EstadoTarea estado, List<Long> listaAtareados) {
         this.planId = planId;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.costeEstimado = costeEstimado;
-        this.moneda = moneda;
         this.listaAtareados = listaAtareados;
     }
 
@@ -84,22 +77,6 @@ public class TareaDtoPostRequest {
 
     public void setEstado(EstadoTarea estado) {
         this.estado = estado;
-    }
-
-    public Double getCosteEstimado() {
-        return costeEstimado;
-    }
-
-    public void setCosteEstimado(Double costeEstimado) {
-        this.costeEstimado = costeEstimado;
-    }
-
-    public MonedasDisponibles getMoneda() {
-        return moneda;
-    }
-
-    public void setMoneda(MonedasDisponibles moneda) {
-        this.moneda = moneda;
     }
 
     public List<Long> getListaAtareados() {

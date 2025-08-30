@@ -39,12 +39,6 @@ public class Tarea {
     private EstadoTarea estado;
 
     @Column
-    private double costeEstimado;
-
-    @Enumerated(EnumType.STRING)
-    private MonedasDisponibles moneda;
-
-    @Column
     private LocalDateTime creadoEn;
 
     @Column
@@ -57,13 +51,11 @@ public class Tarea {
     public Tarea(){}
 
     //Creación de Tarea desde 0
-    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin, double costeEstimado, MonedasDisponibles moneda) {
+    public Tarea(Plan plan, String titulo, String descripcion, LocalDateTime fechaFin) {
         this.plan = plan;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
-        this.costeEstimado = costeEstimado;
-        this.moneda = moneda;
 
         //Generado automáticamente
         this.actualizadoEn = LocalDateTime.now();
@@ -73,8 +65,7 @@ public class Tarea {
 
     //Extracción de tarea de la DB
     public Tarea(Long id, Plan plan, String titulo, String descripcion, LocalDateTime fechaFin,
-                 EstadoTarea estado, double costeEstimado, MonedasDisponibles moneda,
-                 LocalDateTime creadoEn, LocalDateTime actualizadoEn,
+                 EstadoTarea estado, LocalDateTime creadoEn, LocalDateTime actualizadoEn,
                  List<Miembro> miembros) {
 
         this.id = id;
@@ -83,8 +74,6 @@ public class Tarea {
         this.descripcion = descripcion;
         this.fechaFin = fechaFin;
         this.estado = estado;
-        this.costeEstimado = costeEstimado;
-        this.moneda = moneda;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
 
@@ -122,14 +111,6 @@ public class Tarea {
         return estado;
     }
 
-    public double getCosteEstimado() {
-        return costeEstimado;
-    }
-
-    public MonedasDisponibles getMoneda() {
-        return moneda;
-    }
-
     public LocalDateTime getCreadoEn() {
         return creadoEn;
     }
@@ -158,16 +139,6 @@ public class Tarea {
 
     public void setEstado(EstadoTarea estado) {
         this.estado = estado;
-        this.actualizadoEn = LocalDateTime.now();
-    }
-
-    public void setCosteEstimado(double costeEstimado) {
-        this.costeEstimado = costeEstimado;
-        this.actualizadoEn = LocalDateTime.now();
-    }
-
-    public void setMoneda(MonedasDisponibles moneda) {
-        this.moneda = moneda;
         this.actualizadoEn = LocalDateTime.now();
     }
 

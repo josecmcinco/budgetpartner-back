@@ -20,7 +20,7 @@ public class EstimacionMapper {
 
         Long tareaId = null;
         if(estimacion.getTarea() != null){
-            tareaId = estimacion.getPlan().getId();
+            tareaId = estimacion.getTarea().getId();
         }
 
         return new EstimacionDtoResponse(

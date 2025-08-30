@@ -49,7 +49,6 @@ class GastoMapperTest {
     private Tarea crearTareaDummy(Plan plan) {
         return new Tarea(10L, plan, "Tarea Test", "Desc tarea",
                 LocalDateTime.now().plusDays(3), EstadoTarea.PENDIENTE,
-                50.0, MonedasDisponibles.EUR,
                 LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
     }
 
