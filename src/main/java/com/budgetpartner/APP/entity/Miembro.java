@@ -49,6 +49,12 @@ public class Miembro {
     @OneToMany(mappedBy = "miembro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RepartoTarea> miembroTareas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "pagador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AjusteFinanciero> pagador = new ArrayList<>();
+
+    @OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AjusteFinanciero> beneficiario = new ArrayList<>();
+
 
     //Constructor vacío para Hibernate
     public Miembro(){}
@@ -68,7 +74,7 @@ public class Miembro {
     }
 
     //Extracción de Miembro de la DB
-    public Miembro(Long id, Usuario usuario, Organizacion organizacion, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isActivo, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Miembro(Long id, Usuario usuario, Organizacion organizacion, Rol rol, String nick, LocalDateTime fechaIngreso, boolean isActivo, boolean isAsociado, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.usuario = usuario;
         this.organizacion = organizacion;
@@ -76,6 +82,7 @@ public class Miembro {
         this.nick = nick;
         this.fechaIngreso = fechaIngreso;
         this.isActivo = isActivo;
+        this.isAsociado = isAsociado;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
     }

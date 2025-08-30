@@ -1,5 +1,6 @@
 package com.budgetpartner.APP.entity;
 
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -45,6 +46,9 @@ public class Gasto {
     private String descripcion;
 
     @Column
+    private MonedasDisponibles moneda;
+
+    @Column
     private LocalDateTime creadoEn;
 
     @Column
@@ -54,13 +58,14 @@ public class Gasto {
     public Gasto(){}
 
     //Creacion de Gasto desde 0
-    public Gasto(Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion) {
+    public Gasto(Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion, MonedasDisponibles moneda) {
         this.tarea = tarea;
         this.plan = plan;
         this.cantidad = BigDecimal.valueOf(cantidad);
         this.nombre = nombre;
         this.pagador = pagador;
         this.descripcion = descripcion;
+        this.moneda = moneda;
 
         //Generado automáticamente
         this.creadoEn = LocalDateTime.now();
@@ -69,7 +74,7 @@ public class Gasto {
 
     //Extraer Pago de la DB
 
-    public Gasto(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion, List<RepartoGasto> repartos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
+    public Gasto(Long id, Tarea tarea, Plan plan, double cantidad, String nombre, Miembro pagador, String descripcion,  MonedasDisponibles moneda, List<RepartoGasto> repartos, LocalDateTime creadoEn, LocalDateTime actualizadoEn) {
         this.id = id;
         this.tarea = tarea;
         this.plan = plan;
@@ -78,6 +83,7 @@ public class Gasto {
         this.pagador = pagador;
         this.descripcion = descripcion;
         this.repartos = repartos;
+        this.moneda = moneda;
         this.creadoEn = creadoEn;
         this.actualizadoEn = actualizadoEn;
     }
@@ -96,7 +102,7 @@ public class Gasto {
     }
 
     public double getCantidad() {
-        return cantidad.floatValue();
+        return cantidad.doubleValue();
     }
 
     public String getNombre() {
@@ -164,5 +170,13 @@ public class Gasto {
             RepartoGasto mp = new RepartoGasto(this, miembro, BigDecimal.valueOf(gasto));
             this.repartos.add(mp);
         }
+    }
+
+    public MonedasDisponibles getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(MonedasDisponibles moneda) {
+        this.moneda = moneda;
     }
 }

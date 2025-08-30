@@ -19,23 +19,37 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+/**
+ * Servicio encargado de la gestión de miembros.
+ * Permite crear, consultar, actualizar, eliminar (marcar inactivos)
+ * y asociar miembros a usuarios.
+ */
 @Service
 public class MiembroService {
 
-    @Autowired
-    private MiembroRepository miembroRepository;
-    @Autowired
-    private OrganizacionRepository organizacionRepository;
-    @Autowired
-    private RolRepository rolRepository;
-    @Autowired
-    private  UsuarioService usuarioService;
+    private final MiembroRepository miembroRepository;
+    private final OrganizacionRepository organizacionRepository;
+    private final RolRepository rolRepository;
+    private final AutorizacionService autorizacionService;
 
-    //ENDPOINTS
+    @Autowired
+    public MiembroService(MiembroRepository miembroRepository,
+                          OrganizacionRepository organizacionRepository,
+                          RolRepository rolRepository,
+                          AutorizacionService autorizacionService) {
+        this.miembroRepository = miembroRepository;
+        this.organizacionRepository = organizacionRepository;
+        this.rolRepository = rolRepository;
+        this.autorizacionService = autorizacionService;
+    }
 
-    //Llamada para Endpoint
-    //Crea una Entidad usando el DTO recibido por el usuario
-    @Tool(description = "Create a member")
+    /**
+     * Crea un nuevo miembro en una organización con un rol determinado.
+     *
+     * @param dto DTO con los datos del miembro a crear
+     * @return DTO del miembro creado
+     * @throws NotFoundException si la organización o el rol no existen
+     */
     public MiembroDtoResponse postMiembro(MiembroDtoPostRequest dto){
 
         Organizacion organizacion = organizacionRepository.findById(dto.getOrganizacionId())
@@ -44,17 +58,20 @@ public class MiembroService {
         Rol rol = rolRepository.findById(dto.getRolId())
                 .orElseThrow(() -> new NotFoundException("Rol no encontrada con id: " + (dto.getRolId())));
 
+        //Crear miembro
         Miembro miembro = MiembroMapper.toEntity(dto, organizacion, rol);
-
-        //Enviar elemento insertado en la db porque tiene el id
         miembro = miembroRepository.save(miembro);
+
         return MiembroMapper.toDtoResponse(miembro);
     }
 
-    //Llamada para Endpoint
-    //Obtiene una Entidad usando el id recibido por el usuario
-        /*DEVUELVE AL USUARIO:
-    */
+    /**
+     * Obtiene un miembro por su ID.
+     *
+     * @param id ID del miembro
+     * @return DTO del miembro
+     * @throws NotFoundException si el miembro no existe
+     */
     public MiembroDtoResponse getMiembroDtoById(Long id){
         //Obtener ususario usando el id pasado en la llamada
         Miembro miembro = miembroRepository.findById(id)
@@ -64,28 +81,33 @@ public class MiembroService {
         return dto;
     }
 
-    //Llamada para Endpoint
-    //Elimina una Entidad usando el id recibido por el usuario
-    //NO LA ELIMINA. SOLO PASA EL ATRIBUTO ISACTIVO A FALSE
+    /**
+     * Marca un miembro como inactivo en lugar de eliminarlo de la base de datos.
+     *
+     * @param id ID del miembro
+     * @return entidad Miembro actualizada
+     * @throws NotFoundException si el miembro no existe
+     */
     @Transactional //Implica usar el muchos a muchos
     public Miembro deleteMiembroById(Long id){
         //Obtener ususario usando el id pasado en la llamada
-
-
         Miembro miembro = miembroRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + id));
 
         miembro.setActivo(false);
         miembroRepository.save(miembro);
 
-        //Codigo de borrado de la DB
-        //miembroRepository.delete(miembro);
-
         return miembro;
     }
 
-    //Llamada para Endpoint
-    //Actualiza una Entidad usando el id recibido por el usuario
+    /**
+     * Actualiza los datos de un miembro existente.
+     *
+     * @param dto DTO con los datos a actualizar
+     * @param id  ID del miembro
+     * @return entidad Miembro actualizada
+     * @throws NotFoundException si el miembro o el rol no existen
+     */
     public Miembro patchMiembro(MiembroDtoUpdateRequest dto, Long id) {
 
         // Obtener miembro usando el id pasado en la llamada
@@ -100,16 +122,20 @@ public class MiembroService {
 
         MiembroMapper.updateEntityFromDtoRes(dto, miembro, rol);
         miembroRepository.save(miembro);
+
         return miembro;
     }
 
-    //OTROS MÉTODOS
-
-    //Asociación de un miembro a un Usuario de la DB
-    //TODO SOLO si la variable usuario está vacía
+    /**
+     * Asocia un miembro a un usuario autenticado.
+     *
+     * @param miembroId ID del miembro
+     * @return DTO del miembro actualizado
+     * @throws NotFoundException si el miembro no existe
+     */
     public MiembroDtoResponse associateMiembro(Long miembroId) {
-
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        //TODO SOLO si la variable usuario está vacía
+        Usuario usuario = autorizacionService.devolverUsuarioAutenticado();
         Miembro miembro = miembroRepository.findById(miembroId)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + miembroId));
 
@@ -123,8 +149,15 @@ public class MiembroService {
         return MiembroMapper.toDtoResponse(miembro);
     }
 
+    /**
+     * Desasocia un miembro de un usuario autenticado.
+     *
+     * @param miembroId ID del miembro
+     * @return DTO del miembro actualizado
+     * @throws NotFoundException si el miembro no existe
+     */
     public MiembroDtoResponse dissociateMember(Long miembroId) {
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        Usuario usuario = autorizacionService.devolverUsuarioAutenticado();
         Miembro miembro = miembroRepository.findById(miembroId)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + miembroId));
 
@@ -138,9 +171,16 @@ public class MiembroService {
         return MiembroMapper.toDtoResponse(miembro);
     }
 
+    /**
+     * Obtiene un miembro asociado al usuario autenticado dentro de una organización.
+     *
+     * @param organizacionId ID de la organización
+     * @return DTO del miembro
+     * @throws NotFoundException si el miembro no existe
+     */
     public MiembroDtoResponse getMiembroPorUsernameYOrganizacion(Long organizacionId){
 
-        Usuario usuario = usuarioService.devolverUsuarioAutenticado();
+        Usuario usuario = autorizacionService.devolverUsuarioAutenticado();
 
         Miembro miembro = miembroRepository.obtenerMiembroPorUsuarioYOrgId(usuario.getId(), organizacionId)
                 .orElseThrow(() -> new NotFoundException("Miembro no encontrado con id: " + usuario.getId()));

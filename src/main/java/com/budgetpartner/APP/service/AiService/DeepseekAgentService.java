@@ -3,7 +3,7 @@ package com.budgetpartner.APP.service.AiService;
 
 import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.dto.api.DeepseekAgentInstruction;
-import com.budgetpartner.APP.mcp.ToolRegistry;
+import com.budgetpartner.APP.aiTools.ToolRegistry;
 import com.budgetpartner.APP.util.MessageAi;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

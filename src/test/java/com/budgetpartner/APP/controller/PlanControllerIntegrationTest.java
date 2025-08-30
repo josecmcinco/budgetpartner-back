@@ -44,20 +44,14 @@ class PlanControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PobladorDB pobladorDB;
+    public PlanControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
     private static String token;
 
@@ -125,9 +119,23 @@ class PlanControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Plan actualizado correctamente"));
     }
-
     @Test
     @Order(4)
+    void testGetSaldosByOrganizacionId() throws Exception {
+        Long organizacionId = 2L;
+
+        mockMvc.perform(get("/planes/{id}/saldos", organizacionId)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[0].deudaEnPlan").exists())
+                .andExpect(jsonPath("$[0].nick").isNotEmpty());
+    }
+
+    @Test
+    @Order(5)
     void eliminarPlan() throws Exception {
         mockMvc.perform(delete("/planes/1")
                         .header("Authorization", "Bearer " + token))

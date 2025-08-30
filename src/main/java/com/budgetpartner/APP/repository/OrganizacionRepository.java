@@ -19,7 +19,8 @@ public interface OrganizacionRepository extends JpaRepository<Organizacion, Long
 
     @Query(value = "SELECT o.* " +
             "FROM organizacion o " +
-            "WHERE o.plan_id = :planId ", nativeQuery = true)
+            "JOIN plan p ON p.organizacion_id = o.id " +
+            "WHERE p.id = :planId", nativeQuery = true)
     Optional<Organizacion> obtenerOrganizacionPorPlanId(@Param("planId") Long plan_id);
 
 }

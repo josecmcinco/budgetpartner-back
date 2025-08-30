@@ -3,7 +3,7 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoPostRequest;
 import com.budgetpartner.APP.dto.organizacion.OrganizacionDtoUpdateRequest;
-import com.budgetpartner.APP.enums.MonedasDisponibles; // Si lo usas, sino eliminar
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,21 +40,14 @@ class OrganizacionControllerIntegrationTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
     }
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PobladorDB pobladorDB;
+    public OrganizacionControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
     private static String token;
 
@@ -79,8 +70,9 @@ class OrganizacionControllerIntegrationTest {
         String nombreOrg = "Organización Test";
         String descripcionOrg = "Descripción de prueba para organización";
         String nick = "Paco";
+        MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
-        OrganizacionDtoPostRequest request = new OrganizacionDtoPostRequest(nombreOrg, descripcionOrg, nick);
+        OrganizacionDtoPostRequest request = new OrganizacionDtoPostRequest(nombreOrg, descripcionOrg, nick, moneda);
 
         mockMvc.perform(post("/organizaciones")
                         .header("Authorization", "Bearer " + token)
@@ -123,8 +115,9 @@ class OrganizacionControllerIntegrationTest {
 
         String nombre = "Organización Test Actualizada";
         String descrpicion = "Descripción actualizada para organización";
+        MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
-        OrganizacionDtoUpdateRequest request = new OrganizacionDtoUpdateRequest(nombre, descrpicion);
+        OrganizacionDtoUpdateRequest request = new OrganizacionDtoUpdateRequest(nombre, descrpicion, moneda);
 
         mockMvc.perform(patch("/organizaciones/1")
                         .header("Authorization", "Bearer " + token)

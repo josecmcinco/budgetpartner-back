@@ -2,7 +2,6 @@ package com.budgetpartner.APP.dto.estimacion;
 
 import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.enums.TipoEstimacion;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

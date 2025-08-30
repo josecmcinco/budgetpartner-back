@@ -2,12 +2,9 @@ package com.budgetpartner.APP.mapper;
 
 import com.budgetpartner.APP.dto.tarea.TareaDtoPostRequest;
 import com.budgetpartner.APP.dto.tarea.TareaDtoUpdateRequest;
-import com.budgetpartner.APP.entity.Miembro;
 import com.budgetpartner.APP.entity.Plan;
 import com.budgetpartner.APP.entity.Tarea;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
-import com.budgetpartner.APP.service.PlanService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +12,9 @@ import java.util.List;
 
 public class TareaMapper {
 
-    // Convierte Tarea en TareaDtoResponse
+    /**
+     * Convierte una entidad Tarea en su DTO de respuesta.
+     */
     public static TareaDtoResponse toDtoResponse(Tarea tarea) {
         if (tarea == null) return null;
 
@@ -31,7 +30,9 @@ public class TareaMapper {
         );
     }
 
-    // Convierte TareaDtoPostRequest en Tarea
+    /**
+     * Convierte un DTO de creación en una entidad Tarea.
+     */
     public static Tarea toEntity(TareaDtoPostRequest dto, Plan plan) {
         if (dto == null) return null;
 
@@ -45,31 +46,30 @@ public class TareaMapper {
         );
     }
 
-    // Actualiza entidad existente con los valores del DTO
+    /**
+     * Actualiza una entidad Tarea existente con los valores del DTO de actualización.
+     */
     public static void updateEntityFromDtoRes(TareaDtoUpdateRequest dto, Tarea tarea) {
         if (dto == null || tarea == null) return;
 
-        //NO SE PERMITE MODIFICAR DESDE EL DTO:
-        //Plan
         if (dto.getTitulo() != null) tarea.setTitulo(dto.getTitulo());
         if (dto.getDescripcion() != null) tarea.setDescripcion(dto.getDescripcion());
         if (dto.getFechaFin() != null) tarea.setFechaFin(dto.getFechaFin());
         if (dto.getEstado() != null) tarea.setEstado(dto.getEstado());
         if (dto.getCosteEstimado() != 0) tarea.setCosteEstimado(dto.getCosteEstimado());
         if (dto.getMoneda() != null) tarea.setMoneda(dto.getMoneda());
-
     }
 
+    /**
+     * Convierte una lista de entidades Tarea en una lista de DTOs de respuesta.
+     */
     public static List<TareaDtoResponse> toDtoResponseListTarea(List<Tarea> tareas) {
-        List<TareaDtoResponse> listaTareasDtoResp = new ArrayList<>();
-        if (tareas == null || tareas.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            for (Tarea tarea : tareas) {
-                TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
-                listaTareasDtoResp.add(tareaDtoResp);
-            }
-            return listaTareasDtoResp;
+        if (tareas == null || tareas.isEmpty()) return Collections.emptyList();
+
+        List<TareaDtoResponse> lista = new ArrayList<>();
+        for (Tarea tarea : tareas) {
+            lista.add(toDtoResponse(tarea));
         }
+        return lista;
     }
 }

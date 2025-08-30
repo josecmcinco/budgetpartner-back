@@ -12,7 +12,9 @@ import java.util.List;
 
 public class EstimacionMapper {
 
-    // Entity a DTO de respuesta
+    /**
+     * Convierte una entidad Estimacion a su DTO de respuesta.
+     */
     public static EstimacionDtoResponse toDtoResponse(Estimacion estimacion) {
         if (estimacion == null) return null;
 
@@ -23,8 +25,8 @@ public class EstimacionMapper {
 
         return new EstimacionDtoResponse(
                 estimacion.getId(),
-                tareaId,
                 estimacion.getPlan().getId(),
+                tareaId,
                 estimacion.getCreador().getId(),
                 estimacion.getCantidad(),
                 estimacion.getTipoEstimacion(),
@@ -35,7 +37,10 @@ public class EstimacionMapper {
         );
     }
 
-    // DTO de creación a Entity
+
+    /**
+     * Convierte un DTO de creación a una entidad Estimacion.
+     */
     public static Estimacion toEntity(EstimacionDtoPostRequest dto, Tarea tarea, Plan plan, Miembro creador, Miembro pagador, Gasto gasto) {
         if (dto == null) return null;
 
@@ -52,7 +57,9 @@ public class EstimacionMapper {
         );
     }
 
-    // Actualiza una entidad existente con campos del DTO
+    /**
+     * Actualiza una entidad Estimacion existente con los campos del DTO de actualización.
+     */
     public static void updateEntityFromDto(EstimacionDtoUpdateRequest dto, Estimacion estimacion, Miembro pagador, Gasto gasto) {
         if (dto == null || estimacion == null) return;
 
@@ -65,6 +72,9 @@ public class EstimacionMapper {
         estimacion.setActualizadoEn(LocalDateTime.now());
     }
 
+    /**
+     * Convierte una lista de entidades Estimacion a una lista de DTOs de respuesta.
+     */
     public static List<EstimacionDtoResponse> toDtoResponseListEstimacion(List<Estimacion> estimaciones) {
         if (estimaciones == null || estimaciones.isEmpty()) {
             return Collections.emptyList();

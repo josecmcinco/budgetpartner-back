@@ -36,7 +36,7 @@ public class ChatbotController {
     )
     @PostMapping("/{model}")
     public ResponseEntity<ChatResponse> processMessageAI(@PathVariable String model, @RequestBody ChatbotQuery query) {
-        String result = "";
+        String result;
         switch (model.toLowerCase()) {
             case "openai":
                 result = "Modelo de chatbot no implementado.";

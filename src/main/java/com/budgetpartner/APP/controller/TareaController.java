@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -118,8 +117,7 @@ public class TareaController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTareaById(@Validated @NotNull @PathVariable Long id) {
-        Tarea tarea = tareaService.deleteTareaById(id);
-        TareaDtoResponse tareaDtoResp = TareaMapper.toDtoResponse(tarea);
+        tareaService.deleteTareaById(id);
         return ResponseEntity.ok("Tarea eliminada correctamente");
     }
 }

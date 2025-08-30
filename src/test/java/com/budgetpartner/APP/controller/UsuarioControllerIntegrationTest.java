@@ -41,20 +41,15 @@ class UsuarioControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    public UsuarioControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PobladorDB pobladorDB;
 
     private static String token;
 

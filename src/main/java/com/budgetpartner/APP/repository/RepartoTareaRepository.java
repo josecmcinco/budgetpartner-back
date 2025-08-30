@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.repository;
 
 import com.budgetpartner.APP.entity.RepartoTarea;
-import com.budgetpartner.APP.entity.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

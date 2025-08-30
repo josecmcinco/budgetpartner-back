@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.mcp;
+package com.budgetpartner.APP.aiTools;
 
 /*
 @Component

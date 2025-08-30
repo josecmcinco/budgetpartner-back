@@ -21,19 +21,24 @@ import org.springframework.http.HttpHeaders;
 import java.io.IOException;
 import java.util.Optional;
 
-//Require Args constructor
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+    private final UsuarioRepository usuarioRepository;
 
+    public JwtAuthFilter(JwtService jwtService,
+                         UserDetailsService userDetailsService,
+                         UsuarioRepository usuarioRepository) {
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+        this.usuarioRepository = usuarioRepository;
+    }
 
-    //Asegura que el filtro vaya verificado y sea correcto
+    /**
+     * Filtra cada petición HTTP para validar el token JWT.
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -41,29 +46,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // Si no OK sigue con lo tuyo
+        // Saltar autenticación en endpoints de /auth
         if(request.getServletPath().contains("/auth")){
             filterChain.doFilter(request, response);
             return;
         }
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
         if (authHeader == null || !authHeader.startsWith("Bearer ") ){
             filterChain.doFilter(request, response);
             return;
-
         }
 
-        //El token a partir del 7º carácter
+        //El token está a partir del 7º carácter
         final String jwtToken = authHeader.substring(7);
-        final String ususarioEmail = jwtService.extractEmailUsuario(jwtToken);
+        final String usuarioEmail = jwtService.extractEmailUsuario(jwtToken);
 
-        if(ususarioEmail == null || SecurityContextHolder.getContext().getAuthentication() != null){
+        if(usuarioEmail == null || SecurityContextHolder.getContext().getAuthentication() != null){
             return;
         }
 
-        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(ususarioEmail);
+        final UserDetails userDetails = this.userDetailsService.loadUserByUsername(usuarioEmail);
         final Optional<Usuario> usuario = usuarioRepository.obtenerUsuarioPorEmail(userDetails.getUsername());
 
         if(usuario.isEmpty()){
@@ -74,18 +77,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if(!isTokenValid){
             return;
-        }
+}
 
+        // Crear autenticación y asignarla al contexto de seguridad
         final var authToken = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,
                 userDetails.getAuthorities()
         );
 
-        authToken.setDetails(
-                new WebAuthenticationDetailsSource().buildDetails(request)
-        );
-
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);

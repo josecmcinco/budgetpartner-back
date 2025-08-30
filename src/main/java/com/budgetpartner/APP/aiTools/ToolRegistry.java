@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.mcp;
+package com.budgetpartner.APP.aiTools;
 
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;

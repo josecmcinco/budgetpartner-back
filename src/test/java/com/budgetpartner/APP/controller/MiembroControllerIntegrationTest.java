@@ -2,7 +2,6 @@ package com.budgetpartner.APP.controller;
 
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
-import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoUpdateRequest;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
@@ -12,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -44,16 +40,15 @@ class MiembroControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private PobladorDB pobladorDB;
+    public MiembroControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
+
 
     private static String token;
     private static String token2;

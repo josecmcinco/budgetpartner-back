@@ -1,7 +1,6 @@
 package com.budgetpartner.APP.controller;
 
 import com.budgetpartner.APP.admin.PobladorDB;
-import com.budgetpartner.APP.dto.dashborard.DashboardDtoResponse;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,8 @@ public class GastoDtoPostRequestValidationTest {
                 nombre,
                 pagadorId,
                 descripcion,
-                listaMiembrosEndeudados
+                listaMiembrosEndeudados,
+                MonedasDisponibles.EUR
         );
 
         Set<ConstraintViolation<GastoDtoPostRequest>> violations = validator.validate(dto);
@@ -57,15 +59,12 @@ public class GastoDtoPostRequestValidationTest {
                 "   ",          // nombre en blanco -> error
                 null,           // pagadorId nulo -> error
                 "",             // descripción vacía -> error
-                listaConNull    // miembro endeudado nulo -> error
+                listaConNull,    // miembro endeudado nulo -> error
+                null
         );
 
         Set<ConstraintViolation<GastoDtoPostRequest>> violations = validator.validate(dto);
-        assertEquals(6, violations.size());
-
-        violations.forEach(v ->
-                System.out.println(v.getPropertyPath() + ": " + v.getMessage())
-        );
+        assertEquals(7, violations.size());
     }
 
     @Test
@@ -87,7 +86,8 @@ public class GastoDtoPostRequestValidationTest {
                 nombre,
                 pagadorId,
                 descripcion,
-                listaMiembrosEndeudados
+                listaMiembrosEndeudados,
+                MonedasDisponibles.EUR
         );
 
         Set<ConstraintViolation<GastoDtoPostRequest>> violations = validator.validate(dto);

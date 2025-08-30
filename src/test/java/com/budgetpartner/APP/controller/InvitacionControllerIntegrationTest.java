@@ -3,7 +3,6 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.admin.PobladorDB;
 import com.budgetpartner.APP.dto.TokenResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
-import com.budgetpartner.APP.repository.InvitacionRepository;
 import com.budgetpartner.APP.repository.UsuarioRepository;
 import com.budgetpartner.APP.service.InvitacionService;
 import com.budgetpartner.APP.service.JwtService;
@@ -46,23 +45,14 @@ class InvitacionControllerIntegrationTest {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private InvitacionService invitacionService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private PobladorDB pobladorDB;
+    public InvitacionControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.objectMapper = objectMapper;
+    }
 
     private static String token;
 

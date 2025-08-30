@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.mcp;
+package com.budgetpartner.APP.aiTools;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,7 +28,7 @@ public class ToolRegistrar implements CommandLineRunner {
     private TareaTools tareaTools;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         toolRegistry.registerTools(estimacionTools);
         toolRegistry.registerTools(gastoTools);
         toolRegistry.registerTools(miembroTools);

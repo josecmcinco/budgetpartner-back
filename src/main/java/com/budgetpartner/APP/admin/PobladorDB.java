@@ -17,49 +17,56 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class PobladorDB {
 
-    @Autowired
-    private  UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
+    private final OrganizacionRepository organizacionRepository;
+    private final MiembroRepository miembroRepository;
+    private final GastoRepository gastoRepository;
+    private final TareaRepository tareaRepository;
+    private final PlanRepository planRepository;
+    private final JdbcTemplate jdbc;
+    private final PasswordEncoder passwordEncoder;
+    private final EstimacionRepository estimacionRepository;
+    private final RepartoGastoRepository repartoGastoRepository;
+    private final RepartoTareaRepository repartoTareaRepository;
+    private final InvitacionRepository invitacionRepository;
 
     @Autowired
-    private  RolRepository rolRepository;
-
-    @Autowired
-    private  OrganizacionRepository organizacionRepository;
-
-    @Autowired
-    private  MiembroRepository miembroRepository;
-
-    @Autowired
-    private  GastoRepository gastoRepository;
-
-    @Autowired
-    private  TareaRepository tareaRepository;
-
-    @Autowired
-    private  PlanRepository planRepository;
-
-    @Autowired
-    private JdbcTemplate jdbc;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EstimacionRepository estimacionRepository;
-
-    @Autowired
-    private RepartoGastoRepository repartoGastoRepository;
-
-    @Autowired
-    private RepartoTareaRepository repartoTareaRepository;
-
-    @Autowired
-    private InvitacionRepository invitacionRepository;
+    public PobladorDB(
+            UsuarioRepository usuarioRepository,
+            RolRepository rolRepository,
+            OrganizacionRepository organizacionRepository,
+            MiembroRepository miembroRepository,
+            GastoRepository gastoRepository,
+            TareaRepository tareaRepository,
+            PlanRepository planRepository,
+            JdbcTemplate jdbc,
+            PasswordEncoder passwordEncoder,
+            EstimacionRepository estimacionRepository,
+            RepartoGastoRepository repartoGastoRepository,
+            RepartoTareaRepository repartoTareaRepository,
+            InvitacionRepository invitacionRepository
+    ) {
+        this.usuarioRepository = usuarioRepository;
+        this.rolRepository = rolRepository;
+        this.organizacionRepository = organizacionRepository;
+        this.miembroRepository = miembroRepository;
+        this.gastoRepository = gastoRepository;
+        this.tareaRepository = tareaRepository;
+        this.planRepository = planRepository;
+        this.jdbc = jdbc;
+        this.passwordEncoder = passwordEncoder;
+        this.estimacionRepository = estimacionRepository;
+        this.repartoGastoRepository = repartoGastoRepository;
+        this.repartoTareaRepository = repartoTareaRepository;
+        this.invitacionRepository = invitacionRepository;
+    }
 
     //Guardar mensajes de control
     private static final Logger logger = LoggerFactory.getLogger(PobladorDB.class);
@@ -135,7 +142,7 @@ public class PobladorDB {
         //Paso 6
         poblarInvitacion(organizaciones);
 
-        logger.info("Base de datos limpiada con éxito.");
+        logger.info("Base de datos poblada con éxito.");
     }
 
     public void poblarInvitacion(List<Organizacion> organizaciones){
@@ -217,20 +224,20 @@ public class PobladorDB {
 
 
         List<Gasto> gastos = Arrays.asList(
-                new Gasto(null, plan1, 50.0, "Desayuno", miembro1, "Desayuno en cafetería"),
-                new Gasto(null, plan1, 120.0, "Transporte", miembro2, "Taxi ida y vuelta"),
-                new Gasto(null, plan1, 75.5, "Materiales", miembro3, "Compra de materiales de oficina"),
-                new Gasto(null, plan1, 200.0, "Almuerzo", miembro5, "Comida para el equipo"),
-                new Gasto(null, plan1, 45.0, "Bebidas", miembro1, "Compra de botellas de agua"),
+                new Gasto(null, plan1, 50.0, "Desayuno", miembro1, "Desayuno en cafetería", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 120.0, "Transporte", miembro2, "Taxi ida y vuelta", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 75.5, "Materiales", miembro3, "Compra de materiales de oficina", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 200.0, "Almuerzo", miembro5, "Comida para el equipo", MonedasDisponibles.EUR),
+                new Gasto(null, plan1, 45.0, "Bebidas", miembro1, "Compra de botellas de agua", MonedasDisponibles.EUR),
 
-                new Gasto(null, plan2, 60.0, "Papelería", miembro2, "Útiles varios"),
-                new Gasto(null, plan2, 90.0, "Publicidad", miembro3, "Anuncio en redes sociales"),
-                new Gasto(tarea1, plan2, 150.0, "Servicio técnico", miembro4, "Reparación de laptop"),
-                new Gasto(tarea2, plan2, 80.0, "Cena", miembro5, "Cena de cierre del proyecto"),
-                new Gasto(tarea3, plan2, 20.0, "Postre", miembro1, "Helados para el equipo"),
+                new Gasto(null, plan2, 60.0, "Papelería", miembro2, "Útiles varios", MonedasDisponibles.EUR),
+                new Gasto(null, plan2, 90.0, "Publicidad", miembro3, "Anuncio en redes sociales", MonedasDisponibles.EUR),
+                new Gasto(tarea1, plan2, 150.0, "Servicio técnico", miembro4, "Reparación de laptop", MonedasDisponibles.EUR),
+                new Gasto(tarea2, plan2, 80.0, "Cena", miembro5, "Cena de cierre del proyecto", MonedasDisponibles.EUR),
+                new Gasto(tarea3, plan2, 20.0, "Postre", miembro1, "Helados para el equipo", MonedasDisponibles.EUR),
 
-                new Gasto(tarea4, plan3, 100.0, "Obsequios", miembro7, "Regalos para los participantes"),
-                new Gasto(null, plan3, 30.0, "Estacionamiento", miembro4, "Pago de estacionamiento")
+                new Gasto(tarea4, plan3, 100.0, "Obsequios", miembro7, "Regalos para los participantes", MonedasDisponibles.EUR),
+                new Gasto(null, plan3, 30.0, "Estacionamiento", miembro4, "Pago de estacionamiento", MonedasDisponibles.EUR)
 
         );
 
@@ -317,8 +324,8 @@ public class PobladorDB {
 
     public List<Organizacion>  poblarOrganizaciones() {
         List<Organizacion> organizaciones = Arrays.asList(
-            new Organizacion("BudgetCorp", "Gestión de presupuestos familiares."),
-            new Organizacion("FinanceFlow", "Automatización de flujos financieros personales.")
+            new Organizacion("BudgetCorp", "Gestión de presupuestos familiares.", MonedasDisponibles.EUR),
+            new Organizacion("FinanceFlow", "Automatización de flujos financieros personales.", MonedasDisponibles.EUR)
         );
         organizaciones = organizacionRepository.saveAll(organizaciones);
 
@@ -397,7 +404,7 @@ public class PobladorDB {
         Plan plan2 = planes.get(1);
         Plan plan3 = planes.get(2);
 
-        List<Miembro> listaMiembro1 = Arrays.asList(miembros.get(0));
+        List<Miembro> listaMiembro1 = Collections.singletonList(miembros.get(0));
         List<Miembro> listaMiembro2 = Arrays.asList(miembros.get(1), miembros.get(2));
         List<Miembro> listaMiembro3 = Arrays.asList(miembros.get(0), miembros.get(1));
         List<Miembro> listaMiembro4 = Arrays.asList(miembros.get(3), miembros.get(5));

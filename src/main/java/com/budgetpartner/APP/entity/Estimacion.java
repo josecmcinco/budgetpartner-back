@@ -5,8 +5,6 @@ import com.budgetpartner.APP.enums.TipoEstimacion;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table
@@ -50,7 +48,7 @@ public class Estimacion {
     @JoinColumn(name= "miembro_pagador_id")
     private Miembro pagador;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name= "gasto_id")
     private Gasto gasto;
 

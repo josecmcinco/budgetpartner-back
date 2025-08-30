@@ -4,7 +4,6 @@ import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoUpdateRequest;
 import com.budgetpartner.APP.entity.Gasto;
-import com.budgetpartner.APP.mapper.GastoMapper;
 import com.budgetpartner.APP.service.GastoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +38,7 @@ public class GastoController {
 
     @Operation(
             summary = "Devolver un gasto",
-            description = "Devuelve un gasto existente dado un id. Además se devuelve PENDIENTE", //TDOD
+            description = "Devuelve un gasto existente dado un id. Además se devuelve PENDIENTE", //TODO
             responses = {
                     @ApiResponse(
                             responseCode = "200",

@@ -1,7 +1,5 @@
 package com.budgetpartner.APP.dto.plan;
 
-import com.budgetpartner.APP.enums.ModoPlan;
-
 import java.time.LocalDateTime;
 
 public class PlanDtoUpdateRequest {

@@ -61,9 +61,5 @@ public class PlanDtoPostRequestValidationTest {
         Set<ConstraintViolation<PlanDtoPostRequest>> violations = validator.validate(dto);
         // organizacionId y modoPlan nulos + nombre vacío = 3 errores
         assertEquals(3, violations.size());
-
-        violations.forEach(v ->
-                System.out.println(v.getPropertyPath() + ": " + v.getMessage())
-        );
     }
 }
