@@ -9,5 +9,5 @@ import org.junit.platform.suite.api.Suite;
         "com.budgetpartner.APP.repository",
         "com.budgetpartner.APP.service"
 })
-public class NonDockerTestSuite {
+public class UnitaryTestSuite {
 }

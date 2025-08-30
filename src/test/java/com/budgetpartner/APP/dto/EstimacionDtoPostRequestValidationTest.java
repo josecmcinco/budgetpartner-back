@@ -59,7 +59,7 @@ public class EstimacionDtoPostRequestValidationTest {
 
         Set<ConstraintViolation<EstimacionDtoPostRequest>> violations = validator.validate(dto);
 
-        assertEquals(9, violations.size());  // 9 campos a validar
+        assertEquals(8, violations.size());  // 8 campos a validar
 
     }
 

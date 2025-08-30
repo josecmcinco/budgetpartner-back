@@ -64,7 +64,7 @@ public class GastoDtoPostRequestValidationTest {
         );
 
         Set<ConstraintViolation<GastoDtoPostRequest>> violations = validator.validate(dto);
-        assertEquals(7, violations.size());
+        assertEquals(8, violations.size());
     }
 
     @Test
