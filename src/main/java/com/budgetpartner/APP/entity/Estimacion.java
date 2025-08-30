@@ -48,7 +48,7 @@ public class Estimacion {
     @JoinColumn(name= "miembro_pagador_id")
     private Miembro pagador;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name= "gasto_id")
     private Gasto gasto;
 

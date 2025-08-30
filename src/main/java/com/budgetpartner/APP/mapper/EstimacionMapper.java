@@ -25,8 +25,8 @@ public class EstimacionMapper {
 
         return new EstimacionDtoResponse(
                 estimacion.getId(),
-                tareaId,
                 estimacion.getPlan().getId(),
+                tareaId,
                 estimacion.getCreador().getId(),
                 estimacion.getCantidad(),
                 estimacion.getTipoEstimacion(),
