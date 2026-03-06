@@ -1,11 +1,10 @@
 package com.budgetpartner.APP._benchmark;
 
 import com.budgetpartner.APP.dto.api.ChatbotQuery;
-import com.budgetpartner.APP.service.AiService.OllamaAgentService;
+import com.budgetpartner.APP.service.aiService.OllamaAgentService;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.BufferedWriter;

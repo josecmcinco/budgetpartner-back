@@ -64,6 +64,10 @@ public class GastoService {
      */
     @Transactional //Interacción con un many to many
     public GastoDtoResponse postGasto(GastoDtoPostRequest gastoDtoReq) {
+
+
+
+
         //TODO VALIDAR CAMPOS REPETIDOS (DESCRIPCIÓN, MONTO, FECHA, ETC.)
 
         // Validar usuario autenticado

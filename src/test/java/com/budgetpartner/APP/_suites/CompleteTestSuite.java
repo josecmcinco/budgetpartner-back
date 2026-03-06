@@ -10,7 +10,9 @@ import org.junit.platform.suite.api.Suite;
         "com.budgetpartner.APP.controller",
         "com.budgetpartner.APP.dto",
         "com.budgetpartner.APP.repository",
-        "com.budgetpartner.APP.service"
+        "com.budgetpartner.APP.service",
+        "com.budgetpartner.APP.exceptions",
+        "com.budgetpartner.APP.mapper"
 })
 
 public class CompleteTestSuite {

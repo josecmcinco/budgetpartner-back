@@ -33,12 +33,6 @@ class EstimacionServiceTest {
     private MiembroRepository miembroRepository;
     @Mock
     private GastoRepository gastoRepository;
-    @Mock
-    private TareaRepository tareaRepository;
-    @Mock
-    private RepartoGastoRepository repartoGastoRepository;
-    @Mock
-    private OrganizacionRepository organizacionRepository;
 
     @BeforeEach
     void setUp() {

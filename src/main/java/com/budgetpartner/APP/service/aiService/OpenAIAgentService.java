@@ -1,6 +1,4 @@
-package com.budgetpartner.APP.service.AiService;
-
-import org.springframework.ai.chat.prompt.Prompt;
+package com.budgetpartner.APP.service.aiService;
 
 public class OpenAIAgentService {
 

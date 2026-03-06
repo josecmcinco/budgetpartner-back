@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.service.AiService;
+package com.budgetpartner.APP.service.aiService;
 
 import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.dto.api.OllamaAgentInstruction;

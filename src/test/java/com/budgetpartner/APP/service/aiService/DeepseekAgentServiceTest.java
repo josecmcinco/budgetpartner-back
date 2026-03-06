@@ -1,4 +1,4 @@
-package com.budgetpartner.APP.service.AiService;
+package com.budgetpartner.APP.service.aiService;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

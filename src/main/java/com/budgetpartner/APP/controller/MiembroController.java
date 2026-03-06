@@ -133,6 +133,24 @@ public class MiembroController {
         return ResponseEntity.ok("Miembro desasociado correctamente");
     }
 
+    @Operation(
+            summary = "Obtener un miembro por organización y usuario",
+            description = "Devuelve un miembro existente dado un id.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Miembro obtenido correctamente",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(
+                                            name = "MensajeConfirmacion",
+                                            summary = "Mensaje de éxito",
+                                            value = "PENDIENTE"
+                                    )
+                            )
+                    )
+            }
+    )
     @GetMapping("/organizacion/{organizacionId}")
     public ResponseEntity<MiembroDtoResponse> getMiembroPorUsuarioYOrgID(@PathVariable Long organizacionId) {
         MiembroDtoResponse miembro = miembroService.getMiembroPorUsernameYOrganizacion(organizacionId);

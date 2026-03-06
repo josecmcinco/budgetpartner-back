@@ -3,8 +3,8 @@ package com.budgetpartner.APP.controller;
 import com.budgetpartner.APP.dto.api.ChatbotQuery;
 import com.budgetpartner.APP.dto.api.ChatResponse;
 
-import com.budgetpartner.APP.service.AiService.DeepseekAgentService;
-import com.budgetpartner.APP.service.AiService.OllamaAgentService;
+import com.budgetpartner.APP.service.aiService.DeepseekAgentService;
+import com.budgetpartner.APP.service.aiService.OllamaAgentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;

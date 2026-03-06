@@ -54,13 +54,13 @@ public class OrganizacionTools {
     @Tool(name = "crearOrganizacionDesdeTexto", description = "Crea una organización.")
     public String crearOrganizacionDesdeTexto(
             @ToolParam(description = "Nombre de la organización") String nombreOrganizacion,
-            @ToolParam(description = "Descripción de la organización") String _descripcionOrganizacion_,
-            @ToolParam(description = "Nick del miembro creador") String _nickMiembroCreador_
+            @ToolParam(description = "Descripción de la organización") String descripcionOrganizacion,
+            @ToolParam(description = "Nick del miembro creador") String nickMiembroCreador
     ) {
         try {
             String nombre = nombreOrganizacion;
-            String descripcion = _descripcionOrganizacion_;
-            String nick = _nickMiembroCreador_;
+            String descripcion = descripcionOrganizacion;
+            String nick = nickMiembroCreador;
             MonedasDisponibles moneda = MonedasDisponibles.EUR;
 
             //Autenticar el miembro
