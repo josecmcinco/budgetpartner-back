@@ -1,6 +1,7 @@
 package com.budgetpartner.APP.aiTools;
 
 import com.budgetpartner.APP.entity.Miembro;
+import com.budgetpartner.APP.entity.Organizacion;
 import com.budgetpartner.APP.mapper.MiembroMapper;
 import com.budgetpartner.APP.repository.MiembroRepository;
 import com.budgetpartner.APP.repository.OrganizacionRepository;
@@ -26,7 +27,7 @@ public class MiembroTools {
         return "Hola desde MiembroTools, " + nombre;
     }
 
-    /*
+/*
     @Tool(name = "crearMiembroDesdeTexto", description = "Crea un miembro para una organización.")
     public String crearMiembroDesdeTexto(@ToolParam(description = "miembro") MiembroLlmCompletionDto dto) {
         try {

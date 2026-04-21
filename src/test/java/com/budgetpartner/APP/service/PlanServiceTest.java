@@ -1,5 +1,5 @@
 package com.budgetpartner.APP.service;
-/*
+
 import com.budgetpartner.APP.dto.estimacion.EstimacionDtoResponse;
 import com.budgetpartner.APP.dto.gasto.GastoDtoResponse;
 import com.budgetpartner.APP.dto.miembro.MiembroDtoResponse;
@@ -8,8 +8,10 @@ import com.budgetpartner.APP.dto.plan.PlanDtoResponse;
 import com.budgetpartner.APP.dto.plan.PlanDtoUpdateRequest;
 import com.budgetpartner.APP.dto.tarea.TareaDtoResponse;
 import com.budgetpartner.APP.entity.*;
+import com.budgetpartner.APP.enums.EstadoTarea;
 import com.budgetpartner.APP.enums.ModoPlan;
 import com.budgetpartner.APP.enums.MonedasDisponibles;
+import com.budgetpartner.APP.enums.TipoEstimacion;
 import com.budgetpartner.APP.exceptions.NotFoundException;
 import com.budgetpartner.APP.mapper.*;
 import com.budgetpartner.APP.repository.*;
@@ -19,6 +21,7 @@ import org.mockito.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +55,7 @@ class PlanServiceTest {
         Organizacion org = new Organizacion(orgId, "Org1", "desc", MonedasDisponibles.EUR, date, date);
         PlanDtoPostRequest request = new PlanDtoPostRequest(orgId, "Plan1", "Desc plan", date, date, ModoPlan.simple, 0.0, 0.0);
         Plan plan = new Plan(1L, org, "Plan1", "Desc plan", date, date, ModoPlan.simple, 0.0, 0.0, date, date);
-        PlanDtoResponse response = new PlanDtoResponse(1L, "Plan1", "Desc plan", date, date, null, null, null, null, null);
+        PlanDtoResponse response = new PlanDtoResponse(1L, null,"Plan1", "Desc plan", date, date, ModoPlan.simple, null, null);
 
         when(organizacionRepository.findById(orgId)).thenReturn(Optional.of(org));
         when(planRepository.save(any(Plan.class))).thenReturn(plan);
@@ -84,52 +87,6 @@ class PlanServiceTest {
         verifyNoInteractions(planRepository);
     }
 
-    @Test
-    void testGetPlanByIdAndTransform_success() {
-        Long planId = 5L;
-        Organizacion org = new Organizacion(10L, "Org1", "desc", MonedasDisponibles.EUR, date, date);
-        Plan plan = new Plan(planId, org, "Plan1", "Desc plan", date, date, ModoPlan.simple, 0.0, 0.0, date, date);
-        PlanDtoResponse dtoResponse = new PlanDtoResponse(planId, "Plan1", "Desc plan", date, date, null, null, null, null, null);
-        dtoResponse.setOrganizacionDtoResponse(OrganizacionMapper.toDtoResponse(org));
-
-        Miembro miembro = new Miembro(1L, null, org, null, "nick", date, true, true, date, date);
-        Gasto gasto = new Gasto(1L, "gasto1", 20.0, plan, null, date, date);
-        Tarea tarea = new Tarea(1L, "tarea1", "desc", plan, null, date, date);
-        Estimacion estimacion = new Estimacion(1L, "estim1", 10.0, plan, null, date, date);
-
-        when(planRepository.findById(planId)).thenReturn(Optional.of(plan));
-        when(miembroRepository.obtenerMiembrosPorOrganizacionId(org.getId())).thenReturn(List.of(miembro));
-        when(gastoRepository.obtenerGastosPorPlanId(planId)).thenReturn(List.of(gasto));
-        when(tareaRepository.obtenerTareasPorPlanId(planId)).thenReturn(List.of(tarea));
-        when(estimacionRepository.obtenerEstimacionesPorPlanId(planId)).thenReturn(List.of(estimacion));
-
-        try (MockedStatic<PlanMapper> planMapper = mockStatic(PlanMapper.class);
-             MockedStatic<MiembroMapper> miembroMapper = mockStatic(MiembroMapper.class);
-             MockedStatic<GastoMapper> gastoMapper = mockStatic(GastoMapper.class);
-             MockedStatic<TareaMapper> tareaMapper = mockStatic(TareaMapper.class);
-             MockedStatic<EstimacionMapper> estimacionMapper = mockStatic(EstimacionMapper.class)) {
-
-            planMapper.when(() -> PlanMapper.toDtoResponse(plan)).thenReturn(dtoResponse);
-            miembroMapper.when(() -> MiembroMapper.toDtoResponseListMiembro(List.of(miembro)))
-                    .thenReturn(List.of(new MiembroDtoResponse(1L, 2L, "nick", date, true, true)));
-            gastoMapper.when(() -> GastoMapper.toDtoResponseListGasto(List.of(gasto)))
-                    .thenReturn(List.of(new GastoDtoResponse()));
-            tareaMapper.when(() -> TareaMapper.toDtoResponseListTarea(List.of(tarea)))
-                    .thenReturn(List.of(new TareaDtoResponse()));
-            estimacionMapper.when(() -> EstimacionMapper.toDtoResponseListEstimacion(List.of(estimacion)))
-                    .thenReturn(List.of(new EstimacionDtoResponse()));
-
-            PlanDtoResponse result = planService.getPlanByIdAndTrasnform(planId);
-
-            assertNotNull(result);
-            assertEquals(planId, result.getId());
-            assertEquals("Plan1", result.getNombre());
-            assertEquals(1, result.getOrganizacionDtoResponse().getMiembros().size());
-            assertEquals(1, result.getGastos().size());
-            assertEquals(1, result.getTareas().size());
-            assertEquals(1, result.getEstimaciones().size());
-        }
-    }
 
     @Test
     void testGetPlanByIdAndTransform_notFound() {
@@ -244,6 +201,3 @@ class PlanServiceTest {
         }
     }
 }
-
-
- */

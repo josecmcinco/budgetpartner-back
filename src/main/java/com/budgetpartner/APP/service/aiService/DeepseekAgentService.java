@@ -60,18 +60,14 @@ public class DeepseekAgentService {
             } else {
                 // 2. Ejecutar herramienta MCP
                 try {
-                    Object result = toolRegistry.invokeTool(
-                            instruction.getToolName(),
-                            instruction.getArguments().toArray()
-                    );
                     // Convertir el resultado a JSON legible por el modelo
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.registerModule(new JavaTimeModule());
                     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-                    //currentMessage = "  \"tool_call_id\": \"call_1\"," + mapper.writeValueAsString(result);
+
                     currentMessage = currentMessage.replace("\"", "\\\"");
-                    historial.add(new MessageAi("tool", currentMessage, "call_1"));
+                    historial.add(new MessageAi("assistant", currentMessage));
 
                 } catch (Exception e) {
                     responseToUser = "Error al ejecutar herramienta: " + e.getMessage();
