@@ -27,6 +27,18 @@ public class ToolRegistrar implements CommandLineRunner {
     @Autowired
     private TareaTools tareaTools;
 
+    @Autowired
+    private InvitacionTools invitacionTools;
+
+    @Autowired
+    private DivisaTools divisaTools;
+
+    @Autowired
+    private AjusteFinancieroTools ajusteFinancieroTools;
+
+    @Autowired
+    private DashboardTools dashboardTools;
+
     @Override
     public void run(String... args) {
         toolRegistry.registerTools(estimacionTools);
@@ -35,6 +47,10 @@ public class ToolRegistrar implements CommandLineRunner {
         toolRegistry.registerTools(organizacionTools);
         toolRegistry.registerTools(planTools);
         toolRegistry.registerTools(tareaTools);
+        toolRegistry.registerTools(invitacionTools);
+        toolRegistry.registerTools(divisaTools);
+        toolRegistry.registerTools(ajusteFinancieroTools);
+        toolRegistry.registerTools(dashboardTools);
 
         System.out.println("Herramientas registradas: " + toolRegistry.getRegisteredTools());
     }

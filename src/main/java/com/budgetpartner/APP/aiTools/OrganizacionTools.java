@@ -27,30 +27,29 @@ public class OrganizacionTools {
     @Tool(name = "crearOrganizacionDesdeTexto", description = "Crea una organización.")
     public String crearOrganizacionDesdeTexto(
             @ToolParam(description = "Nombre de la organización") String nombreOrganizacion,
-            @ToolParam(description = "Descripción de la organización") String descripcionOrganizacion,
-            @ToolParam(description = "Nick del miembro creador") String nickMiembroCreador
+            @ToolParam(description = "Descripción de la organización ()") String _descripcionOrganizacion,
+            @ToolParam(description = "Nick del miembro creador. Si se deja vacío se usa el nombre del usuario que hace la petición") String _nickMiembroCreador
     ) {
         try {
             String descripcion;
             String nick;
 
-            if (descripcionOrganizacion == null || descripcionOrganizacion.isEmpty()) {
+            if (_descripcionOrganizacion == null || _descripcionOrganizacion.isEmpty()) {
                 descripcion = "";
             }
-            else {descripcion = descripcionOrganizacion;}
+            else {descripcion = _descripcionOrganizacion;}
 
 
 
-            if (nickMiembroCreador == null || nickMiembroCreador.isEmpty()) {
+            if (_nickMiembroCreador == null || _nickMiembroCreador.isEmpty()) {
                 nick = autorizacionService.devolverUsuarioAutenticado()
-                        .getEmail()
-                        .split("@")[0];
+                        .getNombre();
             }
-            else {nick = nickMiembroCreador;}
+            else {nick = _nickMiembroCreador;}
 
             OrganizacionDtoPostRequest dto = new OrganizacionDtoPostRequest(nombreOrganizacion, descripcion, nick, MonedasDisponibles.EUR);
-            organizacionService.postOrganizacion(dto);
-            return "Organización creada correctamente";
+            Long id = organizacionService.postOrganizacion(dto).getId();
+            return "Organización creada correctamente. ID: " + id;
         } catch (Exception e) {
             return "Error al crear la organización: " + e.getMessage();
         }

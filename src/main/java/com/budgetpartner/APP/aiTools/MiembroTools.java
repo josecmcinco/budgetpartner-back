@@ -1,76 +1,51 @@
 package com.budgetpartner.APP.aiTools;
 
-import com.budgetpartner.APP.entity.Miembro;
-import com.budgetpartner.APP.entity.Organizacion;
-import com.budgetpartner.APP.mapper.MiembroMapper;
-import com.budgetpartner.APP.repository.MiembroRepository;
-import com.budgetpartner.APP.repository.OrganizacionRepository;
+import com.budgetpartner.APP.dto.miembro.MiembroDtoPostRequest;
 import com.budgetpartner.APP.repository.RolRepository;
+import com.budgetpartner.APP.service.MiembroService;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Objects;
 
 @Component
 public class MiembroTools {
 
     @Autowired
-    private MiembroRepository miembroRepository;
-    @Autowired
-    private OrganizacionRepository organizacionRepository;
+    private MiembroService miembroService;
     @Autowired
     private RolRepository rolRepository;
 
-    @Tool(name = "saludoMiembro", description = "Saluda desde estimacion")
+    @Tool(name = "saludoMiembro", description = "Saluda desde miembro")
     public String saludoMiembro(@ToolParam(description = "Nombre") String nombre) {
         return "Hola desde MiembroTools, " + nombre;
     }
 
-/*
-    @Tool(name = "crearMiembroDesdeTexto", description = "Crea un miembro para una organización.")
-    public String crearMiembroDesdeTexto(@ToolParam(description = "miembro") MiembroLlmCompletionDto dto) {
+    @Tool(name = "crearMiembroDesdeTexto", description = "Crea un miembro en una organización.")
+    public String crearMiembroDesdeTexto(
+            @ToolParam(description = "Id de la organización") Long organizacionId,
+            @ToolParam(description = "Id del rol (opcional, por defecto ROLE_MEMBER)") Long _rolId,
+            @ToolParam(description = "Nick del miembro") String nick
+    ) {
         try {
-            Organizacion organizacion = organizacionRepository.findById(dto.getOrganizacionId()).orElse(null);
-            Rol rol = rolRepository.findById(dto.getRolId()).orElse(null);
+            Long rolId;
+            rolId = Objects.requireNonNullElse(_rolId, 1L);
 
-            Miembro miembro = new Miembro(organizacion, rol, dto.getNick() ); // Asumiendo null para usuario
-            miembroRepository.save(miembro);
-            return "Miembro creado correctamente con nick: " + dto.getNick();
+            MiembroDtoPostRequest dto = new MiembroDtoPostRequest(organizacionId, rolId, nick);
+            Long id = miembroService.postMiembro(dto).getId();
+            return "Miembro creado correctamente con nick: " + nick + ". ID: " + id;
         } catch (Exception e) {
             return "Error al crear miembro: " + e.getMessage();
         }
-    }*/
+    }
 
     @Tool(name = "obtenerMiembroPorId", description = "Obtiene un miembro dado su id.")
-    public Object obtenerMiembroPorId(@ToolParam(description = "Organization id") Long id) {
+    public Object obtenerMiembroPorId(@ToolParam(description = "Id del miembro") Long id) {
         try {
-
-            //Obtener elemento de la DB
-            Miembro miembro = miembroRepository.findById(id).orElse(null);
-
-            return MiembroMapper.toDtoResponse(miembro);
-
-
+            return miembroService.getMiembroDtoById(id);
         } catch (Exception e) {
-            return "Error al obtener miembros: " + e.getMessage();}
+            return "Error al obtener el miembro: " + e.getMessage();
+        }
     }
-
-    @Tool(name = "obtenerMiembrosPorOrganizacionId", description = "Obtiene todos los miembros de una organización.")
-    public Object obtenerMiembrosPorOrganizacionId(@ToolParam(description = "Organization id") Long id) {
-        try {
-            List<Miembro> listaMiembros = miembroRepository.obtenerMiembrosPorOrganizacionId(id);
-
-            if (listaMiembros == null  ||  listaMiembros.isEmpty()) {
-                return "No se encontró el miembro de id " + id;}
-
-
-            //Transformar a DTO para la recepción del usuario
-            return MiembroMapper.toDtoResponseListMiembro(listaMiembros);
-        } catch (Exception e) {
-            return "Error al obtener miembros: " + e.getMessage();}
-    }
-
-
-
 }

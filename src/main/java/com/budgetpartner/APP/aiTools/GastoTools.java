@@ -1,79 +1,75 @@
 package com.budgetpartner.APP.aiTools;
 
-import com.budgetpartner.APP.entity.*;
-import com.budgetpartner.APP.repository.GastoRepository;
-import com.budgetpartner.APP.repository.MiembroRepository;
-import com.budgetpartner.APP.repository.PlanRepository;
-import com.budgetpartner.APP.repository.TareaRepository;
+import com.budgetpartner.APP.dto.gasto.GastoDtoPostRequest;
+import com.budgetpartner.APP.enums.MonedasDisponibles;
 import com.budgetpartner.APP.service.GastoService;
-import com.budgetpartner.APP.service.OrganizacionService;
-import com.budgetpartner.APP.service.UsuarioService;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class GastoTools {
 
     @Autowired
     private GastoService gastoService;
-    @Autowired
-    private OrganizacionService organizacionService;
-    @Autowired
-    private GastoRepository gastoRepository;
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private TareaRepository tareaRepository;
-    @Autowired
-    private UsuarioService usuarioService;
-    @Autowired
-    private MiembroRepository miembroRepository;
 
-/*
-    @Tool(name = "crearGastoDesdeTexto", description = "Crea un gasto con la información proporcionada en lenguaje natural.")
-    public String crearGastoDesdeTexto(@ToolParam(description = "gasto") GastoLlmCompletionDto gastoLlm) {
-        try {
-            //GastoDtoPostRequest request = gastoMapper.mapToPostRequest(gasto, usuario);
-
-            Plan plan = planRepository.findById(1L).orElse(null);
-            Tarea tarea = tareaRepository.findById(1L).orElse(null);
-            Miembro miembro = miembroRepository.findById(1L).orElse(null);
-            Miembro miembro2 = miembroRepository.findById(3L).orElse(null);
-            List<Miembro> miembroList = Arrays.asList(miembro, miembro2);
-
-            Gasto gasto = new Gasto(tarea, plan, gastoLlm.getCantidad(), gastoLlm.getNombre(), miembro, "");
-            gasto.setMiembrosEndeudados(miembroList);
-            gastoRepository.save(gasto);
-            return "Gasto creado correctamente: " + gasto.getNombre() + " por " + gasto.getCantidad() + "€.";
-        } catch (Exception e) {
-            return "No se pudo crear el gasto: " + e.getMessage();
-        }
-    }*/
-
-
-
-    @Tool(name = "consultarGastosMes")
-    public List<Gasto> consultarGastosMes(@ToolParam(description = "organizacion") String nombreOrg,
-                                          @ToolParam(description = "mes") String mes,
-                                          @ToolParam(description = "anio") String anio)
-                                          //@ToolContext Usuario usuario)
-    {
-        //if (!organizacionService.usuarioPuedeAcceder(nombreOrg, usuario)) {
-        //    throw new AccessDeniedException("Sin permisos");
-        //}
-        return gastoRepository.obtenerGastosPorPlanId(1L);
+    @Tool(name = "saludoGasto", description = "Saluda desde gasto")
+    public String saludoGasto(@ToolParam(description = "Nombre") String nombre) {
+        return "Hola desde GastoTools, " + nombre;
     }
 
-    /*
-    @Tool(name = "crearGasto")
-    public GastoDto crearGasto(@ToolParam("datos") GastoDto gastoDto,
-                               @ToolContext Usuario usuario) {
-        // Validaciones y lógica
-        return gastoService.crearGasto(gastoDto, usuario);
-    }*/
+    @Tool(name = "crearGastoDesdeTexto", description = "Crea un gasto en un plan. moneda puede ser: 'EUR', 'USD', 'GBP', etc.")
+    public String crearGastoDesdeTexto(
+            @ToolParam(description = "Id del plan") Long planId,
+            @ToolParam(description = "Nombre del gasto") String nombre,
+            @ToolParam(description = "Cantidad del gasto") Double cantidad,
+            @ToolParam(description = "Id del miembro pagador") Long pagadorId,
+            @ToolParam(description = "Ids de miembros endeudados separados por comas (ej: 1,2,3)") String listaMiembrosEndeudados,
+            @ToolParam(description = "Id de la tarea asociada (nulo en planes simples)") Long _tareaId,
+            @ToolParam(description = "Descripción del gasto") String _descripcion,
+            @ToolParam(description = "Moneda del gasto (EUR por defecto)") String _moneda
+    ) {
+        try {
+            String descripcion;
+            if (_descripcion == null || _descripcion.isEmpty()) {descripcion = "";}
+            else {descripcion = _descripcion;}
 
-    // Otras funciones relacionadas con gastos...
+            MonedasDisponibles moneda;
+            if (_moneda == null || _moneda.isEmpty()) {moneda = MonedasDisponibles.EUR;}
+            else {moneda = MonedasDisponibles.valueOf(_moneda.toUpperCase());}
+
+            List<Long> endeudados = Arrays.stream(listaMiembrosEndeudados.split(","))
+                    .map(String::trim)
+                    .map(Long::parseLong)
+                    .collect(Collectors.toList());
+
+            GastoDtoPostRequest dto = new GastoDtoPostRequest(
+                    _tareaId,
+                    planId,
+                    cantidad,
+                    nombre,
+                    pagadorId,
+                    descripcion,
+                    endeudados,
+                    moneda
+            );
+            Long id = gastoService.postGasto(dto).getId();
+            return "Gasto creado correctamente: " + nombre + " por " + cantidad + " " + moneda + ". ID: " + id;
+        } catch (Exception e) {
+            return "Error al crear el gasto: " + e.getMessage();
+        }
+    }
+
+    @Tool(name = "obtenerGastoPorId", description = "Obtiene un gasto por su ID.")
+    public Object obtenerGastoPorId(@ToolParam(description = "Id del gasto") Long id) {
+        try {
+            return gastoService.getGastoDtoById(id);
+        } catch (Exception e) {
+            return "Error al obtener el gasto: " + e.getMessage();
+        }
+    }
 }

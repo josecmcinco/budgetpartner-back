@@ -41,34 +41,36 @@ public class DeepseekAgentService {
 
     public String processUserMessage(ChatbotQuery chatQuery) {
 
+        if (chatQuery.isConversacionNueva()) {
+            historial.clear();
+        }
+
         String currentMessage = chatQuery.getPrompt();
-        currentMessage = currentMessage.replace("\"", "\\\""); //Quitar carácteres especiales
+        currentMessage = currentMessage.replace("\"", "\\\"");
 
         montarMensaje(currentMessage);
 
-        //Valores por defecto de query inicial
         boolean finished = false;
         String responseToUser = "";
 
         while (!finished) {
-            // 1. Obtener instrucción desde Deepseek
             DeepseekAgentInstruction instruction = querry(currentMessage);
 
             if (instruction.isFinished()) {
                 responseToUser = instruction.getFinalResponse();
                 finished = true;
             } else {
-                // 2. Ejecutar herramienta MCP
                 try {
-                    // Convertir el resultado a JSON legible por el modelo
+                    Object resultado = toolRegistry.invokeTool(
+                            instruction.getToolName(),
+                            instruction.getArguments().toArray()
+                    );
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.registerModule(new JavaTimeModule());
                     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-
-                    currentMessage = currentMessage.replace("\"", "\\\"");
-                    historial.add(new MessageAi("assistant", currentMessage));
-
+                    String resultadoJson = mapper.writeValueAsString(resultado);
+                    historial.add(new MessageAi("user",
+                            "Resultado de " + instruction.getToolName() + ": " + resultadoJson));
                 } catch (Exception e) {
                     responseToUser = "Error al ejecutar herramienta: " + e.getMessage();
                     break;
@@ -76,7 +78,17 @@ public class DeepseekAgentService {
             }
         }
 
+        imprimirHistorial();
         return responseToUser;
+    }
+
+    private void imprimirHistorial() {
+        logger.info("---HISTORIAL DE CONVERSACIÓN");
+        for (int i = 0; i < historial.size(); i++) {
+            MessageAi msg = historial.get(i);
+            if ("system".equals(msg.getRole())) continue;
+            logger.info("[{}] {}: {}", i, msg.getRole().toUpperCase(), msg.getContent());
+        }
     }
 
     private DeepseekAgentInstruction querry(String context) {
@@ -133,37 +145,45 @@ public class DeepseekAgentService {
 
     private void montarMensaje(String userMessage){
         String herramientasTexto = toolRegistry.getToolDescriptionsForPrompt();
-        String startPrompt = """ 
-            Eres un agente de una aplicación de gastos que debe elegir qué herramienta usar para cumplir la solicitud del usuario.
-    
+        String startPrompt = """
+            Eres un agente de una aplicación de gastos que ejecuta tareas paso a paso usando herramientas.
+
             Dispones de estas herramientas:
             %s
-            Las variables que empiezan y acaban con '_' son opcionales.
-    
-            Tu tarea es devolver un único JSON con los siguientes campos obligatorios:
-    
-            - "toolName": nombre exacto de la herramienta que quieres usar (por ejemplo: "MiembroTools.crearMiembro"). Si no necesitas usar ninguna herramienta más, deja este campo vacío ("").
-                    - "arguments": una lista de strings con los argumentos que pasarás a la herramienta. Si no aplican argumentos, deja la lista vacía ([]).
-            - "finished": un booleano (true/false). Debes poner "true" si la conversación ha terminado y no se requiere ninguna acción adicional. Pon "false" si aún necesitas usar alguna herramienta para continuar.
-            - "finalResponse": un mensaje de texto que será la respuesta final al usuario, solo si "finished" es true. Si "finished" es false, este campo debe ser una cadena vacía (""). Da una respuesta clara y amable para el usuario
-    
-                    Ejemplo de JSON para continuar:
+            Las variables que empiezan y acaban con '_' son opcionales; pásalas como cadena vacía "" si no aplican.
+
+            FLUJO DE TRABAJO:
+            - Ejecuta una herramienta por turno. Después de cada llamada recibirás su resultado en un mensaje con rol "tool".
+            - Usa el resultado del turno anterior para decidir el siguiente paso. Los resultados incluyen los IDs de los recursos creados — úsalos en llamadas posteriores que los necesiten.
+            - Si una tarea requiere múltiples pasos (crear org, luego miembros, luego plan...), ejecútalos en orden, uno por turno.
+            - Los argumentos deben pasarse en el orden exacto en que aparecen en la firma de la herramienta.
+            - Cuando hayas completado todos los pasos, pon "finished": true y resume lo que has hecho en "finalResponse".
+
+            Devuelve siempre un único JSON con estos campos:
+            - "toolName": nombre exacto de la herramienta (ej: "MiembroTools.crearMiembroDesdeTexto"). Vacío ("") si no necesitas más herramientas.
+            - "arguments": lista de strings con los argumentos en orden. Vacío ([]) si no aplican.
+            - "finished": true si has completado la tarea, false si aún necesitas ejecutar más herramientas.
+            - "finalResponse": respuesta clara y amable para el usuario, solo si "finished" es true. Vacío ("") en caso contrario.
+
+            - IMPORTANTE: NO LE PASES IDS DE ELEMENTOS AL USUARIO EN FINAL_RESPONSE
+            
+            Ejemplo — paso intermedio:
             {
-                "toolName": "MiembroTools.buscarMiembro",
-                    "arguments": ["Juan Pérez"],
+                "toolName": "MiembroTools.crearMiembroDesdeTexto",
+                "arguments": ["12", "", "juan"],
                 "finished": false,
-                    "finalResponse": ""
+                "finalResponse": ""
             }
-    
-            Ejemplo de JSON para finalizar:
+
+            Ejemplo — paso final:
             {
                 "toolName": "",
-                    "arguments": [],
+                "arguments": [],
                 "finished": true,
-                    "finalResponse": "He encontrado el miembro y registrado el gasto correctamente."
+                "finalResponse": "He creado la organización y los tres miembros correctamente."
             }
-    
-            IMPORTANTE: Solo devuelve el JSON, sin ningún texto adicional, explicación o comentario.
+
+            IMPORTANTE: Solo devuelve el JSON, sin texto adicional, explicación ni comentarios.
         """.formatted(herramientasTexto);
         historial.add(new MessageAi("system", startPrompt));
 

@@ -103,6 +103,7 @@ public class ToolRegistry {
 
     private Object convertStringToType(String value, Class<?> targetType) {
         if (targetType.equals(String.class)) return value;
+        if (value == null || value.isEmpty()) return null;
         if (targetType.equals(Long.class) || targetType.equals(long.class)) return Long.parseLong(value);
         if (targetType.equals(Integer.class) || targetType.equals(int.class)) return Integer.parseInt(value);
         if (targetType.equals(Float.class) || targetType.equals(float.class)) return Float.parseFloat(value);

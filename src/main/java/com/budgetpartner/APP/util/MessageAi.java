@@ -1,5 +1,8 @@
 package com.budgetpartner.APP.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageAi {
     private String role;
     private String content;
