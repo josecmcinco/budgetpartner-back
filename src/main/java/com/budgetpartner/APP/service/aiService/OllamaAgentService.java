@@ -14,6 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,11 @@ public class OllamaAgentService {
         private List<MessageAi> historial = new ArrayList<>();
 
         public String processUserMessage(ChatbotQuery chatQuery, String modeloOllama) {
+
+            if (chatQuery.isConversacionNueva()) {
+                historial.clear();
+            }
+
             String currentMessage = chatQuery.getPrompt();
             currentMessage = currentMessage.replace("\"", "\\\"");
 
@@ -38,8 +48,8 @@ public class OllamaAgentService {
             String responseToUser = "";
 
             while (!finished) {
-                // 1. Obtener instrucción desde Deepseek
-                OllamaAgentInstruction instruction = querry(currentMessage, modeloOllama);
+                // 1. Obtener instrucción desde Ollama
+                OllamaAgentInstruction instruction = query(modeloOllama);
 
                 if (instruction.isFinished()) {
                     responseToUser = instruction.getFinalResponse();
@@ -58,7 +68,10 @@ public class OllamaAgentService {
 
                         currentMessage = mapper.writeValueAsString(result);
                         currentMessage = currentMessage.replace("\"", "\\\"");
-                        historial.add(new MessageAi("system", currentMessage));
+                        historial.add(
+                                new MessageAi("user",
+                                        "Resultado de " + instruction.getToolName() + ": " + currentMessage
+                                ));
 
                     } catch (Exception e) {
                         responseToUser = "Error al ejecutar herramienta: " + e.getMessage();
@@ -70,90 +83,108 @@ public class OllamaAgentService {
             return responseToUser;
         }
 
-        OllamaAgentInstruction querry(String context, String modeloOllama) {
-            ObjectMapper mapper = new ObjectMapper();
+    private OllamaAgentInstruction query(String modeloOllama) {
 
-            String messagesJson = "";
+        ObjectMapper mapper = new ObjectMapper();
 
-            //Obtiene el historial de mensajes
-            try {
-                messagesJson = mapper.writeValueAsString(historial);
-            } catch (Exception e) {
-                throw new RuntimeException("Error al serializar historial", e);
+        String messagesJson;
+        try {
+            messagesJson = mapper.writeValueAsString(historial);
+        } catch (Exception e) {
+            throw new RuntimeException("Error serializando historial", e);
+        }
+
+        String body = """
+            {
+                "model": "%s",
+                "messages": %s,
+                "stream": false
             }
+            """.formatted(modeloOllama, messagesJson);
 
-            //return this.localChatbotService.call(message);
-            OllamaChatModel model = OllamaChatModel.builder()
-                    .baseUrl("http://localhost:11434")
-                    .modelName(modeloOllama)
-                    .build();
+        System.out.println(body);
 
-            //Llamada al modelo de Ollama
-            try {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:11434/v1/chat/completions"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
 
-                String responseBody = model.chat(messagesJson);
+        HttpClient cliente = HttpClient.newHttpClient();
 
-                System.out.println(responseBody);
+        try {
 
-                //Quitar los posibles comentarios de la IA en formato <think></think>
-                responseBody = responseBody.replaceAll("(?s)<think>\\s*.*?\\s*</think>", "").trim();
+            HttpResponse<String> response =
+                    cliente.send(request, HttpResponse.BodyHandlers.ofString());
 
-                String cleanJson = stripMarkdownCodeBlock(responseBody);
+            String responseBody = response.body();
 
-                historial.add(new MessageAi("assistant", cleanJson));
-                return OllamaAgentInstruction.fromJson(cleanJson);
+            System.out.println(responseBody);
 
-            } catch (Exception e) {
-                logger.info("Error en la llamada a Ollama");
-                throw new RuntimeException(e);
+            String content = extractContentFromResponse(responseBody);
+
+            // Elimina el razonamiento de modelos como Qwen
+            content = content.replaceAll("(?s)<think>\\s*.*?\\s*</think>", "").trim();
+
+            String cleanJson = stripMarkdownCodeBlock(content);
+
+            System.out.println(cleanJson);
+
+            historial.add(new MessageAi("assistant", cleanJson));
+
+            return OllamaAgentInstruction.fromJson(cleanJson);
+
+        } catch (Exception e) {
+            logger.error("Error en la llamada a Ollama", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void montarMensaje(String userMessage) {
+        String herramientasTexto = toolRegistry.getToolDescriptionsForPrompt();
+        String startPrompt = """
+        Eres un agente de una aplicación de gastos que debe elegir qué herramienta usar para cumplir la solicitud del usuario.
+
+        %s
+        Las variables que empiezan y acaban con '_' son opcionales.
+
+        Tu tarea es devolver un único JSON con los siguientes campos obligatorios:
+
+        - "toolName": nombre exacto de la herramienta que quieres usar (por ejemplo: "MiembroTools.crearMiembro"). Si no necesitas usar ninguna herramienta más, deja este campo vacío ("").
+        - "arguments": una lista de strings con los argumentos que pasarás a la herramienta. Si no aplican argumentos, deja la lista vacía ([]).
+        - "finished": true/false. Si ejecutas una herramienta ha de ser false
+        - "finalResponse": mensaje para el usuario (solo si finished es true)
+
+        IMPORTANTE: Solo devuelve el JSON, sin ningún texto adicional ni explicaciones.
+    """.formatted(herramientasTexto);
+
+        if (historial.isEmpty()) {
+            historial.add(new MessageAi("system", startPrompt));
+        }
+
+        historial.add(new MessageAi("user", userMessage));
+    }
+
+    static String extractContentFromResponse(String responseBody) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(responseBody);
+
+        return root.path("choices").get(0).path("message").path("content").asText();
+    }
+
+    static String stripMarkdownCodeBlock(String content) {
+        // Normaliza los saltos de línea
+        content = content.replace("\r\n", "\n").trim();
+
+        // Detecta si empieza con bloque de markdown tipo ```json o ```
+        if (content.startsWith("```")) {
+            int firstNewline = content.indexOf("\n");
+            int lastBackticks = content.lastIndexOf("```");
+
+            if (firstNewline != -1 && lastBackticks != -1 && lastBackticks > firstNewline) {
+                return content.substring(firstNewline + 1, lastBackticks).trim();
             }
         }
 
-        private void montarMensaje(String userMessage) {
-            String herramientasTexto = toolRegistry.getToolDescriptionsForPrompt();
-            String startPrompt = """
-            Eres un agente de una aplicación de gastos que debe elegir qué herramienta usar para cumplir la solicitud del usuario.
-
-            %s
-            Las variables que empiezan y acaban con '_' son opcionales.
-
-            Tu tarea es devolver un único JSON con los siguientes campos obligatorios:
-
-            - "toolName": nombre exacto de la herramienta que quieres usar (por ejemplo: "MiembroTools.crearMiembro"). Si no necesitas usar ninguna herramienta más, deja este campo vacío ("").
-            - "arguments": una lista de strings con los argumentos que pasarás a la herramienta. Si no aplican argumentos, deja la lista vacía ([]).
-            - "finished": true/false. Si ejecutas una herramienta ha de ser false
-            - "finalResponse": mensaje para el usuario (solo si finished es true)
-
-            IMPORTANTE: Solo devuelve el JSON, sin ningún texto adicional ni explicaciones.
-        """.formatted(herramientasTexto);
-
-            if (historial.isEmpty()) {
-                historial.add(new MessageAi("system", startPrompt));
-            }
-
-            historial.add(new MessageAi("user", userMessage));
-        }
-
-        static String extractContentFromResponse(String responseBody) throws Exception {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(responseBody);
-
-            return root.path("choices").get(0).path("message").path("content").asText();
-        }
-
-        static String stripMarkdownCodeBlock(String content) {
-            // Normaliza los saltos de línea
-            content = content.replace("\r\n", "\n").trim();
-
-            // Detecta si empieza con bloque de markdown tipo ```json o ```
-            if (content.startsWith("```")) {
-                int firstNewline = content.indexOf("\n");
-                int lastBackticks = content.lastIndexOf("```");
-
-                if (firstNewline != -1 && lastBackticks != -1 && lastBackticks > firstNewline) {
-                    return content.substring(firstNewline + 1, lastBackticks).trim();
-                }
-            }
-
-            return content;}
+        return content;}
 }
