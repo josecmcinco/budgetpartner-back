@@ -30,7 +30,7 @@ public class MiembroTools {
     ) {
         try {
             Long rolId;
-            rolId = Objects.requireNonNullElse(_rolId, 1L);
+            rolId = Objects.requireNonNullElse(_rolId, 3L);
 
             MiembroDtoPostRequest dto = new MiembroDtoPostRequest(organizacionId, rolId, nick);
             Long id = miembroService.postMiembro(dto).getId();
