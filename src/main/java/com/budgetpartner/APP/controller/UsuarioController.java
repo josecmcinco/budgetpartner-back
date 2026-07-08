@@ -142,7 +142,7 @@ TODO ELIMINAR
     //NO NECESITA JWT
     @Operation(
             summary = "Inicio de sesión",
-            description = "Devuelve devuelve los tokens de acceso y refresco si coinciden el usuario y contraseña enviados.",
+            description = "Devuelve los tokens de acceso y refresco si coinciden el usuario y contraseña enviados.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",

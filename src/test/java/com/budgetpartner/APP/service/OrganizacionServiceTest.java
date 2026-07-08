@@ -65,7 +65,6 @@ class OrganizacionServiceTest {
         when(rolRepository.obtenerRolPorNombre(any())).thenReturn(Optional.of(rol));
         when(miembroRepository.save(any(Miembro.class))).thenReturn(miembro);
 
-        // Mock de mappers (si son métodos estáticos)
         try (MockedStatic<OrganizacionMapper> orgMapper = mockStatic(OrganizacionMapper.class);
              MockedStatic<MiembroMapper> miembroMapper = mockStatic(MiembroMapper.class)) {
 

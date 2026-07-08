@@ -24,11 +24,12 @@ public class OrganizacionTools {
         return "Hola desde OrganizacionTools, " + nombre;
     }
 
-    @Tool(name = "crearOrganizacionDesdeTexto", description = "Crea una organización.")
+    @Tool(name = "crearOrganizacionDesdeTexto",
+            description = "Crea una organización.")
     public String crearOrganizacionDesdeTexto(
             @ToolParam(description = "Nombre de la organización") String nombreOrganizacion,
             @ToolParam(description = "Descripción de la organización ()") String _descripcionOrganizacion,
-            @ToolParam(description = "Nick del miembro creador. Si se deja vacío se usa el nombre del usuario que hace la petición") String _nickMiembroCreador
+            @ToolParam(description = "Nick del miembro creador de la organización. Si se deja vacío se usa el nombre del usuario que hace la petición. Si no se especifica que el nick pertenece el del usuario creador, dejar vacío") String _nickMiembroCreador
     ) {
         try {
             String descripcion;

@@ -20,7 +20,7 @@ public class OrganizacionRepositoryTest {
 
     @Test
     void testObtenerOrganizacionesPorUsuarioId() {
-        Long usuarioId = 3L; // Carlos Martínez → miembro de org1 y org2
+        Long usuarioId = 3L; // Carlos Martínez -> miembro de org1 y org2
 
         List<Organizacion> organizaciones = organizacionRepository.obtenerOrganizacionesPorUsuarioId(usuarioId);
 
@@ -32,7 +32,7 @@ public class OrganizacionRepositoryTest {
 
     @Test
     void testObtenerOrganizacionesPorUsuarioId_SinResultados() {
-        Long usuarioId = 5L; // Luis Fernández → no es miembro de ninguna org
+        Long usuarioId = 5L; // Luis Fernández -> no es miembro de ninguna org
 
         List<Organizacion> organizaciones = organizacionRepository.obtenerOrganizacionesPorUsuarioId(usuarioId);
 

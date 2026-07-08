@@ -112,6 +112,7 @@ public class OrganizacionService {
         List<Plan> planes = planRepository.obtenerPlanesPorOrganizacionId(organizacionDto.getId());
         List<PlanDtoResponse> ListPlanDto = PlanMapper.toDtoResponseListPlan(planes);
         for ( PlanDtoResponse planDto: ListPlanDto) {
+            planDto.setOrganizacionDtoResponse(null);
             List<Gasto> gastos = gastoRepository.obtenerGastosPorPlanId(planDto.getId());
             List<GastoDtoResponse> ListGastoDto = GastoMapper.toDtoResponseListGasto(gastos);
             planDto.setGastos(ListGastoDto);

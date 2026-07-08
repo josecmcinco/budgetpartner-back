@@ -76,7 +76,6 @@ class DashboardControllerIntegrationTest {
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                // Puedes agregar validaciones de JSON según lo que devuelva el dashboard
                 .andExpect(jsonPath("$.numeroOrganizaciones").value(2))
                 .andExpect(jsonPath("$.numeroPlanes").value(3))
                 .andExpect(jsonPath("$.numTareas").value(2));

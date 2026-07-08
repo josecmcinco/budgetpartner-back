@@ -187,6 +187,8 @@
 						<exclude>**/dto/**</exclude>
 						<!-- Excluir Entities -->
 						<exclude>**/entity/**</exclude>
+						<!-- Excluir Tools -->
+
 					</excludes>
 				</configuration>
 				<version>0.8.10</version>
